@@ -16,20 +16,46 @@ interface protectedRoutesInterface {
 const isApiRequest = (pathName: string): boolean => pathName.includes("/api")
 
 const protectedRoutes: protectedRoutesInterface = {
-    "/admin": [
+    "/admin/*": [
         authMiddleware
-    ],
+    ]
+}
+
+const makePossibleRouteIndex = (pathName: string) => {
+    const pathNameArray = pathName.split("/").filter(x => x)
+    const possibleList: string[] = [];
+    const possibleRouteList: string[] = [];
+    for (let i in pathNameArray) {
+        let value = pathNameArray[i];
+        let route = (`/${possibleList.join("/")}/${value}/*`).replace("//", "/")
+        possibleList.push(value);
+        possibleRouteList.push(route);
+    }
+    possibleRouteList.push(pathName);
+    return possibleRouteList
+}
+
+const getMiddlewareList = (pathName: string, list: string[]) => {
+    let middlewares = (protectedRoutes[pathName] ?? []) as any;
+    for (let route of list) {
+        if (protectedRoutes[route]) {
+            middlewares = [...middlewares, ...protectedRoutes[route]]
+        }
+    }
+    return middlewares;
 }
 
 export function middleware(request: NextRequest) {
     const protectedRoutesIndexes = Object.keys(protectedRoutes) as any;
     const pathName: string = request.nextUrl.pathname ?? "";
+    const possibleRouteMatchList = makePossibleRouteIndex(pathName);
+    const middlewares = getMiddlewareList(pathName, possibleRouteMatchList);
 
-    if (!protectedRoutesIndexes.includes(pathName)) {
+    if ((!protectedRoutesIndexes.includes(pathName) && !possibleRouteMatchList.includes(pathName + "/*")) || !middlewares.length) {
         return NextResponse.next();
     }
 
-    const middlewares = (protectedRoutes[pathName] ?? []) as any;
+    console.log("entrou but", pathName, middlewares)
 
     for (let midd of middlewares) {
         let middResponse: middlewareResponseInterface = midd(request)
