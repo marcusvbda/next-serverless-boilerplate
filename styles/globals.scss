@@ -1,0 +1,130 @@
+
+$screen_sizes : ("all", "sm", "md", "lg");
+$breakpoints: (sm : 1200px, md : 1400px, lg : 999999999px);
+$min_breakpoint : 0px;
+$old_max_breakpoint : 999999999px;
+$spacing_multiplier : 5;
+
+@each $size,
+$i in $screen_sizes {
+
+    $screen_size: $size+"-";
+
+    @if $size=="all" {
+        $screen_size: "";
+    }
+
+    $max_breakpoint: map-get($breakpoints, $size);
+
+    @if $max_breakpoint==null {
+        $max_breakpoint: $old_max_breakpoint;
+        $min_breakpoint: 0px;
+    }
+
+    $min_breakpoint : $min_breakpoint+1px;
+    $old_max_breakpoint : $max_breakpoint;
+
+    @media screen and (min-width: $min_breakpoint) and (max-width: $max_breakpoint) {
+        .#{$screen_size}hide {
+            display: none;
+        }
+
+        .#{$screen_size}show {
+            display: inherit;
+        }
+
+        .#{$screen_size}flex-col {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .#{$screen_size}flex-row {
+            display: flex;
+            flex-direction: row;
+        }
+
+        .#{$screen_size}flex-wrap {
+            flex-wrap: wrap;
+        }
+
+        .#{$screen_size}justify-start {
+            justify-content: flex-start;
+        }
+
+        .#{$screen_size}text-center {
+            text-align: center;
+        }
+
+        .#{$screen_size}text-left {
+            text-align: left;
+        }
+
+        .#{$screen_size}text-right {
+            text-align: right;
+        }
+
+        .#{$screen_size}justify-center {
+            justify-content: center;
+        }
+
+        .#{$screen_size}justify-end {
+            justify-content: flex-end;
+        }
+
+        .#{$screen_size}justify-around {
+            justify-content: space-around;
+        }
+
+        .#{$screen_size}justify-between {
+            justify-content: space-between;
+        }
+
+        .#{$screen_size}align-start {
+            align-items: flex-start;
+        }
+
+        .#{$screen_size}align-center {
+            align-items: center;
+        }
+
+        .#{$screen_size}align-end {
+            align-items: flex-end;
+        }
+
+        @for $i from 0 through 20 {
+            .#{$screen_size}order-#{$i} {
+                order: #{$i};
+            }
+        }
+
+        .#{$screen_size}ml-auto {
+            margin-left: auto;
+        }
+
+        .#{$screen_size}mr-auto {
+            margin-right: auto;
+        }
+
+        .#{$screen_size}mt-auto {
+            margin-top: auto;
+        }
+
+        .#{$screen_size}mb-auto {
+            margin-bottom: auto;
+        }
+
+        @for $i from 1 through 10 {
+            .#{$screen_size}gap-#{$i} {
+                gap: #{$i*$spacing_multiplier}px;
+            }
+        }
+    }
+
+    @if $size=="all" {
+        $min_breakpoint: 0px;
+    }
+
+    @if $size !="all" {
+        $min_breakpoint: $old_max_breakpoint+1;
+    }
+}

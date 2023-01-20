@@ -18,7 +18,7 @@ const isApiRequest = (pathName: string): boolean => pathName.includes("/api")
 const protectedRoutes: protectedRoutesInterface = {
     "/admin/*": [
         authMiddleware
-    ]
+    ],
 }
 
 const makePossibleRouteIndex = (pathName: string) => {
@@ -59,7 +59,7 @@ export function middleware(request: NextRequest) {
         let middResponse: middlewareResponseInterface = midd(request)
         if (!middResponse.success) {
             const redirectUrl = new URL(middResponse.redirect ?? "", request.url)
-            redirectUrl.searchParams.set('from', request.nextUrl.pathname)
+            redirectUrl.searchParams.set('continue', request.nextUrl.pathname)
             if (isApiRequest(request.nextUrl.pathname) && (middResponse.message && middResponse.statusCode)) {
                 return new NextResponse(middResponse.message, { status: middResponse.statusCode })
             } else {
