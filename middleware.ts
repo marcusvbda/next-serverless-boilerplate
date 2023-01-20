@@ -55,8 +55,6 @@ export function middleware(request: NextRequest) {
         return NextResponse.next();
     }
 
-    console.log("entrou but", pathName, middlewares)
-
     for (let midd of middlewares) {
         let middResponse: middlewareResponseInterface = midd(request)
         if (!middResponse.success) {
