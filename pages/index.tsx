@@ -1,6 +1,5 @@
 import Head from "next/head";
 import Link from "next/link";
-import { StyledLink } from "@/components/global";
 
 export default function Home(props: any) {
   return (
@@ -10,10 +9,7 @@ export default function Home(props: any) {
       </Head>
       <main>
         <h1>Landing Page Here</h1>
-        <div className="flex-row justify-start gap-5">
-          <StyledLink href="/auth/sign-in">Login</StyledLink>
-        </div>
-        <Link href="/admin">Admin</Link>
+        <Link href="/auth/sign-in">Login</Link>
       </main>
     </>
   );
