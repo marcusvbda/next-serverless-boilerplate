@@ -14,8 +14,8 @@ export const Title = styled.h1`
 
 export default function Home() {
   const [form, setForm] = useState({
-    email: "teste@teste.com",
-    password: "teste23123123",
+    email: "",
+    password: "",
     rememberMe: true,
   });
 
