@@ -1,19 +1,29 @@
-import styled from "styled-components";
-import { InputRow } from "@/styles/global";
+import { InputSection } from "@/styles/global";
 
 interface IProps {
   label: string;
+  type?: string;
+  onChange: any;
+  value?: string;
+  required?: boolean;
+  minLength?: number;
+  maxlength?: number;
 }
 
-// export const TopBar = styled.section`
-//   padding: 7px 0;
-// `;
-
 export default function InputText(props: IProps) {
+  const type = props.type ?? "text";
+
   return (
-    <InputRow>
+    <InputSection type={type}>
       <label>{props.label}</label>
-      <input type="text" />
-    </InputRow>
+      <input
+        type={type}
+        minLength={props.minLength ?? 0}
+        maxLength={props.maxlength ?? 255}
+        value={props.value ?? ""}
+        required={props.required ?? false}
+        onChange={props.onChange}
+      />
+    </InputSection>
   );
 }

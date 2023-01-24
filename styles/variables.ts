@@ -27,8 +27,11 @@ interface IColor {
 export const color: IColor = {
     dark: {
         light: "rgb(255,255,255,.80)",
+        dark: "#555B64",
         background: "#171923",
-        primary: "#81E6D9",
-        secondary: "#1F2733"
+        primary: "#4fd1c5",
+        primaryHover: "#81E6D9",
+        secondary: "#1F2733",
+        overflow: "#00000078"
     }
 }
