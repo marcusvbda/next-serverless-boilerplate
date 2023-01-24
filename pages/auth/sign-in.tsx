@@ -6,6 +6,7 @@ import InputText from "@/components/form/InputText";
 import InputSwitch from "@/components/form/InputSwitch";
 import styled from "styled-components";
 import { useState } from "react";
+import { success } from "@/libs/alert";
 
 export const Title = styled.h1`
   margin-bottom: 10px;
@@ -13,8 +14,8 @@ export const Title = styled.h1`
 
 export default function Home() {
   const [form, setForm] = useState({
-    email: "",
-    password: "",
+    email: "teste@teste.com",
+    password: "teste23123123",
     rememberMe: true,
   });
 
@@ -24,6 +25,7 @@ export default function Home() {
     evt.preventDefault();
     setIsLoading(true);
     setTimeout(() => {
+      success("[TESTE] - Formulário enviado com sucesso!");
       console.log("Form submitted", form);
       setIsLoading(false);
     }, 2000);
@@ -69,7 +71,7 @@ export default function Home() {
               marginBottom={20}
               type="submit"
               disabled={isLoading}
-              loading={isLoading}
+              isLoading={isLoading}
               theme={"primary"}
             >
               SIGN IN

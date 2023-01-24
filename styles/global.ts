@@ -127,7 +127,7 @@ export const InputSection = styled.section<IInputSection>`
 
 interface IButton {
   marginBottom?: number;
-  loading?: boolean;
+  isLoading?: boolean;
   theme: string;
 }
 
@@ -149,7 +149,7 @@ export const Button = styled.button<IButton>`
   `}
   
 
-  ${props => props.loading && css`
+  ${props => props.isLoading && css`
   cursor: progress;
     &:before {
       content: '';
