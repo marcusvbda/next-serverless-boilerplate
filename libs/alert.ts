@@ -6,7 +6,7 @@ const createMessageContent = (icon: string, message: string, colors: string[], d
         <a href='#' style="margin-left: auto;text-decoration:none;font-weight:400;font-size:1.1rem;color:${colors[1]}">X</a>
     `;
     messageContent.innerHTML = theHTML;
-    messageContent.style.width = documentWidth <= 800 ? "90%" : "30%";
+    messageContent.style.width = documentWidth <= 800 ? "90%" : "40%";
     messageContent.style.backgroundColor = colors[0];
     messageContent.style.borderLeft = `5px solid ${colors[1]}`;
     messageContent.style.color = colors[1];

@@ -38,10 +38,12 @@ export const Container = styled.section`
 
 interface ICard {
   top?: number;
+  bottom?: number;
 }
 
 export const Card = styled.section<ICard>`
   margin-top: ${props => props.top ?? 0}px;
+  margin-bottom: ${props => props.bottom ?? 0}px;
   padding: 1.8rem;
   background-color: ${color.dark.secondary};
   border-radius:8px;

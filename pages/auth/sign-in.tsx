@@ -39,7 +39,7 @@ export default function Home() {
           {"Don't "}have an account to sign in to?{" "}
           <Link href="/auth/register">Register an account instead</Link>
         </span>
-        <Card top={30}>
+        <Card top={30} bottom={100}>
           <form onSubmit={onSubmit}>
             <InputText
               label={"Email Address"}
