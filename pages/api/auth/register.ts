@@ -1,6 +1,6 @@
 import type { NextApiResponse } from 'next'
 import clientPromise from "@/libs/mongodb";
-import bcrypt from "bcrypt";
+const bcrypt = require("bcrypt");
 
 type Data = {
   name?: string,
