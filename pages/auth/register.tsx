@@ -6,14 +6,15 @@ import AuthTemplate from "@/components/auth/AuthTemplate";
 import InputText from "@/components/form/InputText";
 import styled from "styled-components";
 import { useState } from "react";
-import { error } from "@/libs/alert";
+import { error, success } from "@/libs/alert";
+import Router from "next/router";
 
 export const Title = styled.h1`
   margin-bottom: 10px;
 `;
 
 export default function Home() {
-  const [progressValidation, setProgressValidation] = useState(0);
+  const [progressValidation, setProgressValidation] = useState(5);
   const [form, setForm] = useState({
     firsname: "",
     lastname: "",
@@ -67,11 +68,20 @@ export default function Home() {
       return;
     }
     setIsLoading(true);
-    setTimeout(() => {
-      error("[TESTE] - Formulário enviado com sucesso!");
-      console.log("Form submitted", form);
-      setIsLoading(false);
-    }, 2000);
+    fetch("/api/auth/register", {
+      method: "POST",
+      body: JSON.stringify(form),
+    }).then((response: any) => {
+      response.json().then((data: any) => {
+        setIsLoading(false);
+        if (!data.success && data.error) {
+          error(data.error);
+        } else if (data.success && data.message) {
+          success(data.message);
+          Router.push("/auth/sign-in");
+        }
+      });
+    });
   };
 
   return (
