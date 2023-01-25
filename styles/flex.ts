@@ -5,6 +5,8 @@ interface IRow {
    alignX?: string;
    alignY?: string;
    direction?: string;
+   marginX?: number;
+   marginY?: number;
 }
 
 export const Row = styled.section<IRow>`
@@ -13,8 +15,10 @@ export const Row = styled.section<IRow>`
    justify-content: ${props => props.alignX ?? "flex-start"};
    align-items: ${props => props.alignY ?? "flex-start"};
    flex-wrap: wrap;
-   margin-right: -10px;
-   margin-left: -10px;
+   margin-right: ${props => props.marginX ?? -10}px;
+   margin-left: ${props => props.marginX ?? -10}px;
+   margin-top: ${props => props.marginY ?? 0}px;
+   margin-bottom: ${props => props.marginY ?? 0}px;
 `;
 
 interface ICol {

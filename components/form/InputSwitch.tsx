@@ -11,7 +11,7 @@ export default function InputText(props: IProps) {
   return (
     <InputSection type={"checkbox"} cursor={"pointer"}>
       <label data-checked={props.value}>
-        <Row alignY={"center"}>
+        <Row alignY={"center"} marginX={0}>
           <span> {props.label}</span>
           <input
             type="checkbox"

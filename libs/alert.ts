@@ -1,4 +1,4 @@
-const createMessageContent = (icon: string, message: string, colors: string[], documentWidth: number): HTMLDivElement => {
+const createMessageContent = (icon: string, message: string, colors: string[], documentWidth: number, timeout: number): HTMLDivElement => {
     let messageContent = document.createElement("div");
     let theHTML = `
         <span style='margin-right:20px'>${icon}</span>  
@@ -41,7 +41,7 @@ const createMessageContent = (icon: string, message: string, colors: string[], d
         }, 500);
     }
 
-    // setTimeout(() => removeMessage(), timeout);
+    setTimeout(() => removeMessage(), timeout);
     messageContent.querySelector("a")?.addEventListener("click", (evt) => {
         evt.preventDefault();
         removeMessage();
@@ -50,7 +50,7 @@ const createMessageContent = (icon: string, message: string, colors: string[], d
     return messageContent
 }
 
-const createMessageDiv = (content: HTMLDivElement, timeout: number): HTMLDivElement => {
+const createMessageDiv = (content: HTMLDivElement): HTMLDivElement => {
     const alertDiv = document.querySelector(".alert-div");
     if (!alertDiv) {
         let messageDiv = document.createElement("div");
@@ -76,8 +76,8 @@ const createMessageDiv = (content: HTMLDivElement, timeout: number): HTMLDivElem
 
 const createMessageElement = (icon: string, colors: string[], message: string, timeout: number) => {
     const documentWidth = document.querySelector("html")?.clientWidth ?? 0;
-    const content = createMessageContent(icon, message, colors, documentWidth)
-    const div = createMessageDiv(content, timeout)
+    const content = createMessageContent(icon, message, colors, documentWidth, timeout)
+    const div = createMessageDiv(content)
 
     document.querySelector("body")?.appendChild(div);
 }

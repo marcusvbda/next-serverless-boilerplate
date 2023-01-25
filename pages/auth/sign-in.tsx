@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { Col } from "@/styles/flex";
-import { Card, Button } from "@/styles/global";
+import { Card, Form } from "@/styles/global";
+import Button from "@/components/form/Button";
 import AuthTemplate from "@/components/auth/AuthTemplate";
 import InputText from "@/components/form/InputText";
 import InputSwitch from "@/components/form/InputSwitch";
@@ -40,7 +41,7 @@ export default function Home() {
           <Link href="/auth/register">Register an account instead</Link>.
         </span>
         <Card top={30} bottom={100}>
-          <form onSubmit={onSubmit}>
+          <Form onSubmit={onSubmit} blocked={isLoading}>
             <InputText
               label={"Email Address"}
               value={form.email}
@@ -76,7 +77,7 @@ export default function Home() {
             >
               SIGN IN
             </Button>
-          </form>
+          </Form>
           <Link href="/auth/reset-password">Forgot your password?</Link>
         </Card>
       </Col>

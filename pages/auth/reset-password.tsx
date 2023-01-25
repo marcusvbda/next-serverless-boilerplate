@@ -1,9 +1,9 @@
 import Link from "next/link";
 import { Col } from "@/styles/flex";
-import { Card, Button } from "@/styles/global";
+import { Card } from "@/styles/global";
+import Button from "@/components/form/Button";
 import AuthTemplate from "@/components/auth/AuthTemplate";
 import InputText from "@/components/form/InputText";
-import InputSwitch from "@/components/form/InputSwitch";
 import styled from "styled-components";
 import { useState } from "react";
 import { success } from "@/libs/alert";

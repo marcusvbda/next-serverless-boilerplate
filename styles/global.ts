@@ -129,7 +129,6 @@ export const InputSection = styled.section<IInputSection>`
 
 interface IButton {
   marginBottom?: number;
-  isLoading?: boolean;
   theme: string;
 }
 
@@ -145,30 +144,10 @@ export const Button = styled.button<IButton>`
 
   ${props => props.theme == "primary" && css`
     background-color: ${color.dark.primary};
-    &:hover {
+    &:hover:enabled {
       background-color: ${color.dark.primaryHover};
     }
   `}
-  
-
-  ${props => props.isLoading && css`
-  cursor: progress;
-    &:before {
-      content: '';
-      display: flex;
-      z-index: 1;
-      align-items: center;
-      justify-content: center;
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background-color: ${color.dark.overflow};
-      border-radius: 8px;
-    }
-  `}
-
 `
 
 interface IProgressBar {
@@ -196,4 +175,62 @@ export const ProgressBar = styled.div<IProgressBar>`
     height: 100%;
     border-radius: 8px;
   }
+`
+
+export const LoadingOverflow = styled.div`
+  cursor: progress;
+  content: '';
+  display: flex;
+  z-index: 1;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: ${color.dark.overflow};
+  border-radius: 8px;
+`
+
+interface ILoadingSpinner {
+  size?: number;
+  background?: string;
+  color?: string;
+}
+
+export const LoadingSpinner = styled.div<ILoadingSpinner>`
+  border: 2px solid ${props => props?.background ?? color.dark.light};
+  border-top: 2px solid ${props => props?.color ?? color.dark.primary};
+  border-radius: 50%;
+  width: ${props => props.size ?? 20}px;
+  height: ${props => props.size ?? 20}px;
+  animation: spin 1s linear infinite;
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+`
+
+interface IForm {
+  blocked?: boolean;
+}
+
+export const Form = styled.form<IForm>`
+  position: relative;
+  z-index: 0;
+  ${props => props.blocked && css`
+    &:before {
+      content: '';
+      display: flex;
+      z-index: 1;
+      align-items: center;
+      justify-content: center;
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+    }
+  `}
 `

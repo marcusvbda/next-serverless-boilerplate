@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { Col, Row } from "@/styles/flex";
-import { Card, Button, ProgressBar } from "@/styles/global";
+import { Card, ProgressBar } from "@/styles/global";
+import Button from "@/components/form/Button";
 import AuthTemplate from "@/components/auth/AuthTemplate";
 import InputText from "@/components/form/InputText";
 import styled from "styled-components";
