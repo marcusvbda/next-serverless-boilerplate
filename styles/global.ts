@@ -13,7 +13,7 @@ export default createGlobalStyle`
 
   body, input, button {
     font-size : 0.875rem;
-    font-family : Roboto, sans-serif;
+    font-family : system-ui,sans-serif;
     background-color : ${color.dark.background};
   }
 
@@ -57,7 +57,7 @@ interface IInputSection {
 export const InputSection = styled.section<IInputSection>`
   display: flex;
   flex-direction: column;
-  margin-bottom:20px;
+  margin-bottom:17px;
   
   label {
     font-weight: 600;
@@ -169,4 +169,31 @@ export const Button = styled.button<IButton>`
     }
   `}
 
+`
+
+interface IProgressBar {
+  total: number,
+  current: number
+}
+
+export const ProgressBar = styled.div<IProgressBar>`
+  width: 100%;
+  height: 8px;
+  background-color: ${color.dark.dark};
+  border-radius: 8px;
+  position: relative;
+
+  &:before {
+    content: '';
+    display: flex;
+    z-index: 1;
+    background-color: ${color.dark.primary};
+    top: 0;
+    width: ${props => (props.current / props.total) * 100}%;
+    max-width: 100%;
+    min-width:0;
+    transition: .4s;
+    height: 100%;
+    border-radius: 8px;
+  }
 `

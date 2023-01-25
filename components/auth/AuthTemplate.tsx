@@ -3,6 +3,7 @@ import { Row } from "@/styles/flex";
 import { Container } from "@/styles/global";
 import Image from "next/image";
 import styled from "styled-components";
+import { makeTitle } from "@/pages/index";
 
 interface IProps {
   title: string;
@@ -17,7 +18,7 @@ export default function AuthTemplate(props: IProps) {
   return (
     <>
       <Head>
-        <title>{props.title}</title>
+        <title>{makeTitle(props.title)}</title>
       </Head>
       <main>
         <Container>

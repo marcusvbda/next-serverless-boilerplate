@@ -15,8 +15,6 @@ export const Title = styled.h1`
 export default function Home() {
   const [form, setForm] = useState({
     email: "",
-    password: "",
-    rememberMe: true,
   });
 
   const [isLoading, setIsLoading] = useState(false);
@@ -32,12 +30,13 @@ export default function Home() {
   };
 
   return (
-    <AuthTemplate title={"Login"}>
+    <AuthTemplate title={"Reset your password"}>
       <Col size={12} sizeMd={6} paddingTop={50}>
-        <Title>Sign in</Title>
+        <Title>Reset your password</Title>
         <span>
-          {"Don't "}have an account to sign in to?{" "}
-          <Link href="/auth/register">Register an account instead</Link>.
+          Enter the email address you signed up with and {"we'll"} send you
+          instructions as how to reset your password. Or go back to{" "}
+          <Link href="/auth/sign-in">sign in page</Link>.
         </span>
         <Card top={30} bottom={100}>
           <form onSubmit={onSubmit}>
@@ -50,23 +49,6 @@ export default function Home() {
                 setForm({ ...form, email: evt.target.value })
               }
             />
-            <InputText
-              required={true}
-              minLength={6}
-              type={"password"}
-              label={"Password"}
-              value={form.password}
-              onChange={(evt: any) =>
-                setForm({ ...form, password: evt.target.value })
-              }
-            />
-            <InputSwitch
-              label={"Remember me"}
-              value={form.rememberMe}
-              onChange={() =>
-                setForm({ ...form, rememberMe: !form.rememberMe })
-              }
-            />
             <Button
               marginBottom={20}
               type="submit"
@@ -74,10 +56,9 @@ export default function Home() {
               isLoading={isLoading}
               theme={"primary"}
             >
-              SIGN IN
+              RESET PASSWORD
             </Button>
           </form>
-          <Link href="/auth/reset-password">Forgot your password?</Link>
         </Card>
       </Col>
     </AuthTemplate>

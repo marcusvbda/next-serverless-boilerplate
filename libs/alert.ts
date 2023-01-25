@@ -10,54 +10,68 @@ const createMessageContent = (icon: string, message: string, colors: string[], d
     messageContent.style.backgroundColor = colors[0];
     messageContent.style.borderLeft = `5px solid ${colors[1]}`;
     messageContent.style.color = colors[1];
+    messageContent.style.transition = ".3s";
     messageContent.style.height = "63px";
     messageContent.style.alignItems = "center";
     messageContent.style.display = "flex";
     messageContent.style.textAlign = "center";
     messageContent.style.borderRadius = "5px";
     messageContent.style.padding = "0 2rem";
+    messageContent.style.top = "-1000px";
+    messageContent.style.marginBottom = "8px";
+    messageContent.style.position = "absolute";
+
+    setTimeout(() => {
+        messageContent.style.top = "20px";
+        setTimeout(() => {
+            messageContent.style.position = "relative";
+            messageContent.style.top = "8px";
+        }, 300);
+    }, 100);
+
+    const removeMessage = () => {
+        messageContent.style.position = "absolute";
+        messageContent.style.top = "-1000px";
+        setTimeout(() => {
+            messageContent.remove();
+            const el = document.querySelector(".alert-div");
+            if (el && el.children.length == 0) {
+                el.remove();
+            }
+        }, 500);
+    }
+
+    // setTimeout(() => removeMessage(), timeout);
+    messageContent.querySelector("a")?.addEventListener("click", (evt) => {
+        evt.preventDefault();
+        removeMessage();
+    });
 
     return messageContent
 }
 
 const createMessageDiv = (content: HTMLDivElement, timeout: number): HTMLDivElement => {
-    const listMessagens = document.querySelectorAll(".alert-div") ?? [];
-    let initialPosition = !listMessagens.length ? 0 : ((listMessagens[listMessagens.length - 1] as any)?.offsetTop ?? 0) + 40;
-    const middlePosition = `${initialPosition + 60}px`;
-    const finalPosition = `${initialPosition + 30}px`;
-
-    let messageDiv = document.createElement("div");
-    messageDiv.className = "alert-div";
-    messageDiv.style.transition = ".3s";
-    messageDiv.style.position = "absolute";
-    messageDiv.style.alignItems = "center";
-    messageDiv.style.display = "flex";
-    messageDiv.style.textAlign = "center";
-    messageDiv.style.justifyContent = "center";
-    messageDiv.style.top = "-1000px";
-    messageDiv.style.width = "100%";
-    messageDiv.style.zIndex = "9999";
-    messageDiv.appendChild(content);
-    setTimeout(() => {
-        messageDiv.style.top = middlePosition;
-        setTimeout(() => {
-            messageDiv.style.top = finalPosition;
-        }, 300);
-    });
-
-    const removeMessage = () => {
+    const alertDiv = document.querySelector(".alert-div");
+    if (!alertDiv) {
+        let messageDiv = document.createElement("div");
+        messageDiv.className = "alert-div";
+        messageDiv.style.position = "fixed";
+        messageDiv.style.alignItems = "center";
+        messageDiv.style.flexDirection = "column";
+        messageDiv.style.display = "flex";
+        messageDiv.style.textAlign = "center";
+        messageDiv.style.transition = ".3s";
+        messageDiv.style.justifyContent = "center";
         messageDiv.style.top = "-1000px";
-        setTimeout(() => {
-            messageDiv.remove();
-        }, 500);
+        messageDiv.style.width = "100%";
+        messageDiv.style.zIndex = "9999";
+        messageDiv.style.top = "10px";
+        messageDiv.appendChild(content);
+        return messageDiv;
+    } else {
+        alertDiv.appendChild(content);
+        return alertDiv as HTMLDivElement;
     }
-
-    setTimeout(() => removeMessage(), timeout)
-    content.querySelector("a")?.addEventListener("click", (evt) => {
-        evt.preventDefault();
-        removeMessage();
-    });
-    return messageDiv;
 }
 
 const createMessageElement = (icon: string, colors: string[], message: string, timeout: number) => {

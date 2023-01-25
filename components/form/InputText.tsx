@@ -8,6 +8,7 @@ interface IProps {
   required?: boolean;
   minLength?: number;
   maxlength?: number;
+  children?: any;
 }
 
 export default function InputText(props: IProps) {
@@ -24,6 +25,7 @@ export default function InputText(props: IProps) {
         required={props.required ?? false}
         onChange={props.onChange}
       />
+      {props.children}
     </InputSection>
   );
 }

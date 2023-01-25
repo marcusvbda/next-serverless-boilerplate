@@ -8,10 +8,13 @@ interface IRow {
 }
 
 export const Row = styled.section<IRow>`
-  display: flex;
-  flex-direction: ${props => props.direction ?? "row"};
-  justify-content: ${props => props.alignX ?? "flex-start"};
-  align-items: ${props => props.alignY ?? "flex-start"};
+   display: flex;
+   flex-direction: ${props => props.direction ?? "row"};
+   justify-content: ${props => props.alignX ?? "flex-start"};
+   align-items: ${props => props.alignY ?? "flex-start"};
+   flex-wrap: wrap;
+   margin-right: -10px;
+   margin-left: -10px;
 `;
 
 interface ICol {
@@ -23,9 +26,8 @@ interface ICol {
 }
 
 export const Col = styled.div<ICol>`
-  width: ${props => 100 * props.size / 12}%;
-   padding-top: ${props => props.paddingTop ?? 0}px;
-
+   width: ${props => 100 * props.size / 12}%;
+   padding: ${props => props.paddingTop ?? 0}px 10px;
   ${props => props.sizeSm && css<ICol>`
      @media ${size.small} {
         width: ${props => 100 * (props.sizeSm ?? props.size) / 12}%;

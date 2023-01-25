@@ -1,11 +1,13 @@
 import Head from "next/head";
 import Link from "next/link";
 
-export default function Home(props: any) {
+export const makeTitle = (subtitle: string) => `${subtitle} - SaaS Boilerplate`;
+
+export default function Home() {
   return (
     <>
       <Head>
-        <title>Index</title>
+        <title>{makeTitle("index")}</title>
       </Head>
       <main>
         <h1>Landing Page Here</h1>
