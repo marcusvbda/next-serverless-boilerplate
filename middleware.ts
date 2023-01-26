@@ -45,7 +45,7 @@ const getMiddlewareList = (pathName: string, list: string[]) => {
     return middlewares;
 }
 
-export function middleware(request: NextRequest) {
+export async function middleware(request: NextRequest) {
     const protectedRoutesIndexes = Object.keys(protectedRoutes) as any;
     const pathName: string = request.nextUrl.pathname ?? "";
     const possibleRouteMatchList = makePossibleRouteIndex(pathName);
@@ -56,7 +56,7 @@ export function middleware(request: NextRequest) {
     }
 
     for (let midd of middlewares) {
-        let middResponse: middlewareResponseInterface = midd(request)
+        let middResponse: middlewareResponseInterface = await midd(request)
         if (!middResponse.success) {
             const redirectUrl = new URL(middResponse.redirect ?? "", request.url)
             redirectUrl.searchParams.set('continue', request.nextUrl.pathname)

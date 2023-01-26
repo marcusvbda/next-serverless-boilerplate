@@ -6,14 +6,21 @@ import AuthTemplate from "@/components/auth/AuthTemplate";
 import InputText from "@/components/form/InputText";
 import InputSwitch from "@/components/form/InputSwitch";
 import styled from "styled-components";
-import { useState } from "react";
-import { success } from "@/libs/alert";
+import { useEffect, useState } from "react";
+import { error } from "@/libs/alert";
+import Http from "@/libs/http";
+import Router from "next/router";
+const Cookies = require("js-cookie");
 
 export const Title = styled.h1`
   margin-bottom: 10px;
 `;
 
 export default function Home() {
+  useEffect(() => {
+    Cookies.remove("jwtToken");
+  }, []);
+
   const [form, setForm] = useState({
     email: "",
     password: "",
@@ -25,11 +32,18 @@ export default function Home() {
   const onSubmit = (evt: any) => {
     evt.preventDefault();
     setIsLoading(true);
-    setTimeout(() => {
-      success("[TESTE] - Formulário enviado com sucesso!");
-      console.log("Form submitted", form);
-      setIsLoading(false);
-    }, 2000);
+
+    Http("post", "/api/auth/login", form).then((data: any) => {
+      if (!data.success && data.error) {
+        Cookies.remove("jwtToken");
+        error(data.error);
+        return setIsLoading(false);
+      }
+      Cookies.set("jwtToken", data.token);
+      const urlParams = new URLSearchParams(window.location.search);
+      const redirectUrl = urlParams.get("continue") ?? "/admin";
+      Router.push(redirectUrl);
+    });
   };
 
   return (

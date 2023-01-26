@@ -8,13 +8,14 @@ import styled from "styled-components";
 import { useState } from "react";
 import { error, success } from "@/libs/alert";
 import Router from "next/router";
+import Http from "@/libs/http";
 
 export const Title = styled.h1`
   margin-bottom: 10px;
 `;
 
 export default function Home() {
-  const [progressValidation, setProgressValidation] = useState(5);
+  const [progressValidation, setProgressValidation] = useState(0);
   const [form, setForm] = useState({
     firsname: "",
     lastname: "",
@@ -68,19 +69,14 @@ export default function Home() {
       return;
     }
     setIsLoading(true);
-    fetch("/api/auth/register", {
-      method: "POST",
-      body: JSON.stringify(form),
-    }).then((response: any) => {
-      response.json().then((data: any) => {
-        setIsLoading(false);
-        if (!data.success && data.error) {
-          error(data.error);
-        } else if (data.success && data.message) {
-          success(data.message);
-          Router.push("/auth/sign-in");
-        }
-      });
+    Http("post", "/api/auth/register", form).then((data: any) => {
+      setIsLoading(false);
+      if (!data.success && data.error) {
+        error(data.error);
+      } else if (data.success && data.message) {
+        success(data.message);
+        Router.push("/auth/sign-in");
+      }
     });
   };
 

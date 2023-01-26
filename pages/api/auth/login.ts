@@ -1,6 +1,7 @@
 import type { NextApiResponse } from 'next'
 import clientPromise from "@/libs/mongodb";
 import { Route } from "@/pages/api/default-route";
+const jwt = require('jsonwebtoken');
 const bcrypt = require("bcrypt");
 
 type Data = {
@@ -12,23 +13,26 @@ const handler = async (req: any, res: NextApiResponse<Data>) => {
   Route("POST", req, res, async (req: any, res: NextApiResponse<Data>) => {
     const json = JSON.parse(req.body);
 
-    const password = bcrypt.hashSync(json.password, 10);
-    delete json.confirmPassword;
-
     const client = await clientPromise;
     const db = client.db("users");
     const foundUser = await db
       .collection("users")
       .findOne({ email: json.email });
 
-    if (foundUser) {
-      return res.status(400).json({ success: false, error: "User already exist" } as any);
+    const unauthorize = () => res.status(401).json({ success: false, error: "Incorrect username or password" } as any)
+
+    if (!foundUser) {
+      return unauthorize();
     }
 
-    const user = { ...json, password: password };
-    await db.collection("users").insertOne(user);
+    const passMatch = await bcrypt.compare(json.password, foundUser.password);
+    if (!passMatch) {
+      return unauthorize();
+    }
 
-    res.status(200).json({ success: true, message: "User created succesfully" } as any);
+    const token = await jwt.sign(foundUser._id.toString(), process.env.PRIVATE_KEY);
+
+    res.status(200).json({ success: true, token } as any);
   });
 }
 
