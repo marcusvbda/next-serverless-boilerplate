@@ -7,7 +7,6 @@ const handler = async (request: NextRequest): Promise<middlewareResponseInterfac
     try {
         const token = request.cookies.get("jwtToken")?.value ?? "";
         const host = process.env.HOST;
-        console.log(`${host}/api/auth/check-token`)
         const response = await Http("POST", `${host}/api/auth/check-token`, { token });
 
         if (response.success) {
