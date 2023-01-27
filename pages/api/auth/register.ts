@@ -9,7 +9,7 @@ type Data = {
 }
 
 const handler = async (req: any, res: NextApiResponse<Data>) => {
-  Route("POST", req, res, async (req: any, res: NextApiResponse<Data>) => {
+  return Route("POST", req, res, async (req: any, res: NextApiResponse<Data>) => {
     const json = JSON.parse(req.body);
 
     const password = bcrypt.hashSync(json.password, 10);

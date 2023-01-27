@@ -9,6 +9,7 @@ const handler = async (request: NextRequest): Promise<middlewareResponseInterfac
         const completeUrl = request.headers.get('referer');
         const host = completeUrl?.split("/").slice(0, 3).join("/") ?? "";
         const response = await Http("POST", `${host}/api/auth/check-token`, { token });
+
         if (response.success) {
             return { success: true };
 

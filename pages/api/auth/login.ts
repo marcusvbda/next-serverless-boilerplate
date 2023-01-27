@@ -10,7 +10,7 @@ type Data = {
 }
 
 const handler = async (req: any, res: NextApiResponse<Data>) => {
-  Route("POST", req, res, async (req: any, res: NextApiResponse<Data>) => {
+  return Route("POST", req, res, async (req: any, res: NextApiResponse<Data>) => {
     const json = JSON.parse(req.body);
 
     const client = await clientPromise;
@@ -32,7 +32,7 @@ const handler = async (req: any, res: NextApiResponse<Data>) => {
 
     const token = await jwt.sign(foundUser._id.toString(), process.env.PRIVATE_KEY);
 
-    res.status(200).json({ success: true, token } as any);
+    return res.status(200).json({ success: true, token } as any);
   });
 }
 

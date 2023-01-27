@@ -11,8 +11,8 @@ export const Route = async (method: string, req: any, res: any, callback: any) =
 }
 
 const handler = async (req: any, res: NextApiResponse) => {
-    Route("GET", req, res, (req: any, res: NextApiResponse) => {
-        res.status(404).send("not found");
+    return Route("GET", req, res, (req: any, res: NextApiResponse) => {
+        return res.status(404).send("not found");
     });
 }
 

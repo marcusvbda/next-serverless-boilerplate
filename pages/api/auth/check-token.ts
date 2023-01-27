@@ -10,7 +10,7 @@ type Data = {
 }
 
 const handler = async (req: any, res: NextApiResponse<Data>) => {
-  Route("POST", req, res, async (req: any, res: NextApiResponse<Data>) => {
+  return Route("POST", req, res, async (req: any, res: NextApiResponse<Data>) => {
     try {
       const json = JSON.parse(req.body);
 
@@ -26,10 +26,10 @@ const handler = async (req: any, res: NextApiResponse<Data>) => {
         return res.status(401).json({ success: false, error: "Invalid token" } as any);
       }
 
-      res.status(200).json({ success: true } as any);
+      return res.status(200).json({ success: true } as any);
     } catch (error) {
       console.error(error);
-      res.status(401).json({ success: false, error: "Invalid token" } as any);
+      return res.status(401).json({ success: false, error: "Invalid token" } as any);
     }
   });
 }
