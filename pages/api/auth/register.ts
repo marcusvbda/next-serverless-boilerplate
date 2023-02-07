@@ -3,13 +3,8 @@ import clientPromise from "@/libs/mongodb";
 import { Route } from "@/pages/api/default-route";
 const bcrypt = require("bcrypt");
 
-type Data = {
-  name?: string,
-  message?: string,
-}
-
-const handler = async (req: any, res: NextApiResponse<Data>) => {
-  return Route("POST", req, res, async (req: any, res: NextApiResponse<Data>) => {
+const handler = async (req: any, res: NextApiResponse<any>) => {
+  return Route("POST", req, res, async (req: any, res: NextApiResponse<any>) => {
     const json = JSON.parse(req.body);
 
     const password = bcrypt.hashSync(json.password, 10);

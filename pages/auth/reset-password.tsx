@@ -6,7 +6,9 @@ import AuthTemplate from "@/components/auth/AuthTemplate";
 import InputText from "@/components/form/InputText";
 import styled from "styled-components";
 import { useState } from "react";
-import { success } from "@/libs/alert";
+import { success ,error } from "@/libs/alert";
+import Http from "@/libs/http";
+import Router from "next/router";
 
 export const Title = styled.h1`
   margin-bottom: 10px;
@@ -14,7 +16,7 @@ export const Title = styled.h1`
 
 export default function Home() {
   const [form, setForm] = useState({
-    email: "",
+    email: "bassalobre.vinicius@gmail.com",
   });
 
   const [isLoading, setIsLoading] = useState(false);
@@ -22,11 +24,17 @@ export default function Home() {
   const onSubmit = (evt: any) => {
     evt.preventDefault();
     setIsLoading(true);
-    setTimeout(() => {
-      success("[TESTE] - Formulário enviado com sucesso!");
-      console.log("Form submitted", form);
-      setIsLoading(false);
-    }, 2000);
+    
+
+    Http("post", "/api/auth/send-reset-password", form).then((data: any) => {
+      // if (!data.success && data.error) {
+      //   error(data.error);
+      //   return setIsLoading(false);
+      // }
+      // success("Password reset email sent");
+      // Router.push("/auth/login");
+    });
+
   };
 
   return (
