@@ -16,7 +16,7 @@ export const Title = styled.h1`
 
 export default function Home() {
   const [form, setForm] = useState({
-    email: "bassalobre.vinicius@gmail.com",
+    email: "",
   });
 
   const [isLoading, setIsLoading] = useState(false);

@@ -17,7 +17,7 @@ export const Title = styled.h1`
 export default function Home() {
   const [progressValidation, setProgressValidation] = useState(0);
   const [form, setForm] = useState({
-    firsname: "",
+    firstname: "",
     lastname: "",
     email: "",
     password: "",
@@ -97,10 +97,10 @@ export default function Home() {
               <Col size={12} sizeMd={6}>
                 <InputText
                   label={"First name"}
-                  value={form.firsname}
+                  value={form.firstname}
                   required={true}
                   onChange={(evt: any) =>
-                    setForm({ ...form, firsname: evt.target.value })
+                    setForm({ ...form, firstname: evt.target.value })
                   }
                 />
               </Col>

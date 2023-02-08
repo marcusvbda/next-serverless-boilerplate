@@ -6,6 +6,7 @@ const createEmail = (): any => {
             from: process.env.EMAIL_FROM ?? '',
         },
         send: true,
+        preview: false,
         transport: {
             host: process.env.EMAIL_HOST ?? 'smtp.mailtrap.io',
             port: process.env.EMAIL_PORT ?? 587,

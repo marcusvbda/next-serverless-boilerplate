@@ -17,10 +17,11 @@ const handler = async (req: any, res: NextApiResponse<any>) => {
       return res.status(401).json({ success: false, error: "User does not exist" } as any)
     }
 
-    Email.send("auth/reset-password",
-      { to: "bassalobre.vinicius@gmail.com" },
-      { name: "vinicius" }
-    ).then(console.log).catch(console.error);
+    const link = "http://localhost:3000/auth/new-password/lorem-ispum";
+    Email.send("auth/reset-password", { to: foundUser.email }, {
+      name: foundUser.firstname,
+      link
+    }).then(console.log).catch(console.error);
 
     return res.status(200).json({
       success: true, message: "Password reset email has been sent"
