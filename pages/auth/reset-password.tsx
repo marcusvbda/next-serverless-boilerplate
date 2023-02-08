@@ -25,7 +25,6 @@ export default function Home() {
     evt.preventDefault();
     setIsLoading(true);
     
-
     Http("post", "/api/auth/send-reset-password", form).then((data: any) => {
       if (!data.success && data.error) {
         error(data.error);

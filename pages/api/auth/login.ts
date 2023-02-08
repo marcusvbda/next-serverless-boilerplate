@@ -1,18 +1,19 @@
 import type { NextApiResponse } from 'next'
-import clientPromise from "@/libs/mongodb";
 import { Route } from "@/pages/api/default-route";
 const jwt = require('jsonwebtoken');
 const bcrypt = require("bcrypt");
+import Mongo from "@/libs/mongodb";
+import UserModel from "@/models/User";
 
 const handler = async (req: any, res: NextApiResponse<any>) => {
   return Route("POST", req, res, async (req: any, res: NextApiResponse<any>) => {
     const json = JSON.parse(req.body);
 
-    const client = await clientPromise;
-    const db = client.db("users");
-    const foundUser = await db
-      .collection("users")
-      .findOne({ email: json.email });
+    await Mongo.connect();
+    const foundUser = await UserModel.findOne({
+      email: json.email,
+      activatedAt: { $ne: null }
+    }).exec();
 
     const unauthorize = () => res.status(401).json({ success: false, error: "Incorrect username or password" } as any)
 

@@ -1,8 +1,8 @@
 import type { NextApiResponse } from 'next'
-import clientPromise from "@/libs/mongodb";
 import { Route } from "@/pages/api/default-route";
 const jwt = require('jsonwebtoken');
-const { ObjectId } = require('mongodb');
+import Mongo from "@/libs/mongodb";
+import UserModel from "@/models/User";
 
 const handler = async (req: any, res: NextApiResponse<any>) => {
   return Route("POST", req, res, async (req: any, res: NextApiResponse<any>) => {
@@ -11,11 +11,11 @@ const handler = async (req: any, res: NextApiResponse<any>) => {
 
       const decoded = jwt.verify(json.token, process.env.PRIVATE_KEY);
 
-      const client = await clientPromise;
-      const db = client.db("users");
-      const foundUser = await db
-        .collection("users")
-        .findOne({ "_id": ObjectId(decoded) });
+      await Mongo.connect();
+      const foundUser = await UserModel.findOne({
+        _id: decoded,
+        activatedAt: { $ne: null }
+      }).exec();
 
       if (!foundUser) {
         return res.status(401).json({ success: false, error: "Invalid token" } as any);
