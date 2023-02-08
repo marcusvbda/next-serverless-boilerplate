@@ -1,39 +1,30 @@
 import type { NextApiResponse } from 'next'
 import { Route } from "@/pages/api/default-route";
-const Email = require('email-templates');
+import Email from "@/libs/email";
+import clientPromise from "@/libs/mongodb";
 
 const handler = async (req: any, res: NextApiResponse<any>) => {
   return Route("POST", req, res, async (req: any, res: NextApiResponse<any>) => {
     const json = JSON.parse(req.body);
 
-    const email = new Email({
-    message: {
-      from: 'hi@example.com'
-    },
-    send: true,
-    transport: {
-      host: 'sandbox.smtp.mailtrap.io', 
-      port: 587,
-      ssl: false,
-      tls: false,
-      auth: {
-        user: 'd8b07fad2e1c39', // your Mailtrap username
-        pass: '771b1c29beb02c' //your Mailtrap password
-      },
-    },
-    });
+    const client = await clientPromise;
+    const db = client.db("users");
+    const foundUser = await db
+      .collection("users")
+      .findOne({ email: json.email });
 
-    email.send({
-      template: 'auth/reset-password',
-      message: {
-        to: 'test@example.com'
-      },
-      locals :  {name: 'Diana'}
-    })
-    .then(console.log)
-    .catch(console.error);
+    if (!foundUser) {
+      return res.status(401).json({ success: false, error: "User does not exist" } as any)
+    }
 
-    return res.status(200).json({ success: true, json } as any);
+    Email.send("auth/reset-password",
+      { to: "bassalobre.vinicius@gmail.com" },
+      { name: "vinicius" }
+    ).then(console.log).catch(console.error);
+
+    return res.status(200).json({
+      success: true, message: "Password reset email has been sent"
+    } as any);
   });
 }
 

@@ -27,12 +27,14 @@ export default function Home() {
     
 
     Http("post", "/api/auth/send-reset-password", form).then((data: any) => {
-      // if (!data.success && data.error) {
-      //   error(data.error);
-      //   return setIsLoading(false);
-      // }
-      // success("Password reset email sent");
-      // Router.push("/auth/login");
+      if (!data.success && data.error) {
+        error(data.error);
+        return setIsLoading(false);
+      }
+      if(data.message) {
+        success(data.message);
+      }
+      Router.push("/auth/sign-in");
     });
 
   };
