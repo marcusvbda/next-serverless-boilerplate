@@ -12,7 +12,9 @@ export default async function handler(method: string, route: string, body: any =
         payload.body = JSON.stringify(body);
     }
 
-    const response = await fetch(route, payload);
+    const host = process.env.HOST;
+    const url = typeof window === 'undefined' ? `${host}${route}` : route;
+    const response = await fetch(url, payload);
 
     return response.json();
 }

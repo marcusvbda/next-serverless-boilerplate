@@ -22,11 +22,12 @@ const handler = async (req: any, res: NextApiResponse<any>) => {
     delete json.confirmPassword;
 
     const user = { ...json, password: password };
-    new UserModel(user).save();
+    const savedUser = await new UserModel(user).save();
 
-    const link = `http://localhost:3000/auth/confirm-register/lorem-ipsum`;
-    Email.send("auth/confirm-register", { to: user.email }, {
-      name: user.firstname,
+    const host = process.env.HOST;
+    const link = `${host}/auth/confirm-register/${savedUser._id.toString()}`;
+    Email.send("auth/confirm-register", { to: savedUser.email }, {
+      name: savedUser.firstname,
       link
     })
 

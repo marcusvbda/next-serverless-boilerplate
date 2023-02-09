@@ -7,7 +7,7 @@ import InputText from "@/components/form/InputText";
 import InputSwitch from "@/components/form/InputSwitch";
 import styled from "styled-components";
 import { useEffect, useState } from "react";
-import { error } from "@/libs/alert";
+import { error, success} from "@/libs/alert";
 import Http from "@/libs/http";
 import Router from "next/router";
 const Cookies = require("js-cookie");
@@ -16,8 +16,18 @@ export const Title = styled.h1`
   margin-bottom: 10px;
 `;
 
-export default function Home() {
+export async function getServerSideProps(cx: any) {
+  const message  = cx.query?.message ?? "";
+  return {props: {message}};
+}
+export default function Page(cx:any) {
+  const {message} = cx;
+
   useEffect(() => {
+    if (message) {
+      success(message);
+      Router.replace('/auth/sign-in', undefined, { shallow: true });
+    }
     Cookies.remove("jwtToken");
   }, []);
 

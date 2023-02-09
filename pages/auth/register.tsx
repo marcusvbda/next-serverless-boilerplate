@@ -14,7 +14,7 @@ export const Title = styled.h1`
   margin-bottom: 10px;
 `;
 
-export default function Home() {
+export default function Page() {
   const [progressValidation, setProgressValidation] = useState(0);
   const [form, setForm] = useState({
     firstname: "",

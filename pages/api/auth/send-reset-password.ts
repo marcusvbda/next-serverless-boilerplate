@@ -22,7 +22,8 @@ const handler = async (req: any, res: NextApiResponse<any>) => {
 
     foundUser.save();
 
-    const link = `http://localhost:3000/auth/new-password/${foundUser?.recovery?.token ?? ""}`;
+    const host = process.env.HOST;
+    const link = `${host}/auth/new-password/${foundUser?.recovery?.token ?? ""}`;
     Email.send("auth/reset-password", { to: foundUser.email }, {
       name: foundUser.firstname,
       link

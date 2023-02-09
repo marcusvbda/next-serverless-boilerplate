@@ -3,7 +3,7 @@ import Link from "next/link";
 
 export const makeTitle = (subtitle: string) => `${subtitle} - SaaS Boilerplate`;
 
-export default function Home() {
+export default function Page() {
   return (
     <>
       <Head>
