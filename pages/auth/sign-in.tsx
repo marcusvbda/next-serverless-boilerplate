@@ -45,11 +45,16 @@ export default function Page(cx:any) {
 
     Http("post", "/api/auth/login", form).then((data: any) => {
       if (!data.success && data.error) {
-        Cookies.remove("jwtToken");
         error(data.error);
         return setIsLoading(false);
       }
-      Cookies.set("jwtToken", data.token);
+
+      const cookiePayload:{expires? :number} = {};
+      if (!form.rememberMe) {
+        cookiePayload.expires = 1;
+      }
+
+      Cookies.set("jwtToken", data.token, cookiePayload);
       const urlParams = new URLSearchParams(window.location.search);
       const redirectUrl = urlParams.get("continue") ?? "/admin";
       Router.push(redirectUrl);

@@ -2,15 +2,35 @@ import mongoose from 'mongoose';
 const { Schema } = mongoose;
 
 const userSchema = new Schema({
-    firstname: String,
-    lastname: String,
-    user: String,
-    email: String,
-    password: String,
-    activatedAt: { type: Date, default: null },
+    firstname: {
+        type: String,
+        required: true,
+    },
+    lastname: {
+        type: String,
+        required: true,
+    },
+    email: {
+        type: String,
+        required: true,
+    },
+    password: {
+        type: String,
+        required: true,
+    },
+    activatedAt: {
+        type: Date,
+        default: null
+    },
     recovery: {
-        token: { type: String, default: null },
-        expires: { type: Date, default: null }
+        token: {
+            type: String,
+            default: null,
+        },
+        expires: {
+            type: Date,
+            default: null,
+        },
     }
 });
 
