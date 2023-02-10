@@ -1,18 +1,36 @@
-import Head from "next/head";
 import Link from "next/link";
+import { Col, Row } from "@/styles/flex";
+import DefaultTemplate from "@/components/templates/DefaultTemplate";
+import Button from "@/components/form/Button";
 
-export const makeTitle = (subtitle: string) => `${subtitle} - SaaS Boilerplate`;
+export default function Page(cx:any) {
 
-export default function Page() {
+  const btnLogin = () => (
+    <Link href="/auth/sign-in">
+      <Button theme={"primary"}>
+        Sign in
+      </Button>
+    </Link>
+  )
+
   return (
-    <>
-      <Head>
-        <title>{makeTitle("index")}</title>
-      </Head>
-      <main>
-        <h1>Landing Page Here</h1>
-        <Link href="/auth/sign-in">Login</Link>
-      </main>
-    </>
+    <DefaultTemplate title={"Landing Page"} rightComponent={btnLogin()}>
+      <Col size={12} sizeMd={6} paddingTop={50} >
+        <Row alignX="center">
+          <h1>Next SaaS Boilerplate</h1>
+          <span>
+            This is a boilerplate for saas application using nextjs, typescript, mongodb, and more.
+          </span>
+        </Row>
+        <Row alignX="center" marginY={15}>
+          <Col size={12} sizeMd={6} paddingTop={10}>
+            {btnLogin()}
+          </Col>
+        </Row>
+        <Row alignX="center">
+          <Link href="/auth/register">Register</Link>
+        </Row>
+      </Col>
+    </DefaultTemplate>
   );
 }

@@ -2,17 +2,12 @@ import Link from "next/link";
 import { Col, Row } from "@/styles/flex";
 import { Card, ProgressBar } from "@/styles/global";
 import Button from "@/components/form/Button";
-import AuthTemplate from "@/components/auth/AuthTemplate";
+import DefaultTemplate from "@/components/templates/DefaultTemplate";
 import InputText from "@/components/form/InputText";
-import styled from "styled-components";
 import { useState } from "react";
 import { error, success } from "@/libs/alert";
 import Router from "next/router";
 import Http from "@/libs/http";
-
-export const Title = styled.h1`
-  margin-bottom: 10px;
-`;
 
 export default function Page() {
   const [progressValidation, setProgressValidation] = useState(0);
@@ -81,9 +76,9 @@ export default function Page() {
   };
 
   return (
-    <AuthTemplate title={"Register"}>
+    <DefaultTemplate title={"Register"}>
       <Col size={12} sizeMd={6} paddingTop={50}>
-        <Title>{"Let's"} get you signed up!</Title>
+        <h1>{"Let's"} get you signed up!</h1>
         <Row direction={"column"}>
           <p>Enter your details in the form below to create a new account.</p>
           <p>
@@ -160,6 +155,6 @@ export default function Page() {
           </form>
         </Card>
       </Col>
-    </AuthTemplate>
+    </DefaultTemplate>
   );
 }

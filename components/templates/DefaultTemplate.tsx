@@ -3,19 +3,32 @@ import { Row } from "@/styles/flex";
 import { Container } from "@/styles/global";
 import Image from "next/image";
 import styled from "styled-components";
-import { makeTitle } from "@/pages/index";
+import { makeTitle } from "@/pages/_document";
 import Link from "next/link";
+const Cookies = require("js-cookie");
 
 interface IProps {
   title: string;
   children: any;
+  rightComponent?: any;
 }
 
 export const TopBar = styled.section`
   padding: 7px 0;
+  display:flex;
 `;
 
-export default function AuthTemplate(props: IProps) {
+export const TopRight = styled.section`
+  margin-left: auto;
+  width: 150px;
+`;
+
+export default function template(props: IProps) {
+  const defaultRoute = () => {
+    const hasCookie = Cookies.get("jwtToken") ? true : false;
+    return hasCookie ? "/admin" : "/";
+  }
+
   return (
     <>
       <Head>
@@ -24,7 +37,7 @@ export default function AuthTemplate(props: IProps) {
       <main>
         <Container>
           <TopBar>
-            <Link href="/auth/sign-in">
+            <Link href={defaultRoute()}>
               <Image
                 src="/logo-light.svg"
                 alt="Picture of the author"
@@ -32,6 +45,7 @@ export default function AuthTemplate(props: IProps) {
                 height={48}
               />
             </Link>
+            {props.rightComponent && <TopRight>{props.rightComponent}</TopRight>}
           </TopBar>
           <Row alignX={"center"} alignY={"center"}>
             {props.children}

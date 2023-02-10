@@ -1,18 +1,12 @@
-import Link from "next/link";
 import { Col, Row } from "@/styles/flex";
 import { Card, ProgressBar } from "@/styles/global";
 import Button from "@/components/form/Button";
-import AuthTemplate from "@/components/auth/AuthTemplate";
+import DefaultTemplate from "@/components/templates/DefaultTemplate";
 import InputText from "@/components/form/InputText";
-import styled from "styled-components";
 import { useState } from "react";
 import { error, success } from "@/libs/alert";
 import Router from "next/router";
 import Http from "@/libs/http";
-
-export const Title = styled.h1`
-  margin-bottom: 10px;
-`;
 
 export async function getServerSideProps(cx: any) {
   const { rememberToken }  = cx.query
@@ -26,13 +20,12 @@ export async function getServerSideProps(cx: any) {
   return {notFound: true};
 }
 
-
 export default function Page(cx: any) {
   const { user }  = cx;
   const [progressValidation, setProgressValidation] = useState(5);
   const [form, setForm] = useState({
-    password: "V!n1c1u5bd4",
-    confirmPassword: "V!n1c1u5bd4",
+    password: "",
+    confirmPassword: "",
   });
 
   const [isLoading, setIsLoading] = useState(false);
@@ -92,9 +85,9 @@ export default function Page(cx: any) {
   };
 
   return (
-    <AuthTemplate title={"New Password"}>
+    <DefaultTemplate title={"New Password"}>
       <Col size={12} sizeMd={6} paddingTop={50}>
-        <Title>Create a new password!</Title>
+        <h1>Create a new password!</h1>
         <Row direction={"column"}>
           <p>Enter your new password and confirm it in the form below.</p>
         </Row>
@@ -135,6 +128,6 @@ export default function Page(cx: any) {
           </form>
         </Card>
       </Col>
-    </AuthTemplate>
+    </DefaultTemplate>
   );
 }

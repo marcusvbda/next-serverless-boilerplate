@@ -19,10 +19,12 @@ export default createGlobalStyle`
 
   h1 {
     font-size : 2.3rem;
-    color : ${color.dark.primaryHover}
+    color : ${color.dark.primaryHover};
+    margin-bottom: 10px;
   }
 
   a {
+    font-size : .7rem;
     color : ${color.dark.primaryHover}
   }
 

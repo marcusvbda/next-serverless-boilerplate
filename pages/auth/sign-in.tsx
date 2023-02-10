@@ -2,19 +2,14 @@ import Link from "next/link";
 import { Col } from "@/styles/flex";
 import { Card, Form } from "@/styles/global";
 import Button from "@/components/form/Button";
-import AuthTemplate from "@/components/auth/AuthTemplate";
+import DefaultTemplate from "@/components/templates/DefaultTemplate";
 import InputText from "@/components/form/InputText";
 import InputSwitch from "@/components/form/InputSwitch";
-import styled from "styled-components";
 import { useEffect, useState } from "react";
 import { error, success} from "@/libs/alert";
 import Http from "@/libs/http";
 import Router from "next/router";
 const Cookies = require("js-cookie");
-
-export const Title = styled.h1`
-  margin-bottom: 10px;
-`;
 
 export async function getServerSideProps(cx: any) {
   const message  = cx.query?.message ?? "";
@@ -62,9 +57,9 @@ export default function Page(cx:any) {
   };
 
   return (
-    <AuthTemplate title={"Login"}>
+    <DefaultTemplate title={"Login"}>
       <Col size={12} sizeMd={6} paddingTop={50}>
-        <Title>Sign in</Title>
+        <h1>Sign in</h1>
         <span>
           {"Don't "}have an account to sign in to?{" "}
           <Link href="/auth/register">Register an account instead</Link>.
@@ -110,6 +105,6 @@ export default function Page(cx:any) {
           <Link href="/auth/reset-password">Forgot your password?</Link>
         </Card>
       </Col>
-    </AuthTemplate>
+    </DefaultTemplate>
   );
 }

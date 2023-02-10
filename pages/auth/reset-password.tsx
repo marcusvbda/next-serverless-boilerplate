@@ -2,17 +2,12 @@ import Link from "next/link";
 import { Col } from "@/styles/flex";
 import { Card } from "@/styles/global";
 import Button from "@/components/form/Button";
-import AuthTemplate from "@/components/auth/AuthTemplate";
+import DefaultTemplate from "@/components/templates/DefaultTemplate";
 import InputText from "@/components/form/InputText";
-import styled from "styled-components";
 import { useState } from "react";
 import { success ,error } from "@/libs/alert";
 import Http from "@/libs/http";
 import Router from "next/router";
-
-export const Title = styled.h1`
-  margin-bottom: 10px;
-`;
 
 export default function Page() {
   const [form, setForm] = useState({
@@ -35,13 +30,12 @@ export default function Page() {
       }
       Router.push("/auth/sign-in");
     });
-
   };
 
   return (
-    <AuthTemplate title={"Reset your password"}>
+    <DefaultTemplate title={"Reset your password"}>
       <Col size={12} sizeMd={6} paddingTop={50}>
-        <Title>Reset your password</Title>
+        <h1>Reset your password</h1>
         <span>
           Enter the email address you signed up with and {"we'll"} send you
           instructions as how to reset your password. Or go back to{" "}
@@ -70,6 +64,6 @@ export default function Page() {
           </form>
         </Card>
       </Col>
-    </AuthTemplate>
+    </DefaultTemplate>
   );
 }
