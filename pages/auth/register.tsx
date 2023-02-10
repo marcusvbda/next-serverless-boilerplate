@@ -65,8 +65,8 @@ export default function Page() {
     }
     setIsLoading(true);
     Http("post", "/api/auth/register", form).then((data: any) => {
-      setIsLoading(false);
       if (!data.success && data.error) {
+        setIsLoading(false);
         error(data.error);
       } else if (data.success && data.message) {
         success(data.message);
