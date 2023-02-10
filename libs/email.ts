@@ -25,7 +25,7 @@ const createEmail = (): any => {
 }
 
 const send = (template: string, message: any, locals: any = {}): any => {
-    const pathTemplate = process.env.NODE_ENV === 'production' ? path.join(__dirname, "../../../../../emails", template) : template;
+    const pathTemplate = process.env.NODE_ENV === 'production' ? path.join(__dirname, "../../../../emails", template) : template;
     const email = createEmail();
     return email.send({
         template: pathTemplate,
