@@ -19,7 +19,7 @@ export default function Page(cx:any) {
         <Row alignX="center">
           <h1>Next SaaS Boilerplate</h1>
           <span>
-            This is a boilerplate for saas application using nextjs, typescript, mongodb, and more.
+            This is a boilerplate for saas applications using nextjs, typescript, mongodb, and more.
           </span>
         </Row>
         <Row alignX="center" marginY={15}>
