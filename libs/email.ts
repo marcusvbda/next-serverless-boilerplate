@@ -1,8 +1,7 @@
-import path from "path";
 const Email = require('email-templates');
+import { resolve } from "path";
 
 const createEmail = (): any => {
-    const root = path.join(__dirname, 'emails');
     const email = new Email({
         message: {
             from: process.env.EMAIL_FROM ?? '',
@@ -25,10 +24,10 @@ const createEmail = (): any => {
 }
 
 const send = (template: string, message: any, locals: any = {}): any => {
-    const pathTemplate = process.env.NODE_ENV === 'production' ? path.join(__dirname, "/emails", template) : template;
+    const templateDir = resolve(process.cwd(), "emails") + `/${template}`;
     const email = createEmail();
     return email.send({
-        template: pathTemplate,
+        template: templateDir,
         message,
         locals
     });
