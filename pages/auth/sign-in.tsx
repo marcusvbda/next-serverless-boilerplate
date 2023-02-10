@@ -24,7 +24,7 @@ export default function Page(cx:any) {
       Router.replace('/auth/sign-in', undefined, { shallow: true });
     }
     Cookies.remove("jwtToken");
-  }, []);
+  }, [message]);
 
   const [form, setForm] = useState({
     email: "",
