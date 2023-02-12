@@ -9,7 +9,7 @@ import { useEffect, useState } from "react";
 import { error, success} from "@/libs/alert";
 import Http from "@/libs/http";
 import Router from "next/router";
-const Cookies = require("js-cookie");
+import { setCookie,deleteCookie } from 'cookies-next';
 
 export async function getServerSideProps(cx: any) {
   const message  = cx.query?.message ?? "";
@@ -23,7 +23,8 @@ export default function Page(cx:any) {
       success(message);
       Router.replace('/auth/sign-in', undefined, { shallow: true });
     }
-    Cookies.remove("jwtToken");
+    deleteCookie("jwtToken");
+    deleteCookie("user");
   }, [message]);
 
   const [form, setForm] = useState({
@@ -44,12 +45,13 @@ export default function Page(cx:any) {
         return setIsLoading(false);
       }
 
-      const cookiePayload:{expires? :number} = {};
+      const cookiePayload:{maxAge? :number} = {};
       if (!form.rememberMe) {
-        cookiePayload.expires = 1;
+        cookiePayload.maxAge = 60 * 60 * 24 * 1;
       }
 
-      Cookies.set("jwtToken", data.token, cookiePayload);
+      setCookie("jwtToken", data.token, cookiePayload);
+      setCookie("user", JSON.stringify(data.user), cookiePayload);
       const urlParams = new URLSearchParams(window.location.search);
       const redirectUrl = urlParams.get("continue") ?? "/admin";
       Router.push(redirectUrl);

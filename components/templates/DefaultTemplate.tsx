@@ -5,7 +5,8 @@ import Image from "next/image";
 import styled from "styled-components";
 import { makeTitle } from "@/pages/_document";
 import Link from "next/link";
-const Cookies = require("js-cookie");
+import { getCookie } from 'cookies-next';
+import Router from "next/router";
 
 interface IProps {
   title: string;
@@ -23,10 +24,14 @@ export const TopRight = styled.section`
   width: 150px;
 `;
 
+export const isLogged = () => getCookie("jwtToken") ? true : false;
+export const user = () => JSON.parse(isLogged() ? getCookie("user") as any : "{}");
+
 export default function template(props: IProps) {
-  const defaultRoute = () => {
-    const hasCookie = Cookies.get("jwtToken") ? true : false;
-    return hasCookie ? "/admin" : "/";
+  const handleDefaultRoute = (evt:any) => {
+    evt.preventDefault();
+    const route  = isLogged() ? "/admin" : "/";
+    Router.push(route);
   }
 
   return (
@@ -37,7 +42,7 @@ export default function template(props: IProps) {
       <main>
         <Container>
           <TopBar>
-            <Link href={defaultRoute()}>
+            <Link href='#' onClick={handleDefaultRoute}>
               <Image
                 src="/logo-light.svg"
                 alt="Picture of the author"

@@ -28,8 +28,7 @@ const handler = async (req: any, res: NextApiResponse<any>) => {
       }
 
       const token = await jwt.sign(foundUser._id.toString(), process.env.PRIVATE_KEY);
-
-      return res.status(200).json({ success: true, token, foundUser } as any);
+      return res.status(200).json({ success: true, token, user: foundUser } as any);
     } catch (err) {
       console.log(err);
       return unauthorize();
