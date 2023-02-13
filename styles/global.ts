@@ -41,11 +41,15 @@ export default createGlobalStyle`
 interface IContainer {
   paddingY: string;
   paddingX: string;
+  marginB?: string;
 }
 
 export const Container = styled.section<IContainer>`
   padding: ${props => props.paddingY} ${props => props.paddingX};
+  margin-bottom: ${props => props.marginB ?? '0px'};
   width: 100%;
+  height: 100%;
+  overflow-y: auto;
 `;
 
 interface ICard {

@@ -1,5 +1,5 @@
 import Head from "next/head";
-import { Row } from "@/styles/flex";
+import { Col, Row } from "@/styles/flex";
 import { ResponsiveCard, Container, InitialBall, TopBar, TopRight, CloseButton, CardItem } from "@/styles/global";
 import Image from "next/image";
 import styled from "styled-components";
@@ -17,9 +17,9 @@ const DropdownMenu = () => {
 
   useEffect(() => {
     setInitials(getInitials());
-  },[initials])
+  }, [initials])
 
-  const getInitials = ():string => {
+  const getInitials = (): string => {
     const user = Auth.user();
     if (user?.firstname && user?.lastname) {
       const values = (user.firstname[0] + user.lastname[0]).toUpperCase();
@@ -29,16 +29,16 @@ const DropdownMenu = () => {
   }
 
   return <>
-    <InitialBall onClick={() =>setDropdownVisible(!dropdownVisible)}>{initials}</InitialBall>
-    {dropdownVisible &&  
-    <OverflowDialog  overflowClick={() =>setDropdownVisible(false)}>
-      <ResponsiveCard>
-        <CloseButton onClick={() =>setDropdownVisible(false)}>X</CloseButton>
-        <Link href='/auth/sign-in'>
-          <CardItem>Logoff</CardItem>
-        </Link>
-      </ResponsiveCard>
-    </OverflowDialog>}
+    <InitialBall onClick={() => setDropdownVisible(!dropdownVisible)}>{initials}</InitialBall>
+    {dropdownVisible &&
+      <OverflowDialog overflowClick={() => setDropdownVisible(false)}>
+        <ResponsiveCard>
+          <CloseButton onClick={() => setDropdownVisible(false)}>X</CloseButton>
+          <Link href='/auth/sign-in'>
+            <CardItem>Logoff</CardItem>
+          </Link>
+        </ResponsiveCard>
+      </OverflowDialog>}
   </>;
 }
 
@@ -60,7 +60,7 @@ export default function Template(props: IProps) {
         <title>{makeTitle(props.title)}</title>
       </Head>
       <main>
-        <Container paddingX={'0px'} paddingY={'0px'}>
+        <Container paddingX={'0px'} paddingY={'0px'} marginB={'300px'}>
           <TopBarAdmin marginBottom={'50px'}>
             <Link href='/admin'>
               <Image
@@ -74,9 +74,11 @@ export default function Template(props: IProps) {
               <DropdownMenu />
             </TopRight>
           </TopBarAdmin>
-          <Row alignX={"center"} alignY={"center"}>
-            {props.children}
-          </Row>
+          <Col size={12}>
+            <Row alignX={"center"} alignY={"center"}>
+              {props.children}
+            </Row>
+          </Col>
         </Container>
       </main>
     </>

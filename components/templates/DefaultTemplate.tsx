@@ -18,7 +18,7 @@ export default function Template(props: IProps) {
         <title>{makeTitle(props.title)}</title>
       </Head>
       <main>
-        <Container paddingX={'2rem'} paddingY={'2rem'}>
+        <Container paddingX={'2rem'} paddingY={'2rem'} marginB={'300px'}>
           <TopBar >
             <Link href='/'>
               <Image
