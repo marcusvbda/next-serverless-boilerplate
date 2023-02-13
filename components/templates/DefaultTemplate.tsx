@@ -1,8 +1,7 @@
 import Head from "next/head";
 import { Row } from "@/styles/flex";
-import { Container } from "@/styles/global";
+import { Container, TopBar, TopRight } from "@/styles/global";
 import Image from "next/image";
-import styled from "styled-components";
 import { makeTitle } from "@/pages/_document";
 import Link from "next/link";
 
@@ -12,18 +11,7 @@ interface IProps {
   rightComponent?: any;
 }
 
-const TopBar = styled.section`
-  padding: 7px 0;
-  display:flex;
-`;
-
-const TopRight = styled.section`
-  margin-left: auto;
-  width: 150px;
-`;
-
 export default function Template(props: IProps) {
-
   return (
     <>
       <Head>
@@ -31,7 +19,7 @@ export default function Template(props: IProps) {
       </Head>
       <main>
         <Container paddingX={'2rem'} paddingY={'2rem'}>
-          <TopBar>
+          <TopBar >
             <Link href='/'>
               <Image
                 src="/logo-light.svg"
@@ -40,7 +28,7 @@ export default function Template(props: IProps) {
                 height={48}
               />
             </Link>
-            {props.rightComponent && <TopRight>{props.rightComponent}</TopRight>}
+            {props.rightComponent && <TopRight width={'150px'}>{props.rightComponent}</TopRight>}
           </TopBar>
           <Row alignX={"center"} alignY={"center"}>
             {props.children}

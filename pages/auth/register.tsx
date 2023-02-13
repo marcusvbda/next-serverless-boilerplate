@@ -80,11 +80,13 @@ export default function Page() {
       <Col size={12} sizeMd={6} paddingTop={50}>
         <h1>{"Let's"} get you signed up!</h1>
         <Row direction={"column"}>
-          <p>Enter your details in the form below to create a new account.</p>
-          <p>
-            <span>Already have an account? </span>{" "}
-            <Link href="/auth/sign-in">Sign in instead</Link>.
-          </p>
+          <Col size={12}>
+            <p>Enter your details in the form below to create a new account.</p>
+            <p>
+              <span>Already have an account? </span>{" "}
+              <Link href="/auth/sign-in">Sign in instead</Link>.
+            </p>
+          </Col>
         </Row>
         <Card top={30} bottom={100}>
           <form onSubmit={onSubmit}>

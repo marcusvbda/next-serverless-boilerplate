@@ -1,6 +1,6 @@
 import Head from "next/head";
 import { Row } from "@/styles/flex";
-import { Card, Container } from "@/styles/global";
+import { ResponsiveCard, Container, InitialBall, TopBar, TopRight, CloseButton, CardItem } from "@/styles/global";
 import Image from "next/image";
 import styled from "styled-components";
 import { makeTitle } from "@/pages/_document";
@@ -10,36 +10,8 @@ import Auth from "@/libs/auth";
 import OverflowDialog from "../modal/overflowDialog";
 import { useEffect, useState } from "react";
 
-interface IProps {
-  title: string;
-  children: any;
-}
 
-const TopBar = styled.section`
-  padding: 7px 0;
-  display:flex;
-  padding: 7px 30px;
-  background-color: ${color.dark.backgroundDarkest};
-  margin-bottom: 50px;
-  align-items: center;
-`;
-
-const TopRight = styled.section`
-  margin-left: auto;
-`;
-
-const InitialBall = styled.div`
-  height: 45px;
-  width: 45px;
-  background-color: #979797;
-  border-radius: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-`
-
-export default function Template(props: IProps) {
+const DropdownMenu = () => {
   const [initials, setInitials] = useState('');
   const [dropdownVisible, setDropdownVisible] = useState(false);
 
@@ -56,15 +28,31 @@ export default function Template(props: IProps) {
     return '';
   }
 
-  const DropdownMenu = (props:any) => {
-    return <>
-      <InitialBall onClick={() =>setDropdownVisible(!dropdownVisible)}>{props.initials}</InitialBall>
-      {dropdownVisible &&  
-      <OverflowDialog  overflowClick={() =>setDropdownVisible(false)}>
-        <Card>OVERFLOW</Card>
-      </OverflowDialog>}
-    </>;
-  }
+  return <>
+    <InitialBall onClick={() =>setDropdownVisible(!dropdownVisible)}>{initials}</InitialBall>
+    {dropdownVisible &&  
+    <OverflowDialog  overflowClick={() =>setDropdownVisible(false)}>
+      <ResponsiveCard>
+        <CloseButton onClick={() =>setDropdownVisible(false)}>X</CloseButton>
+        <Link href='/auth/sign-in'>
+          <CardItem>Logoff</CardItem>
+        </Link>
+      </ResponsiveCard>
+    </OverflowDialog>}
+  </>;
+}
+
+interface IProps {
+  title: string;
+  children: any;
+}
+
+export default function Template(props: IProps) {
+
+  const TopBarAdmin = styled(TopBar)`
+    padding: 7px 30px;
+    background-color: ${color.dark.backgroundDarkest};
+  `;
 
   return (
     <>
@@ -73,7 +61,7 @@ export default function Template(props: IProps) {
       </Head>
       <main>
         <Container paddingX={'0px'} paddingY={'0px'}>
-          <TopBar>
+          <TopBarAdmin marginBottom={'50px'}>
             <Link href='/admin'>
               <Image
                 src="/logo-light.svg"
@@ -83,9 +71,9 @@ export default function Template(props: IProps) {
               />
             </Link>
             <TopRight>
-              <DropdownMenu initials={initials} />
+              <DropdownMenu />
             </TopRight>
-          </TopBar>
+          </TopBarAdmin>
           <Row alignX={"center"} alignY={"center"}>
             {props.children}
           </Row>

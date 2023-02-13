@@ -26,13 +26,13 @@ interface IColor {
 
 export const color: IColor = {
     dark: {
-        light: "rgb(255,255,255,.80)",
+        light: "rgb(232 232 232 / 80%)",
         dark: "#555B64",
         background: "#171923",
         backgroundDarkest: "#0F1117",
-        primary: "#4fd1c5",
-        primaryHover: "#81E6D9",
+        primary: "#3aa59b",
+        primaryHover: "#4cc6bb",
         secondary: "#1F2733",
-        overflow: "#00000078"
+        overflow: "#0000009c",
     }
 }

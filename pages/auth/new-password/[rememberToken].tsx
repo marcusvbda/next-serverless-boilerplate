@@ -89,7 +89,9 @@ export default function Page(cx: any) {
       <Col size={12} sizeMd={6} paddingTop={50}>
         <h1>Create a new password!</h1>
         <Row direction={"column"}>
-          <p>Enter your new password and confirm it in the form below.</p>
+          <Col size={12}>
+            <p>Enter your new password and confirm it in the form below.</p>
+          </Col>
         </Row>
         <Card top={30} bottom={100}>
           <form onSubmit={onSubmit}>

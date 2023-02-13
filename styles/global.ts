@@ -1,4 +1,4 @@
-import { color } from "@/styles/variables";
+import { size, color } from "@/styles/variables";
 import { createGlobalStyle, css } from "styled-components";
 import styled from "styled-components";
 
@@ -54,11 +54,58 @@ interface ICard {
 }
 
 export const Card = styled.section<ICard>`
+  display: flex;
+  flex-direction: column;
   margin-top: ${props => props.top ?? 0}px;
   margin-bottom: ${props => props.bottom ?? 0}px;
   padding: 1.8rem;
   background-color: ${color.dark.secondary};
+  position: relative;
   border-radius:8px;
+`
+
+interface IOverflow {
+  align?: string;
+}
+
+export const Overflow = styled.div<IOverflow>`
+    position: absolute;
+    background-color: ${color.dark.overflow};
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    display: flex;
+    align-items: ${props => props.align ?? 'flex-start'};
+    justify-content: center;
+    animation: fade .3s;
+    z-index: 1000;
+    padding: 50px 20px;
+`
+
+export const InitialBall = styled.div`
+  height: 45px;
+  width: 45px;
+  background-color: ${color.dark.light};
+  border-radius: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+`
+
+export const ResponsiveCard = styled(Card)`
+  @media ${size.small} {
+    width: 100%;
+  }
+
+  @media ${size.medium} {
+    width: 30%;
+  }
+
+  @media ${size.large} {
+    width: 30%;
+  }
 `
 
 interface IInputSection {
@@ -245,4 +292,59 @@ export const Form = styled.form<IForm>`
       height: 100%;
     }
   `}
+`
+
+interface ITopBar {
+  marginBottom?: string;
+}
+
+export const TopBar = styled.section<ITopBar>`
+  padding: 7px 0;
+  display:flex;
+  align-items: center;
+  margin-bottom: ${props => props.marginBottom ?? '0px'};
+`;
+
+interface ITopRight {
+  width?: string;
+}
+
+export const TopRight = styled.section<ITopRight>`
+  margin-left: auto;
+  width: ${props => props.width ?? 'auto'};
+`;
+
+export const CloseButton = styled.button`
+  background-color : ${color.dark.primary};
+  border-radius: 100%;
+  border: none;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  transition: .4s;
+  &:hover {
+    background-color: ${color.dark.primaryHover};
+  }
+`
+
+export const CardItem = styled.button`
+  background-color: ${color.dark.backgroundDarkest};
+  padding: 20px;
+  border-radius: 8px;
+  margin-top: 20px;
+  cursor: pointer;
+  width: 100%;
+  border: none;
+  transition: .4s;
+  font-weight: bold;
+
+  &:hover {
+    background-color: ${color.dark.background};
+  }
 `
