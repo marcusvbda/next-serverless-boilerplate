@@ -5,8 +5,6 @@ import Image from "next/image";
 import styled from "styled-components";
 import { makeTitle } from "@/pages/_document";
 import Link from "next/link";
-import { getCookie } from 'cookies-next';
-import Router from "next/router";
 
 interface IProps {
   title: string;
@@ -14,25 +12,17 @@ interface IProps {
   rightComponent?: any;
 }
 
-export const TopBar = styled.section`
+const TopBar = styled.section`
   padding: 7px 0;
   display:flex;
 `;
 
-export const TopRight = styled.section`
+const TopRight = styled.section`
   margin-left: auto;
   width: 150px;
 `;
 
-export const isLogged = () => getCookie("jwtToken") ? true : false;
-export const user = () => JSON.parse(isLogged() ? getCookie("user") as any : "{}");
-
-export default function template(props: IProps) {
-  const handleDefaultRoute = (evt:any) => {
-    evt.preventDefault();
-    const route  = isLogged() ? "/admin" : "/";
-    Router.push(route);
-  }
+export default function Template(props: IProps) {
 
   return (
     <>
@@ -40,9 +30,9 @@ export default function template(props: IProps) {
         <title>{makeTitle(props.title)}</title>
       </Head>
       <main>
-        <Container>
+        <Container paddingX={'2rem'} paddingY={'2rem'}>
           <TopBar>
-            <Link href='#' onClick={handleDefaultRoute}>
+            <Link href='/'>
               <Image
                 src="/logo-light.svg"
                 alt="Picture of the author"

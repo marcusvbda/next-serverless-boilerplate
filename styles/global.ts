@@ -3,6 +3,11 @@ import { createGlobalStyle, css } from "styled-components";
 import styled from "styled-components";
 
 export default createGlobalStyle`
+  @keyframes fade {
+    0% { opacity: 0; }
+    100% { opacity: 1; }
+  }
+
   * {
     margin: 0;
     padding: 0;
@@ -33,8 +38,13 @@ export default createGlobalStyle`
   }
 `;
 
-export const Container = styled.section`
-  padding: 2rem;
+interface IContainer {
+  paddingY: string;
+  paddingX: string;
+}
+
+export const Container = styled.section<IContainer>`
+  padding: ${props => props.paddingY} ${props => props.paddingX};
   width: 100%;
 `;
 

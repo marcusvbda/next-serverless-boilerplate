@@ -29,6 +29,7 @@ export const color: IColor = {
         light: "rgb(255,255,255,.80)",
         dark: "#555B64",
         background: "#171923",
+        backgroundDarkest: "#0F1117",
         primary: "#4fd1c5",
         primaryHover: "#81E6D9",
         secondary: "#1F2733",

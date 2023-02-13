@@ -58,7 +58,7 @@ export default function Page() {
     return isValid;
   };
 
-  const onSubmit = (evt: any) => {
+  const onSubmit = (evt: any):void => {
     evt.preventDefault();
     if (!isValidPassword()) {
       return;

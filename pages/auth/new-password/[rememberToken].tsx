@@ -37,7 +37,7 @@ export default function Page(cx: any) {
     (val: string) => /[!@#$%^&*(),.?":{}|<>]/.test(val),
   ];
 
-  const changePassword = (value: string) => {
+  const changePassword = (value: string):void => {
     let progressVal = 0;
 
     passValidationRules.forEach((rule) => {
@@ -67,7 +67,7 @@ export default function Page(cx: any) {
     return isValid;
   };
 
-  const onSubmit = (evt: any) => {
+  const onSubmit = (evt: any):void => {
     evt.preventDefault();
     if (!isValidPassword()) {
       return;

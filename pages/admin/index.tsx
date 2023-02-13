@@ -1,18 +1,14 @@
-import Head from 'next/head'
 import Link from 'next/link'
-import DefaultTemplate from "@/components/templates/DefaultTemplate";
+import AdminTemplate from "@/components/templates/AdminTemplate";
 
 export default function Home(props:any) {
   return (
-    <DefaultTemplate title={"Admin"}>
-      <Head>
-        <title>ADMIN</title>
-      </Head>
+    <AdminTemplate title={"Admin"}>
       <main>
        <h1>ADMIN</h1>
        <Link href="/">Index</Link>
        <Link href="/auth/sign-in">Login</Link>
       </main>
-    </DefaultTemplate>
+    </AdminTemplate>
   )
 }

@@ -9,7 +9,8 @@ import { useEffect, useState } from "react";
 import { error, success} from "@/libs/alert";
 import Http from "@/libs/http";
 import Router from "next/router";
-import { setCookie,deleteCookie } from 'cookies-next';
+import Auth from "@/libs/auth";
+import type { IConfig } from "@/libs/auth";
 
 export async function getServerSideProps(cx: any) {
   const message  = cx.query?.message ?? "";
@@ -23,8 +24,7 @@ export default function Page(cx:any) {
       success(message);
       Router.replace('/auth/sign-in', undefined, { shallow: true });
     }
-    deleteCookie("jwtToken");
-    deleteCookie("user");
+    Auth.logout();
   }, [message]);
 
   const [form, setForm] = useState({
@@ -35,7 +35,7 @@ export default function Page(cx:any) {
 
   const [isLoading, setIsLoading] = useState(false);
 
-  const onSubmit = (evt: any) => {
+  const onSubmit = (evt: any):void => {
     evt.preventDefault();
     setIsLoading(true);
 
@@ -45,13 +45,12 @@ export default function Page(cx:any) {
         return setIsLoading(false);
       }
 
-      const cookiePayload:{maxAge? :number} = {};
+      const cookiePayload:IConfig = {};
       if (!form.rememberMe) {
         cookiePayload.maxAge = 60 * 60 * 24 * 1;
       }
-
-      setCookie("jwtToken", data.token, cookiePayload);
-      setCookie("user", JSON.stringify(data.user), cookiePayload);
+      
+      Auth.login(data.token, data.user,cookiePayload);
       const urlParams = new URLSearchParams(window.location.search);
       const redirectUrl = urlParams.get("continue") ?? "/admin";
       Router.push(redirectUrl);

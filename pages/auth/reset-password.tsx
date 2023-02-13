@@ -16,7 +16,7 @@ export default function Page() {
 
   const [isLoading, setIsLoading] = useState(false);
 
-  const onSubmit = (evt: any) => {
+  const onSubmit = (evt: any):void => {
     evt.preventDefault();
     setIsLoading(true);
     
