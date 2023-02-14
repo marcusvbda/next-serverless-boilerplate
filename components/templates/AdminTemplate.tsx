@@ -78,11 +78,7 @@ export default function Template(props: IProps) {
           </TopBarAdmin>
         </Container>
         <Container paddingX={'1.5rem'} paddingY={'1.5rem'} marginB={'100px'}>
-          <Col size={12}>
-            <Row alignX={"center"} alignY={"center"}>
-              {props.children}
-            </Row>
-          </Col>
+          {props.children}
         </Container>
       </main>
     </>

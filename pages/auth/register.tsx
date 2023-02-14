@@ -77,86 +77,107 @@ export default function Page() {
 
   return (
     <DefaultTemplate title={"Register"}>
-      <Col size={12} sizeMd={6} paddingTop={50}>
-        <h1>{"Let's"} get you signed up!</h1>
-        <Row direction={"column"}>
-          <Col size={12}>
+      <Row alignX={"center"} alignY={"center"}>
+        <Col size={12} sizeMd={6} paddingTop={50}>
+          <h1>{"Let's"} get you signed up!</h1>
+          <Row>
             <p>Enter your details in the form below to create a new account.</p>
             <p>
               <span>Already have an account? </span>{" "}
               <Link href="/auth/sign-in">Sign in instead</Link>.
             </p>
-          </Col>
-        </Row>
-        <Card top={30} bottom={100}>
-          <Form onSubmit={onSubmit}>
-            <Row>
-              <Col size={12} sizeMd={6}>
-                <InputText
-                  label={"First name"}
-                  value={form.firstname}
-                  required={true}
-                  onChange={(evt: any) =>
-                    setForm({ ...form, firstname: evt.target.value })
-                  }
-                />
-              </Col>
-              <Col size={12} sizeMd={6}>
-                <InputText
-                  label={"Last name"}
-                  value={form.lastname}
-                  required={true}
-                  onChange={(evt: any) =>
-                    setForm({ ...form, lastname: evt.target.value })
-                  }
-                />
-              </Col>
-            </Row>
-            <InputText
-              required={true}
-              minLength={6}
-              type={"email"}
-              label={"Email Address"}
-              value={form.email}
-              onChange={(evt: any) =>
-                setForm({ ...form, email: evt.target.value })
-              }
-            />
-            <InputText
-              required={true}
-              minLength={6}
-              type={"password"}
-              label={"Password"}
-              value={form.password}
-              onChange={(evt: any) => changePassword(evt.target.value)}
-            >
-              <ProgressBar
-                total={Object.keys(passValidationRules).length}
-                current={progressValidation}
-              />
-            </InputText>
-            <InputText
-              required={true}
-              minLength={6}
-              type={"password"}
-              label={"Confirm password"}
-              value={form.confirmPassword}
-              onChange={(evt: any) =>
-                setForm({ ...form, confirmPassword: evt.target.value })
-              }
-            />
-            <LoadingButton
-              marginBottom={20}
-              type="submit"
-              disabled={isLoading}
-              isLoading={isLoading}
-              theme={"primary"}
-            >
-              REGISTER
-            </LoadingButton>
-          </Form>
-        </Card>
-      </Col>
+          </Row>
+          <Card top={30} bottom={100}>
+            <Form onSubmit={onSubmit}>
+              <Row>
+                <Col size={12} sizeMd={6}>
+                  <InputText
+                    label={"First name"}
+                    placeholder={"Type your first name"}
+                    value={form.firstname}
+                    required={true}
+                    onChange={(evt: any) =>
+                      setForm({ ...form, firstname: evt.target.value })
+                    }
+                  />
+                </Col>
+                <Col size={12} sizeMd={6}>
+                  <InputText
+                    label={"Last name"}
+                    value={form.lastname}
+                    placeholder={"Type your last name"}
+                    required={true}
+                    onChange={(evt: any) =>
+                      setForm({ ...form, lastname: evt.target.value })
+                    }
+                  />
+                </Col>
+              </Row>
+              <Row direction={"column"}>
+                <Col size={12}>
+                  <InputText
+                    required={true}
+                    minLength={6}
+                    type={"email"}
+                    placeholder={"Type your email address"}
+                    label={"Email Address"}
+                    value={form.email}
+                    onChange={(evt: any) =>
+                      setForm({ ...form, email: evt.target.value })
+                    }
+                  />
+                </Col>
+              </Row>
+              <Row>
+                <Col size={12}>
+                  <InputText
+                    required={true}
+                    minLength={6}
+                    type={"password"}
+                    placeholder={"Type your password"}
+                    label={"Password"}
+                    value={form.password}
+                    onChange={(evt: any) => changePassword(evt.target.value)}
+                  >
+                    <ProgressBar
+                      total={Object.keys(passValidationRules).length}
+                      current={progressValidation}
+                    />
+                  </InputText>
+                </Col>
+              </Row>
+              <Row>
+                <Col size={12}>
+                  <InputText
+                    required={true}
+                    minLength={6}
+                    type={"password"}
+                    placeholder={"Confirm your password"}
+                    label={"Confirm password"}
+                    value={form.confirmPassword}
+                    onChange={(evt: any) =>
+                      setForm({ ...form, confirmPassword: evt.target.value })
+                    }
+                  />
+                </Col>
+              </Row>
+              <Row>
+                <Col size={12}>
+                  <LoadingButton
+                    marginBottom={20}
+                    type="submit"
+                    disabled={isLoading}
+                    isLoading={isLoading}
+                    theme={"primary"}
+                  >
+                    REGISTER
+                  </LoadingButton>
+                </Col>
+              </Row>
+            </Form>
+          </Card>
+        </Col>
+      </Row>
     </DefaultTemplate>
   );
 }

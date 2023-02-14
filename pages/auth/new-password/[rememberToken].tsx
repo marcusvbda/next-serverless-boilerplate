@@ -86,50 +86,66 @@ export default function Page(cx: any) {
 
   return (
     <DefaultTemplate title={"New Password"}>
-      <Col size={12} sizeMd={6} paddingTop={50}>
-        <h1>Create a new password!</h1>
-        <Row direction={"column"}>
-          <Col size={12}>
-            <p>Enter your new password and confirm it in the form below.</p>
-          </Col>
-        </Row>
-        <Card top={30} bottom={100}>
-          <Form onSubmit={onSubmit}>
-            <InputText
-              required={true}
-              minLength={6}
-              type={"password"}
-              label={"Password"}
-              value={form.password}
-              onChange={(evt: any) => changePassword(evt.target.value)}
-            >
-              <ProgressBar
-                total={Object.keys(passValidationRules).length}
-                current={progressValidation}
-              />
-            </InputText>
-            <InputText
-              required={true}
-              minLength={6}
-              type={"password"}
-              label={"Confirm password"}
-              value={form.confirmPassword}
-              onChange={(evt: any) =>
-                setForm({ ...form, confirmPassword: evt.target.value })
-              }
-            />
-            <LoadingButton
-              marginBottom={20}
-              type="submit"
-              disabled={isLoading}
-              isLoading={isLoading}
-              theme={"primary"}
-            >
-              SET NEW PASSWORD
-            </LoadingButton>
-          </form>
-        </Card>
-      </Col>
+      <Row alignX={"center"} alignY={"center"}>
+        <Col size={12} sizeMd={6} paddingTop={50}>
+          <h1>Create a new password!</h1>
+          <Row direction={"column"}>
+            <Col size={12}>
+              <p>Enter your new password and confirm it in the form below.</p>
+            </Col>
+          </Row>
+          <Card top={30} bottom={100}>
+            <Form onSubmit={onSubmit}>
+              <Row>
+                <Col size={12}>
+                  <InputText
+                    required={true}
+                    minLength={6}
+                    type={"password"}
+                    placeholder={"Type your new password"}
+                    label={"Password"}
+                    value={form.password}
+                    onChange={(evt: any) => changePassword(evt.target.value)}
+                  >
+                    <ProgressBar
+                      total={Object.keys(passValidationRules).length}
+                      current={progressValidation}
+                    />
+                  </InputText>
+                </Col>
+              </Row>
+              <Row>
+                <Col size={12}>
+                  <InputText
+                    required={true}
+                    minLength={6}
+                    placeholder={"Confirm your new password"}
+                    type={"password"}
+                    label={"Confirm password"}
+                    value={form.confirmPassword}
+                    onChange={(evt: any) =>
+                      setForm({ ...form, confirmPassword: evt.target.value })
+                    }
+                  />
+                </Col>
+              </Row>
+              <Row>
+                <Col size={12}>
+                  <LoadingButton
+                    marginBottom={20}
+                    type="submit"
+                    disabled={isLoading}
+                    isLoading={isLoading}
+                    theme={"primary"}
+                  >
+                    SET NEW PASSWORD
+                  </LoadingButton>
+                </Col>
+              </Row>
+            </Form>
+          </Card>
+        </Col>
+      </Row>
     </DefaultTemplate>
   );
 }

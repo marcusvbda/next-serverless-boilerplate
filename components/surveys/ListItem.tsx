@@ -11,7 +11,7 @@ interface IProps {
 
 export default function ListItem(props: IProps) {
     const cutedDescription = () => {
-        const limiter = 150;
+        const limiter = 200;
         if ((props.description ?? '').length > limiter) {
             return props.description?.slice(0, limiter) + '...';
         } else {
@@ -34,7 +34,7 @@ export default function ListItem(props: IProps) {
     }
 
     return (
-        <Row marginY={15}>
+        <Row>
             <Col size={12}>
                 <ItemList direction={'row'} wrap={'inherit'} alignY={'center'}>
                     <Arrow direction={'right'} />
@@ -46,6 +46,6 @@ export default function ListItem(props: IProps) {
                     </Row>
                 </ItemList>
             </Col >
-        </Row >
+        </Row>
     )
 }

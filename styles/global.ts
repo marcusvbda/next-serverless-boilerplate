@@ -6,6 +6,7 @@ import { Row } from "@/styles/flex";
 export default createGlobalStyle`
   html {
     scroll-behavior: smooth;
+    overflow-x: hidden;
   }
   
   @keyframes fade {
@@ -25,6 +26,7 @@ export default createGlobalStyle`
     font-size : 0.875rem;
     font-family : system-ui,sans-serif;
     background-color : ${color.dark.background};
+    overflow-x: hidden;
   }
 
   h1 {
@@ -54,6 +56,7 @@ export const Container = styled.section<IContainer>`
   margin-bottom: ${props => props.marginB ?? '0px'};
   width: 100%;
   height: 100%;
+  overflow-x: hidden;
   overflow-y: auto;
 `;
 
@@ -67,7 +70,7 @@ export const Card = styled.section<ICard>`
   flex-direction: column;
   margin-top: ${props => props.top ?? 20}px;
   margin-bottom: ${props => props.bottom ?? 0}px;
-  padding: 1.8rem;
+  padding: 1.5rem;
   background-color: ${color.dark.secondary};
   position: relative;
   width: 100%;
@@ -378,7 +381,8 @@ export const CardItem = styled.button`
 
 
 export const ItemList = styled(Row)`
-  margin-top: 20px;
+  cursor : pointer;
+  margin-top: 10px;
   h3 {
     bolder;
     margin-bottom: 10px;
@@ -390,6 +394,15 @@ export const ItemList = styled(Row)`
 
   small {
     color: ${color.dark.light};
+  }
+
+  padding: 20px 0px;
+  border-radius: 10px;
+  width: 100%;
+  transition: .4s;
+
+  &:hover {
+    background-color: ${color.dark.backgroundDarkest};
   }
 `
 

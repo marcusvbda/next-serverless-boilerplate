@@ -4,6 +4,7 @@ interface IProps {
   label?: string;
   onChange: any;
   value?: string;
+  placeholder?: string;
   required?: boolean;
   minLength?: number;
   maxlength?: number;
@@ -19,6 +20,7 @@ export default function InputTextarea(props: IProps) {
       {props.label && <label>{props.label}</label>}
       <textarea
         rows={rowQty}
+        placeholder={props.placeholder ?? ""}
         minLength={props.minLength ?? 0}
         maxLength={props.maxlength ?? 255}
         value={props.value ?? ""}

@@ -5,13 +5,17 @@ import InputText from "../form/InputText";
 import { color } from "@/styles/variables";
 import ListItem from "./ListItem";
 import Link from "next/link";
+import { useState } from "react";
 
 export default function List() {
+    const [search, setSearch] = useState('');
+    const [status, setStatus] = useState('ALL');
+    const [orderBy, setOrderBy] = useState('MR');
 
     const NoRecordsFound = () => {
         return (
             <Row alignX={'center'} alignY={'center'} padding={'80px 0'}>
-                <h3>No records found</h3>
+                <span>No records found ...</span>
             </Row>
         )
     }
@@ -32,13 +36,12 @@ export default function List() {
                 </Link>
             </ShowOnlySmall>
             <Card>
-                <Row borderBottom={`1px solid ${color.dark.borderColor}`}>
+                <Row>
                     <Col size={4} sizeSm={12}>
                         <InputSelect
                             label={'Order by'}
-                            value={'MR'}
-                            required={true}
-                            onChange={() => { }}
+                            value={orderBy}
+                            onChange={(e: any) => setOrderBy(e.target.value)}
                             options={[
                                 { value: 'MR', label: 'Most recent' },
                                 { value: 'O', label: 'Older' },
@@ -48,9 +51,8 @@ export default function List() {
                     <Col size={4} sizeSm={12}>
                         <InputSelect
                             label={'Status'}
-                            value={'ALL'}
-                            required={true}
-                            onChange={() => { }}
+                            value={status}
+                            onChange={(e: any) => setStatus(e.target.value)}
                             options={[
                                 { value: 'ALL', label: 'All statuses' },
                                 { value: 'DO', label: 'Done' },
@@ -62,9 +64,9 @@ export default function List() {
                     <Col size={4} sizeSm={12}>
                         <InputText
                             label={'Title or description'}
+                            placeholder={'Search ...'}
                             value={''}
-                            required={true}
-                            onChange={() => { }}
+                            onChange={(e: any) => setSearch(e.target.value)}
                         />
                     </Col>
                 </Row>

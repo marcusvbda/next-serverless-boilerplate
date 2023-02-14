@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Col } from "@/styles/flex";
+import { Col, Row } from "@/styles/flex";
 import { Card, Form } from "@/styles/global";
 import LoadingButton from "@/components/form/LoadingButton";
 import DefaultTemplate from "@/components/templates/DefaultTemplate";
@@ -34,36 +34,39 @@ export default function Page() {
 
   return (
     <DefaultTemplate title={"Reset your password"}>
-      <Col size={12} sizeMd={6} paddingTop={50}>
-        <h1>Reset your password</h1>
-        <span>
-          Enter the email address you signed up with and {"we'll"} send you
-          instructions as how to reset your password. Or go back to{" "}
-          <Link href="/auth/sign-in">sign in page</Link>.
-        </span>
-        <Card top={30} bottom={100}>
-          <Form onSubmit={onSubmit}>
-            <InputText
-              label={"Email Address"}
-              value={form.email}
-              required={true}
-              type={"email"}
-              onChange={(evt: any) =>
-                setForm({ ...form, email: evt.target.value })
-              }
-            />
-            <LoadingButton
-              marginBottom={20}
-              type="submit"
-              disabled={isLoading}
-              isLoading={isLoading}
-              theme={"primary"}
-            >
-              RESET PASSWORD
-            </LoadingButton>
-          </Form>
-        </Card>
-      </Col>
+      <Row alignX={"center"} alignY={"center"}>
+        <Col size={12} sizeMd={6} paddingTop={50}>
+          <h1>Reset your password</h1>
+          <span>
+            Enter the email address you signed up with and {"we'll"} send you
+            instructions as how to reset your password. Or go back to{" "}
+            <Link href="/auth/sign-in">sign in page</Link>.
+          </span>
+          <Card top={30} bottom={100}>
+            <Form onSubmit={onSubmit}>
+              <InputText
+                label={"Email Address"}
+                value={form.email}
+                placeholder={"Enter your email address"}
+                required={true}
+                type={"email"}
+                onChange={(evt: any) =>
+                  setForm({ ...form, email: evt.target.value })
+                }
+              />
+              <LoadingButton
+                marginBottom={20}
+                type="submit"
+                disabled={isLoading}
+                isLoading={isLoading}
+                theme={"primary"}
+              >
+                RESET PASSWORD
+              </LoadingButton>
+            </Form>
+          </Card>
+        </Col>
+      </Row>
     </DefaultTemplate>
   );
 }

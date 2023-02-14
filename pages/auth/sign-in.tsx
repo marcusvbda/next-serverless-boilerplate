@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Col } from "@/styles/flex";
+import { Col, Row } from "@/styles/flex";
 import { Card, Form } from "@/styles/global";
 import LoadingButton from "@/components/form/LoadingButton";
 import DefaultTemplate from "@/components/templates/DefaultTemplate";
@@ -59,53 +59,69 @@ export default function Page(cx: any) {
 
   return (
     <DefaultTemplate title={"Login"}>
-      <Col size={12} sizeMd={6} paddingTop={50}>
-        <h1>Sign in</h1>
-        <span>
-          {"Don't "}have an account to sign in to?{" "}
-          <Link href="/auth/register">Register an account instead</Link>.
-        </span>
-        <Card top={30} bottom={100}>
-          <Form onSubmit={onSubmit} blocked={isLoading}>
-            <InputText
-              label={"Email Address"}
-              value={form.email}
-              required={true}
-              type={"email"}
-              onChange={(evt: any) =>
-                setForm({ ...form, email: evt.target.value })
-              }
-            />
-            <InputText
-              required={true}
-              minLength={6}
-              type={"password"}
-              label={"Password"}
-              value={form.password}
-              onChange={(evt: any) =>
-                setForm({ ...form, password: evt.target.value })
-              }
-            />
-            <InputSwitch
-              label={"Remember me"}
-              value={form.rememberMe}
-              onChange={() =>
-                setForm({ ...form, rememberMe: !form.rememberMe })
-              }
-            />
-            <LoadingButton
-              marginBottom={20}
-              type="submit"
-              disabled={isLoading}
-              isLoading={isLoading}
-              theme={"primary"}
-            >
-              SIGN IN
-            </LoadingButton>
-          </Form>
-          <Link href="/auth/reset-password">Forgot your password?</Link>
-        </Card>
-      </Col>
+      <Row alignX={"center"} alignY={"center"}>
+        <Col size={12} sizeMd={6} paddingTop={50}>
+          <h1>Sign in</h1>
+          <span>
+            {"Don't "}have an account to sign in to?{" "}
+            <Link href="/auth/register">Register an account instead</Link>.
+          </span>
+          <Card top={30} bottom={100}>
+            <Form onSubmit={onSubmit} blocked={isLoading}>
+              <Row>
+                <Col size={12}>
+                  <InputText
+                    label={"Email Address"}
+                    placeholder={"Enter your email address"}
+                    value={form.email}
+                    required={true}
+                    type={"email"}
+                    onChange={(evt: any) =>
+                      setForm({ ...form, email: evt.target.value })
+                    }
+                  />
+                </Col>
+              </Row>
+              <Row>
+                <Col size={12}>
+                  <InputText
+                    required={true}
+                    minLength={6}
+                    placeholder={"Enter your password"}
+                    type={"password"}
+                    label={"Password"}
+                    value={form.password}
+                    onChange={(evt: any) =>
+                      setForm({ ...form, password: evt.target.value })
+                    }
+                  />
+                  <InputSwitch
+                    label={"Remember me"}
+                    value={form.rememberMe}
+                    onChange={() =>
+                      setForm({ ...form, rememberMe: !form.rememberMe })
+                    }
+                  />
+                </Col>
+              </Row>
+              <Row>
+                <Col size={12}>
+                  <LoadingButton
+                    marginBottom={20}
+                    type="submit"
+                    disabled={isLoading}
+                    isLoading={isLoading}
+                    theme={"primary"}
+                  >
+                    SIGN IN
+                  </LoadingButton>
+                </Col>
+              </Row>
+            </Form>
+            <Link href="/auth/reset-password">Forgot your password?</Link>
+          </Card>
+        </Col>
+      </Row>
     </DefaultTemplate>
   );
 }

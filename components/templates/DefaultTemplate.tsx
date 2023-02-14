@@ -1,5 +1,4 @@
 import Head from "next/head";
-import { Row } from "@/styles/flex";
 import { Container, TopBar, TopRight } from "@/styles/global";
 import Image from "next/image";
 import { makeTitle } from "@/pages/_document";
@@ -30,9 +29,7 @@ export default function Template(props: IProps) {
             </Link>
             {props.rightComponent && <TopRight width={'150px'}>{props.rightComponent}</TopRight>}
           </TopBar>
-          <Row alignX={"center"} alignY={"center"}>
-            {props.children}
-          </Row>
+          {props.children}
         </Container>
       </main>
     </>

@@ -15,22 +15,24 @@ export default function Page(cx: any) {
 
   return (
     <DefaultTemplate title={"Landing Page"} rightComponent={btnLogin()}>
-      <Col size={12} sizeMd={6} paddingTop={50} >
-        <Row alignX="center">
-          <h1>Next SaaS Boilerplate</h1>
-          <span>
-            This is a boilerplate for saas applications using nextjs, typescript, mongodb, and more.
-          </span>
-        </Row>
-        <Row alignX="center" marginY={15}>
-          <Col size={12} sizeMd={6} paddingTop={10}>
-            {btnLogin()}
-          </Col>
-        </Row>
-        <Row alignX="center">
-          <Link href="/auth/register">Register</Link>
-        </Row>
-      </Col>
+      <Row alignX={"center"} alignY={"center"}>
+        <Col size={12} sizeMd={6} paddingTop={50} >
+          <Row alignX="center">
+            <h1>Next SaaS Boilerplate</h1>
+            <span>
+              This is a boilerplate for saas applications using nextjs, typescript, mongodb, and more.
+            </span>
+          </Row>
+          <Row alignX="center" marginY={15}>
+            <Col size={12} sizeMd={6} paddingTop={10}>
+              {btnLogin()}
+            </Col>
+          </Row>
+          <Row alignX="center">
+            <Link href="/auth/register">Register</Link>
+          </Row>
+        </Col>
+      </Row>
     </DefaultTemplate>
   );
 }
