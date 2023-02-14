@@ -22,7 +22,7 @@ export async function getServerSideProps(cx: any) {
 
 export default function Page(cx: any) {
   const { user } = cx;
-  const [progressValidation, setProgressValidation] = useState(5);
+  const [progressValidation, setProgressValidation] = useState(0);
   const [form, setForm] = useState({
     password: "",
     confirmPassword: "",
