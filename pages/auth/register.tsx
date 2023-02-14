@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { Col, Row } from "@/styles/flex";
-import { Card, ProgressBar } from "@/styles/global";
-import Button from "@/components/form/Button";
+import { Card, Form, ProgressBar } from "@/styles/global";
+import LoadingButton from "@/components/form/LoadingButton";
 import DefaultTemplate from "@/components/templates/DefaultTemplate";
 import InputText from "@/components/form/InputText";
 import { useState } from "react";
@@ -58,7 +58,7 @@ export default function Page() {
     return isValid;
   };
 
-  const onSubmit = (evt: any):void => {
+  const onSubmit = (evt: any): void => {
     evt.preventDefault();
     if (!isValidPassword()) {
       return;
@@ -89,7 +89,7 @@ export default function Page() {
           </Col>
         </Row>
         <Card top={30} bottom={100}>
-          <form onSubmit={onSubmit}>
+          <Form onSubmit={onSubmit}>
             <Row>
               <Col size={12} sizeMd={6}>
                 <InputText
@@ -145,7 +145,7 @@ export default function Page() {
                 setForm({ ...form, confirmPassword: evt.target.value })
               }
             />
-            <Button
+            <LoadingButton
               marginBottom={20}
               type="submit"
               disabled={isLoading}
@@ -153,8 +153,8 @@ export default function Page() {
               theme={"primary"}
             >
               REGISTER
-            </Button>
-          </form>
+            </LoadingButton>
+          </Form>
         </Card>
       </Col>
     </DefaultTemplate>

@@ -10,7 +10,7 @@ interface IProps {
   children: string;
 }
 
-export default function CustomButton(props: IProps) {
+export default function LoadingButton(props: IProps) {
   return (
     <Button
       marginBottom={props.marginBottom ?? 0}

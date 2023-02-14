@@ -3,8 +3,8 @@ interface IBreakpoints {
 }
 
 export const breakpoints: IBreakpoints = {
-    small: 600,
-    medium: 950,
+    small: 900,
+    medium: 1000,
     large: 1900,
 }
 
@@ -34,5 +34,11 @@ export const color: IColor = {
         primaryHover: "#4cc6bb",
         secondary: "#1F2733",
         overflow: "#0000009c",
+        borderColor: "rgba(255,255,255,0.1)",
+        hoverBorderColor: "rgba(255,255,255,0.3)",
+        done: "#3aa59b",
+        waiting: "#a9a92a",
+        inProgress: "#934ba1",
+        error: "#a5315b"
     }
 }

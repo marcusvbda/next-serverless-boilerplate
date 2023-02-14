@@ -1,11 +1,11 @@
 import Link from "next/link";
 import { Col } from "@/styles/flex";
-import { Card } from "@/styles/global";
-import Button from "@/components/form/Button";
+import { Card, Form } from "@/styles/global";
+import LoadingButton from "@/components/form/LoadingButton";
 import DefaultTemplate from "@/components/templates/DefaultTemplate";
 import InputText from "@/components/form/InputText";
 import { useState } from "react";
-import { success ,error } from "@/libs/alert";
+import { success, error } from "@/libs/alert";
 import Http from "@/libs/http";
 import Router from "next/router";
 
@@ -16,16 +16,16 @@ export default function Page() {
 
   const [isLoading, setIsLoading] = useState(false);
 
-  const onSubmit = (evt: any):void => {
+  const onSubmit = (evt: any): void => {
     evt.preventDefault();
     setIsLoading(true);
-    
+
     Http("post", "/api/auth/send-reset-password", form).then((data: any) => {
       if (!data.success && data.error) {
         error(data.error);
         return setIsLoading(false);
       }
-      if(data.message) {
+      if (data.message) {
         success(data.message);
       }
       Router.push("/auth/sign-in");
@@ -42,7 +42,7 @@ export default function Page() {
           <Link href="/auth/sign-in">sign in page</Link>.
         </span>
         <Card top={30} bottom={100}>
-          <form onSubmit={onSubmit}>
+          <Form onSubmit={onSubmit}>
             <InputText
               label={"Email Address"}
               value={form.email}
@@ -52,7 +52,7 @@ export default function Page() {
                 setForm({ ...form, email: evt.target.value })
               }
             />
-            <Button
+            <LoadingButton
               marginBottom={20}
               type="submit"
               disabled={isLoading}
@@ -60,8 +60,8 @@ export default function Page() {
               theme={"primary"}
             >
               RESET PASSWORD
-            </Button>
-          </form>
+            </LoadingButton>
+          </Form>
         </Card>
       </Col>
     </DefaultTemplate>

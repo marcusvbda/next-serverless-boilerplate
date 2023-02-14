@@ -1,8 +1,13 @@
 import { size, color } from "@/styles/variables";
 import { createGlobalStyle, css } from "styled-components";
 import styled from "styled-components";
+import { Row } from "@/styles/flex";
 
 export default createGlobalStyle`
+  html {
+    scroll-behavior: smooth;
+  }
+  
   @keyframes fade {
     0% { opacity: 0; }
     100% { opacity: 1; }
@@ -60,12 +65,19 @@ interface ICard {
 export const Card = styled.section<ICard>`
   display: flex;
   flex-direction: column;
-  margin-top: ${props => props.top ?? 0}px;
+  margin-top: ${props => props.top ?? 20}px;
   margin-bottom: ${props => props.bottom ?? 0}px;
   padding: 1.8rem;
   background-color: ${color.dark.secondary};
   position: relative;
+  width: 100%;
   border-radius:8px;
+
+  h4 {
+    font-weight: bold;
+    font-size: 1.1rem;
+    margin-bottom: 15px;
+  }
 `
 
 interface IOverflow {
@@ -98,26 +110,13 @@ export const InitialBall = styled.div`
   cursor: pointer;
 `
 
-export const ResponsiveCard = styled(Card)`
-  @media ${size.small} {
-    width: 100%;
-  }
-
-  @media ${size.medium} {
-    width: 30%;
-  }
-
-  @media ${size.large} {
-    width: 30%;
-  }
-`
-
 interface IInputSection {
-  type: string;
+  type?: string;
   cursor?: string;
 }
 
 export const InputSection = styled.section<IInputSection>`
+  width: 100%;
   display: flex;
   flex-direction: column;
   margin-bottom:17px;
@@ -130,10 +129,10 @@ export const InputSection = styled.section<IInputSection>`
   }
   
 
-  ${props => ['password', 'text', 'email'].includes(props.type) && css`
-    input[type=text],input[type=password],input[type=email]{
+  ${props => ['password', 'text', 'email'].includes(props?.type ?? 'text') && css`
+    input[type=text],input[type=password],input[type=email],select{
       background-color:transparent;
-      border:1px solid rgba(255,255,255,0.1);
+      border:1px solid ${color.dark.borderColor};
       height:40px;
       border-radius:8px;
       padding: 2px 20px;
@@ -141,12 +140,33 @@ export const InputSection = styled.section<IInputSection>`
       font-size:0.8rem;
 
       &:active,&:focus {
-        border:1px solid rgba(255,255,255,0.8);
+        border:1px solid ${color.dark.hoverBorderColor};
+      }
+      
+    }
+
+    select {
+      -webkit-appearance: none;
+      background: url("data:image/svg+xml,<svg height='10px' width='10px' viewBox='0 0 16 16' fill='${color.dark.light}' xmlns='http://www.w3.org/2000/svg'><path d='M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z'/></svg>") no-repeat;
+      background-position: calc(100% - 0.75rem) center !important;
+    }
+
+    textarea{
+      background-color:transparent;
+      border:1px solid ${color.dark.borderColor};
+      resize: none;
+      border-radius:8px;
+      padding: 15px 20px;
+      margin-bottom: 10px;
+      font-size:0.8rem;
+
+      &:active,&:focus {
+        border:1px solid ${color.dark.hoverBorderColor};
       }
     }
   `}  
 
-  ${props => ['checkbox'].includes(props.type) && css`
+  ${props => ['checkbox'].includes(props?.type ?? 'text') && css`
     input[type=checkbox]{
       display:none;
     }
@@ -277,10 +297,13 @@ export const LoadingSpinner = styled.div<ILoadingSpinner>`
 
 interface IForm {
   blocked?: boolean;
+  marginY?: string;
+  marginX?: string;
 }
 
 export const Form = styled.form<IForm>`
   position: relative;
+  margin: ${props => props.marginY ?? '0px'} ${props => props.marginX ?? '0px'} ${props => props.marginX ?? '0px'} ${props => props.marginX ?? '0px'}};
   z-index: 0;
   ${props => props.blocked && css`
     &:before {
@@ -350,5 +373,52 @@ export const CardItem = styled.button`
 
   &:hover {
     background-color: ${color.dark.background};
+  }
+`
+
+
+export const ItemList = styled(Row)`
+  margin-top: 20px;
+  h3 {
+    bolder;
+    margin-bottom: 10px;
+  }
+
+  p {
+    margin-bottom: 10px;
+  }
+
+  small {
+    color: ${color.dark.light};
+  }
+`
+
+interface IArrow {
+  direction: string;
+  size?: number;
+}
+
+export const Arrow = styled.div<IArrow>`
+  content: ' ';
+  margin: 0 10px;
+  width: ${props => props.size ?? 30}px;
+  height: ${props => props.size ?? 30}px;
+  background-size: cover!important;
+  transform: rotate(${props => props.direction == 'bottom' ? '0deg' : (props.direction == 'left' ? '90deg' : (props.direction == 'right' ? '270deg' : '180deg'))});
+  background: url("data:image/svg+xml,<svg height='10px' width='10px' viewBox='0 0 16 16' fill='${color.dark.light}' xmlns='http://www.w3.org/2000/svg'><path d='M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z'/></svg>") no-repeat;
+`
+
+interface IB {
+  color?: string;
+}
+
+export const B = styled.b<IB>`
+  color: ${props => props.color ?? color.dark.primary};
+`
+
+export const ShowOnlySmall = styled.div`
+  display: none;
+  @media ${size.small} {
+    display: block;
   }
 `

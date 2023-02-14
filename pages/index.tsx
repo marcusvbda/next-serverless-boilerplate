@@ -1,9 +1,9 @@
 import Link from "next/link";
 import { Col, Row } from "@/styles/flex";
 import DefaultTemplate from "@/components/templates/DefaultTemplate";
-import Button from "@/components/form/Button";
+import { Button } from "@/styles/global";
 
-export default function Page(cx:any) {
+export default function Page(cx: any) {
 
   const btnLogin = () => (
     <Link href="/auth/sign-in">

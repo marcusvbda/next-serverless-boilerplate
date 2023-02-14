@@ -1,6 +1,6 @@
 import { Col, Row } from "@/styles/flex";
-import { Card, ProgressBar } from "@/styles/global";
-import Button from "@/components/form/Button";
+import { Card, Form, ProgressBar } from "@/styles/global";
+import LoadingButton from "@/components/form/LoadingButton";
 import DefaultTemplate from "@/components/templates/DefaultTemplate";
 import InputText from "@/components/form/InputText";
 import { useState } from "react";
@@ -9,19 +9,19 @@ import Router from "next/router";
 import Http from "@/libs/http";
 
 export async function getServerSideProps(cx: any) {
-  const { rememberToken }  = cx.query
-  const data = await Http("get", `/api/auth/remember-password/${rememberToken}`); 
+  const { rememberToken } = cx.query
+  const data = await Http("get", `/api/auth/remember-password/${rememberToken}`);
 
-  if(data.success) {
+  if (data.success) {
     return {
-      props: {user:data.user}
+      props: { user: data.user }
     }
   }
-  return {notFound: true};
+  return { notFound: true };
 }
 
 export default function Page(cx: any) {
-  const { user }  = cx;
+  const { user } = cx;
   const [progressValidation, setProgressValidation] = useState(5);
   const [form, setForm] = useState({
     password: "",
@@ -37,7 +37,7 @@ export default function Page(cx: any) {
     (val: string) => /[!@#$%^&*(),.?":{}|<>]/.test(val),
   ];
 
-  const changePassword = (value: string):void => {
+  const changePassword = (value: string): void => {
     let progressVal = 0;
 
     passValidationRules.forEach((rule) => {
@@ -67,13 +67,13 @@ export default function Page(cx: any) {
     return isValid;
   };
 
-  const onSubmit = (evt: any):void => {
+  const onSubmit = (evt: any): void => {
     evt.preventDefault();
     if (!isValidPassword()) {
       return;
     }
     setIsLoading(true);
-    Http("post", "/api/auth/remember-password/change-password", {...form,userId :user._id}).then((data: any) => {
+    Http("post", "/api/auth/remember-password/change-password", { ...form, userId: user._id }).then((data: any) => {
       if (!data.success && data.error) {
         setIsLoading(false);
         error(data.error);
@@ -94,7 +94,7 @@ export default function Page(cx: any) {
           </Col>
         </Row>
         <Card top={30} bottom={100}>
-          <form onSubmit={onSubmit}>
+          <Form onSubmit={onSubmit}>
             <InputText
               required={true}
               minLength={6}
@@ -118,7 +118,7 @@ export default function Page(cx: any) {
                 setForm({ ...form, confirmPassword: evt.target.value })
               }
             />
-            <Button
+            <LoadingButton
               marginBottom={20}
               type="submit"
               disabled={isLoading}
@@ -126,7 +126,7 @@ export default function Page(cx: any) {
               theme={"primary"}
             >
               SET NEW PASSWORD
-            </Button>
+            </LoadingButton>
           </form>
         </Card>
       </Col>

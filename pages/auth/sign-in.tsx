@@ -1,23 +1,23 @@
 import Link from "next/link";
 import { Col } from "@/styles/flex";
 import { Card, Form } from "@/styles/global";
-import Button from "@/components/form/Button";
+import LoadingButton from "@/components/form/LoadingButton";
 import DefaultTemplate from "@/components/templates/DefaultTemplate";
 import InputText from "@/components/form/InputText";
 import InputSwitch from "@/components/form/InputSwitch";
 import { useEffect, useState } from "react";
-import { error, success} from "@/libs/alert";
+import { error, success } from "@/libs/alert";
 import Http from "@/libs/http";
 import Router from "next/router";
 import Auth from "@/libs/auth";
 import type { IConfig } from "@/libs/auth";
 
 export async function getServerSideProps(cx: any) {
-  const message  = cx.query?.message ?? "";
-  return {props: {message}};
+  const message = cx.query?.message ?? "";
+  return { props: { message } };
 }
-export default function Page(cx:any) {
-  const {message} = cx;
+export default function Page(cx: any) {
+  const { message } = cx;
 
   useEffect(() => {
     if (message) {
@@ -35,7 +35,7 @@ export default function Page(cx:any) {
 
   const [isLoading, setIsLoading] = useState(false);
 
-  const onSubmit = (evt: any):void => {
+  const onSubmit = (evt: any): void => {
     evt.preventDefault();
     setIsLoading(true);
 
@@ -45,12 +45,12 @@ export default function Page(cx:any) {
         return setIsLoading(false);
       }
 
-      const cookiePayload:IConfig = {};
+      const cookiePayload: IConfig = {};
       if (!form.rememberMe) {
         cookiePayload.maxAge = 60 * 60 * 24 * 1;
       }
-      
-      Auth.login(data.token, data.user,cookiePayload);
+
+      Auth.login(data.token, data.user, cookiePayload);
       const urlParams = new URLSearchParams(window.location.search);
       const redirectUrl = urlParams.get("continue") ?? "/admin";
       Router.push(redirectUrl);
@@ -93,7 +93,7 @@ export default function Page(cx:any) {
                 setForm({ ...form, rememberMe: !form.rememberMe })
               }
             />
-            <Button
+            <LoadingButton
               marginBottom={20}
               type="submit"
               disabled={isLoading}
@@ -101,7 +101,7 @@ export default function Page(cx:any) {
               theme={"primary"}
             >
               SIGN IN
-            </Button>
+            </LoadingButton>
           </Form>
           <Link href="/auth/reset-password">Forgot your password?</Link>
         </Card>

@@ -7,7 +7,7 @@ interface IProps {
   value: boolean;
 }
 
-export default function InputText(props: IProps) {
+export default function InputSwitch(props: IProps) {
   return (
     <InputSection type={"checkbox"} cursor={"pointer"}>
       <label data-checked={props.value}>

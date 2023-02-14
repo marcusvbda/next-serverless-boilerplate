@@ -1,13 +1,13 @@
 import Head from "next/head";
 import { Col, Row } from "@/styles/flex";
-import { ResponsiveCard, Container, InitialBall, TopBar, TopRight, CloseButton, CardItem } from "@/styles/global";
+import { Card, Container, InitialBall, TopBar, TopRight, CloseButton, CardItem } from "@/styles/global";
 import Image from "next/image";
 import styled from "styled-components";
 import { makeTitle } from "@/pages/_document";
 import Link from "next/link";
 import { color } from "@/styles/variables";
 import Auth from "@/libs/auth";
-import OverflowDialog from "../modal/overflowDialog";
+import OverflowDialog from "@/components/modal/overflowDialog";
 import { useEffect, useState } from "react";
 
 
@@ -32,12 +32,14 @@ const DropdownMenu = () => {
     <InitialBall onClick={() => setDropdownVisible(!dropdownVisible)}>{initials}</InitialBall>
     {dropdownVisible &&
       <OverflowDialog overflowClick={() => setDropdownVisible(false)}>
-        <ResponsiveCard>
-          <CloseButton onClick={() => setDropdownVisible(false)}>X</CloseButton>
-          <Link href='/auth/sign-in'>
-            <CardItem>Logoff</CardItem>
-          </Link>
-        </ResponsiveCard>
+        <Col size={4} sizeSm={12}>
+          <Card>
+            <CloseButton onClick={() => setDropdownVisible(false)}>X</CloseButton>
+            <Link href='/auth/sign-in'>
+              <CardItem>Logoff</CardItem>
+            </Link>
+          </Card>
+        </Col>
       </OverflowDialog>}
   </>;
 }
@@ -60,8 +62,8 @@ export default function Template(props: IProps) {
         <title>{makeTitle(props.title)}</title>
       </Head>
       <main>
-        <Container paddingX={'0px'} paddingY={'0px'} marginB={'300px'}>
-          <TopBarAdmin marginBottom={'50px'}>
+        <Container paddingX={'0px'} paddingY={'0px'}>
+          <TopBarAdmin>
             <Link href='/admin'>
               <Image
                 src="/logo-light.svg"
@@ -74,6 +76,8 @@ export default function Template(props: IProps) {
               <DropdownMenu />
             </TopRight>
           </TopBarAdmin>
+        </Container>
+        <Container paddingX={'1.5rem'} paddingY={'1.5rem'} marginB={'100px'}>
           <Col size={12}>
             <Row alignX={"center"} alignY={"center"}>
               {props.children}
