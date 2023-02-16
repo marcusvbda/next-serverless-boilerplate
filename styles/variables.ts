@@ -32,6 +32,8 @@ export const color: IColor = {
         backgroundDarkest: "#0F1117",
         primary: "#3aa59b",
         primaryHover: "#4cc6bb",
+        terthiary: "#0F1117",
+        terthiaryHover: "#2a3a4d",
         secondary: "#1F2733",
         overflow: "#0000009c",
         borderColor: "rgba(255,255,255,0.1)",
@@ -40,5 +42,28 @@ export const color: IColor = {
         waiting: "#a9a92a",
         inProgress: "#934ba1",
         error: "#a5315b"
+    }
+}
+
+interface IMessage {
+    [index: string]: {
+        [index: string]: any
+    }
+}
+
+export const messages: IMessage = {
+    dark: {
+        icons: {
+            error: "❌",
+            success: "✅",
+            warning: "⚠️",
+            info: "❕"
+        },
+        colors: {
+            error: ["#FFE7E6", "#ff5757"],
+            success: ["#E4F8F0", "#1ea97c"],
+            warning: ["#FFF2E2", "#cc8925"],
+            info: ["#e8e8e8", "#8f8f8f"],
+        }
     }
 }

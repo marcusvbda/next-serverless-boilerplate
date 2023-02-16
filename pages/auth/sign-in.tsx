@@ -6,7 +6,7 @@ import DefaultTemplate from "@/components/templates/DefaultTemplate";
 import InputText from "@/components/form/InputText";
 import InputSwitch from "@/components/form/InputSwitch";
 import { useEffect, useState } from "react";
-import { error, success } from "@/libs/alert";
+import { error, success } from "@/libs/message";
 import Http from "@/libs/http";
 import Router from "next/router";
 import Auth from "@/libs/auth";

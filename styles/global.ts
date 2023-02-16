@@ -85,11 +85,13 @@ export const Card = styled.section<ICard>`
 
 interface IOverflow {
   align?: string;
+  height?: number;
 }
 
 export const Overflow = styled.div<IOverflow>`
-    position: absolute;
+    position: fixed;
     background-color: ${color.dark.overflow};
+    min-height: ${props => props.height ?? 100}px;
     left: 0;
     right: 0;
     top: 0;

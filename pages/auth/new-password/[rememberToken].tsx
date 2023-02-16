@@ -4,7 +4,7 @@ import LoadingButton from "@/components/form/LoadingButton";
 import DefaultTemplate from "@/components/templates/DefaultTemplate";
 import InputText from "@/components/form/InputText";
 import { useState } from "react";
-import { error, success } from "@/libs/alert";
+import { error, success } from "@/libs/message";
 import Router from "next/router";
 import Http from "@/libs/http";
 

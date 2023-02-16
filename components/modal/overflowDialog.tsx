@@ -7,14 +7,21 @@ interface IProps {
 }
 
 export default function OverflowDialog(props: IProps) {
-    const [oldScroll, setOldScroll] = useState("");
+    const [height, setHeight] = useState(0);
 
     useEffect(() => {
-        setOldScroll(document.body.style.overflow);
-        document.body.style.overflow = 'hidden';
+        const html = document.querySelector('html');
+        if (html) {
+            html.style.overflow = "hidden";
+        }
+        const body = document.body;
+        setHeight(body.offsetHeight ?? 0);
 
         return () => {
-            document.body.style.overflow = oldScroll;
+            const html = document.querySelector('html');
+            if (html) {
+                html.style.overflow = '';
+            }
         }
     }, [])
 
@@ -24,7 +31,7 @@ export default function OverflowDialog(props: IProps) {
     }
 
     return (
-        <Overflow onClick={handleClick}>
+        <Overflow onClick={handleClick} height={height}>
             {props.children}
         </Overflow>
     );
