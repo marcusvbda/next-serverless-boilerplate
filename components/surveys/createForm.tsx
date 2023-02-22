@@ -6,15 +6,19 @@ import { Card, CloseButton, Form } from "@/styles/global";
 import { useState } from "react";
 import OverflowDialog from "@/components/modal/overflowDialog";
 import { confirm } from "@/libs/message";
+import WizardSteps from "@/components/modal/WizardSteps";
 
 export default function CreateForm() {
     const [isLoading, setIsLoading] = useState(false);
     const [dialogVisible, setDialogVisible] = useState(false);
 
-    const [form, setForm] = useState({
-        title: "LOREM IPSUM",
+    const initialFormValue = {
+        step: 0,
+        title: "teste",
         description: ""
-    });
+    }
+
+    const [form, setForm] = useState(initialFormValue);
 
     const onSubmit = (evt: any): void => {
         evt.preventDefault();
@@ -25,18 +29,80 @@ export default function CreateForm() {
         confirm("Confirmation", "Do you want to close the survey creating form ?", (clicked: boolean) => {
             if (clicked) {
                 setDialogVisible(false);
+                setForm(initialFormValue)
             }
         })
     }
+
+    const CreateFormStep0 = () => (
+        <Form onSubmit={() => setForm({ ...form, step: form.step + 1 })} marginY={'20px'}>
+            <Row>
+                <Col size={12}>
+                    <InputText
+                        key="title"
+                        label={"Title"}
+                        placeholder={'Type a short title'}
+                        value={form.title}
+                        required={true}
+                        type={"text"}
+                        onChange={(evt: any) =>
+                            setForm({ ...form, title: evt.target.value })
+                        }
+                    />
+                </Col>
+            </Row>
+            <Row>
+                <Col size={12}>
+                    <InputTextarea
+                        label={"Description"}
+                        placeholder={'Describe your survey'}
+                        value={form.description}
+                        onChange={(evt: any) =>
+                            setForm({ ...form, description: evt.target.value })
+                        }
+                    />
+                </Col>
+            </Row>
+            <Row>
+                <Col size={12}>
+                    <LoadingButton
+                        marginBottom={20}
+                        type="submit"
+                        disabled={isLoading}
+                        isLoading={isLoading}
+                        theme={"primary"}
+                    >
+                        Next step
+                    </LoadingButton>
+                </Col>
+            </Row>
+        </Form>
+    )
 
     const CreateDialog = () => {
         return (
             <>
                 {dialogVisible &&
                     <OverflowDialog overflowClick={() => dialogConfirmClose()}>
-                        <Col size={8} sizeSm={12}>
+                        <Col size={6} sizeSm={12}>
                             <Card>
                                 <CloseButton onClick={() => dialogConfirmClose()}>X</CloseButton>
+                                <Row>
+                                    <Col size={12}>
+                                        <h4>Creating a new survey</h4>
+                                    </Col>
+                                </Row>
+                                <Row>
+                                    <Col size={12}>
+                                        <WizardSteps step={form.step} onClick={(val) => setForm({ ...form, step: val })} items={[
+                                            { title: "Basic Info" },
+                                            { title: "Options" },
+                                            { title: "Invites" },
+                                            { title: "Conclusion" },
+                                        ]} />
+                                    </Col>
+                                </Row>
+                                {form.step === 0 && CreateFormStep0()}
                             </Card>
                         </Col>
                     </OverflowDialog>}
@@ -46,7 +112,7 @@ export default function CreateForm() {
 
     return (
         <>
-            <CreateDialog />
+            {CreateDialog()}
             <Card>
                 <Row>
                     <Col size={12}>
