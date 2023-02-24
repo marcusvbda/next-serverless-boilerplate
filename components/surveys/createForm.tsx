@@ -7,15 +7,17 @@ import { useState } from "react";
 import OverflowDialog from "@/components/modal/overflowDialog";
 import { confirm } from "@/libs/message";
 import WizardSteps from "@/components/modal/WizardSteps";
+import InputTags from "@/components/form/InputTags";
 
 export default function CreateForm() {
     const [isLoading, setIsLoading] = useState(false);
     const [dialogVisible, setDialogVisible] = useState(false);
 
     const initialFormValue = {
-        step: 0,
+        step: 1,
         title: "teste",
-        description: ""
+        description: "",
+        options: []
     }
 
     const [form, setForm] = useState(initialFormValue);
@@ -23,6 +25,11 @@ export default function CreateForm() {
     const onSubmit = (evt: any): void => {
         evt.preventDefault();
         setDialogVisible(true);
+    }
+
+    const nextStep = (evt: any) => {
+        evt.preventDefault();
+        setForm({ ...form, step: form.step + 1 })
     }
 
     const dialogConfirmClose = () => {
@@ -35,11 +42,10 @@ export default function CreateForm() {
     }
 
     const CreateFormStep0 = () => (
-        <Form onSubmit={() => setForm({ ...form, step: form.step + 1 })} marginY={'20px'}>
+        <Form onSubmit={nextStep} marginY={'20px'}>
             <Row>
                 <Col size={12}>
                     <InputText
-                        key="title"
                         label={"Title"}
                         placeholder={'Type a short title'}
                         value={form.title}
@@ -79,6 +85,35 @@ export default function CreateForm() {
         </Form>
     )
 
+    const CreateFormStep1 = () => (
+        <Form onSubmit={nextStep} marginY={'20px'}>
+            <Row>
+                <Col size={12}>
+                    <InputTags
+                        label={"Options"}
+                        value={form.options}
+                        unique={true}
+                        onChange={(val: any) => setForm({ ...form, options: val })}
+                    />
+                </Col>
+            </Row>
+            <Row>
+                <Col size={12}>
+                    <LoadingButton
+                        marginBottom={20}
+                        type="submit"
+                        opacity={form.options.length > 0 ? 1 : 0.2}
+                        disabled={isLoading || !form.options.length}
+                        isLoading={isLoading}
+                        theme={"primary"}
+                    >
+                        Next step
+                    </LoadingButton>
+                </Col>
+            </Row>
+        </Form >
+    )
+
     const CreateDialog = () => {
         return (
             <>
@@ -103,6 +138,7 @@ export default function CreateForm() {
                                     </Col>
                                 </Row>
                                 {form.step === 0 && CreateFormStep0()}
+                                {form.step === 1 && CreateFormStep1()}
                             </Card>
                         </Col>
                     </OverflowDialog>}

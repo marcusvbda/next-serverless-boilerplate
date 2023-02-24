@@ -118,13 +118,16 @@ export const InitialBall = styled.div`
 interface IInputSection {
   type?: string;
   cursor?: string;
+  width?: string;
+  mbSection?: string;
+  mbInput?: string;
 }
 
 export const InputSection = styled.section<IInputSection>`
-  width: 100%;
+  width: ${props => props.width ?? '100%'};
   display: flex;
   flex-direction: column;
-  margin-bottom:17px;
+  margin-bottom: ${props => props.mbSection ?? '17px'};
   
   label {
     font-weight: 600;
@@ -134,14 +137,14 @@ export const InputSection = styled.section<IInputSection>`
   }
   
 
-  ${props => ['password', 'text', 'email'].includes(props?.type ?? 'text') && css`
+  ${props => ['password', 'text', 'email'].includes(props?.type ?? 'text') && css<IInputSection>`
     input[type=text],input[type=password],input[type=email],select{
       background-color:transparent;
       border:1px solid ${color.dark.borderColor};
       height:40px;
       border-radius:8px;
       padding: 2px 20px;
-      margin-bottom: 10px;
+      margin-bottom: ${props => props.mbInput ?? '10px'};
       font-size:0.8rem;
 
       &:active,&:focus {
@@ -218,13 +221,19 @@ export const InputSection = styled.section<IInputSection>`
 interface IButton {
   marginBottom?: number;
   theme: string;
+  width?: string;
+  padding?: string;
+  height?: string;
+  opacity?: number;
 }
 
 export const Button = styled.button<IButton>`
-  width: 100%;
+  width: ${props => props.width ?? '100%'};
+  padding: ${props => props.padding ?? '0 20px'};
+  opacity: ${props => props.opacity ?? 1};
   border: none;
   font-size: .7rem;
-  height: 45px;
+  height: ${props => props.height ?? '45px'};
   border-radius: 8px;
   transition: .4s;
   margin-bottom: ${props => props.marginBottom ?? 0}px;

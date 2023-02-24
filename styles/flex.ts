@@ -10,6 +10,7 @@ interface IRow {
    borderBottom?: string;
    wrap?: string;
    padding?: string;
+   gap?: string
 }
 
 export const Row = styled.section<IRow>`
@@ -25,6 +26,8 @@ export const Row = styled.section<IRow>`
    margin-bottom: ${props => props.marginY ?? 0}px;
    border-bottom: ${props => props.borderBottom ?? 'none'};
    padding: ${props => props.padding ?? '0px'};
+   gap: ${props => props.gap ?? '0px'};
+   transition: all 0.3s ease-in-out;
 `;
 
 interface ICol {
