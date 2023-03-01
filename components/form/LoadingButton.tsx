@@ -9,11 +9,13 @@ interface IProps {
   theme?: string;
   children: string;
   opacity?: number;
+  onClick?: (evt: any) => void;
 }
 
 export default function LoadingButton(props: IProps) {
   return (
     <Button
+      onClick={(evt) => props.onClick ? props.onClick(evt) : false}
       marginBottom={props.marginBottom ?? 0}
       type={(props?.type ?? "button") as any}
       disabled={(props.disabled || props.isLoading) ?? false}

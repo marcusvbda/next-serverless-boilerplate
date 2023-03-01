@@ -5,7 +5,7 @@ import { Col, Row } from "@/styles/flex";
 import { Card, CloseButton, Form } from "@/styles/global";
 import { useState } from "react";
 import OverflowDialog from "@/components/modal/overflowDialog";
-import { confirm } from "@/libs/message";
+import { confirm, error, success } from "@/libs/message";
 import WizardSteps from "@/components/modal/WizardSteps";
 import InputTags from "@/components/form/InputTags";
 
@@ -15,8 +15,9 @@ export default function CreateForm() {
 
     const initialFormValue = {
         step: 1,
-        title: "teste",
+        title: "",
         description: "",
+        voters: [],
         options: []
     }
 
@@ -39,6 +40,26 @@ export default function CreateForm() {
                 setForm(initialFormValue)
             }
         })
+    }
+
+    const isEmail = (email: string): boolean => {
+        const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        const result = re.test(String(email).toLowerCase());
+        if (!result) {
+            error("Invalid email address!");
+        }
+        return result;
+    }
+
+    const onSubmitStore = (evt: any) => {
+        evt.preventDefault();
+        setIsLoading(true);
+        setTimeout(() => {
+            setIsLoading(false);
+            setDialogVisible(false);
+            setForm(initialFormValue)
+            success("Poll created successfully!");
+        }, 2000);
     }
 
     const CreateFormStep0 = () => (
@@ -90,14 +111,16 @@ export default function CreateForm() {
             <Row>
                 <Col size={12}>
                     <InputTags
+                        newBtnText={"Add option"}
                         label={"Options"}
+                        description={"Type the options and press enter to add"}
                         value={form.options}
                         unique={true}
                         onChange={(val: any) => setForm({ ...form, options: val })}
                     />
                 </Col>
             </Row>
-            <Row>
+            <Row style={{ marginTop: 15 }}>
                 <Col size={12}>
                     <LoadingButton
                         marginBottom={20}
@@ -114,6 +137,64 @@ export default function CreateForm() {
         </Form >
     )
 
+    const CreateFormStep2 = () => (
+        <Form onSubmit={nextStep} marginY={'20px'}>
+            <Row>
+                <Col size={12}>
+                    <InputTags
+                        newBtnText={"Add guest voter"}
+                        label={"Guest voters"}
+                        description={"Type the emails and press enter to add"}
+                        value={form.voters}
+                        inputValidator={(val: string) => isEmail(val)}
+                        unique={true}
+                        onChange={(val: any) => setForm({ ...form, voters: val })}
+                    />
+                </Col>
+            </Row>
+            <Row style={{ marginTop: 15 }}>
+                <Col size={12}>
+                    <LoadingButton
+                        marginBottom={20}
+                        type="submit"
+                        opacity={form.voters.length > 0 ? 1 : 0.2}
+                        disabled={isLoading || !form.voters.length}
+                        isLoading={isLoading}
+                        theme={"primary"}
+                    >
+                        Next step
+                    </LoadingButton>
+                </Col>
+            </Row>
+        </Form >
+    )
+
+    const SubmitingFormReview = () => (
+        <>
+            <Row marginY={15}>
+                <Col size={12}>
+                    <h4>Review the informations before finish</h4>
+                    {form.title && <p><b style={{ marginRight: 5 }}>Title :</b> {form.title}</p>}
+                    {form.description && <p><b style={{ marginRight: 5 }}>Description :</b> {form.description}</p>}
+                    {form.options && <p><b style={{ marginRight: 5 }}>Options :</b> {form.options.length} option{form.options.length > 1 ? 's' : ''}</p>}
+                    {form.voters && <p><b style={{ marginRight: 5 }}>Voter :</b> {form.voters.length} guest voter{form.voters.length > 1 ? 's' : ''}</p>}
+                </Col>
+            </Row>
+            <Row style={{ marginTop: 15 }}>
+                <Col size={12}>
+                    <LoadingButton
+                        marginBottom={20}
+                        onClick={onSubmitStore}
+                        isLoading={isLoading}
+                        theme={"primary"}
+                    >
+                        Create poll
+                    </LoadingButton>
+                </Col>
+            </Row>
+        </>
+    )
+
     const CreateDialog = () => {
         return (
             <>
@@ -124,7 +205,7 @@ export default function CreateForm() {
                                 <CloseButton onClick={() => dialogConfirmClose()}>X</CloseButton>
                                 <Row>
                                     <Col size={12}>
-                                        <h4>Creating a new survey</h4>
+                                        <h4>Creating a new poll</h4>
                                     </Col>
                                 </Row>
                                 <Row>
@@ -139,6 +220,8 @@ export default function CreateForm() {
                                 </Row>
                                 {form.step === 0 && CreateFormStep0()}
                                 {form.step === 1 && CreateFormStep1()}
+                                {form.step === 2 && CreateFormStep2()}
+                                {form.step === 3 && SubmitingFormReview()}
                             </Card>
                         </Col>
                     </OverflowDialog>}
@@ -152,9 +235,9 @@ export default function CreateForm() {
             <Card>
                 <Row>
                     <Col size={12}>
-                        <h4>Fill the form bellow to create a new survey</h4>
+                        <h4>Fill the form bellow to create a new poll</h4>
                         <span>
-                            First thing first, you need to tell us what is the title and the description of your survey and then you will be able to add questions to it.
+                            First thing first, you need to tell us what is the title and the description of your poll and then you will be able to add questions to it.
                         </span>
                     </Col>
                 </Row>
@@ -177,7 +260,7 @@ export default function CreateForm() {
                         <Col size={12}>
                             <InputTextarea
                                 label={"Description"}
-                                placeholder={'Describe your survey'}
+                                placeholder={'Describe your poll'}
                                 value={form.description}
                                 onChange={(evt: any) =>
                                     setForm({ ...form, description: evt.target.value })
@@ -194,7 +277,7 @@ export default function CreateForm() {
                                 isLoading={isLoading}
                                 theme={"primary"}
                             >
-                                ADD SURVEY
+                                ADD POLL
                             </LoadingButton>
                         </Col>
                     </Row>

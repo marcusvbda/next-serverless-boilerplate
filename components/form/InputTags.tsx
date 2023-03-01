@@ -11,7 +11,11 @@ interface IProps {
   type?: string;
   value: any[],
   unique?: boolean,
+  width?: string;
   onChange: any;
+  description?: string;
+  newBtnText: string;
+  inputValidator?: (value: string) => boolean;
 }
 
 const Tag = styled.div`
@@ -49,7 +53,15 @@ export default function InputTags(props: IProps) {
     evt.preventDefault && evt.preventDefault();
     evt.stopPropagation && evt.stopPropagation();
 
-    if (!addingValue) return;
+    if (!addingValue) {
+      setAddingValue("");
+      setAdding(false);
+      return;
+    }
+
+    const validator = props.inputValidator ?? (() => true);
+
+    if (!validator(addingValue)) return;
 
     if (props.unique && values.includes(addingValue)) {
       return error('This value already exists');
@@ -69,6 +81,7 @@ export default function InputTags(props: IProps) {
   return (
     <InputSection type={type}>
       {props.label && <label>{props.label}</label>}
+      {props.description && <small style={{ marginBottom: 15 }}>{props.description}</small>}
       <Row gap={'15px'} alignY={'center'}>
         {values.map((value, index) => (
           <Tag key={index}>
@@ -76,8 +89,8 @@ export default function InputTags(props: IProps) {
             <CloseButton type="button" onClick={() => setValues(values.filter((_, i) => i !== index))}>X</CloseButton>
           </Tag>
         ))}
-        {!adding && <Button type="button" width={'30%'} height={'40px'} onClick={() => setAdding(true)}>
-          + New option
+        {!adding && <Button autoFocus={true} type="button" width={props.width || '30%'} height={'40px'} onClick={() => setAdding(true)}>
+          + {props.newBtnText}
         </Button>}
         {adding &&
           <InputText
@@ -85,7 +98,7 @@ export default function InputTags(props: IProps) {
             value={addingValue}
             required={true}
             type={"text"}
-            width={'30%'}
+            width={props.width || '30%'}
             autofocus={true}
             mbSection={'0'}
             mbInput={'0'}

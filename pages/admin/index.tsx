@@ -20,14 +20,14 @@ export default function Page() {
           <Row alignX={"center"} direction={"column"} alignY={'center'}>
             <h1>Hello, {firstName} !</h1>
             <span>
-              Click the button below to manage your created surveys.
+              Click the button below to manage your created polls.
             </span>
           </Row>
           <Row alignX="center">
             <Col size={12} sizeMd={4} paddingTop={20} >
-              <Link href="/admin/surveys">
+              <Link href="/admin/polls">
                 <Button theme={"primary"}>
-                  Manage surveys
+                  Manage polls
                 </Button>
               </Link>
             </Col>
