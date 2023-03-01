@@ -8,10 +8,14 @@ import OverflowDialog from "@/components/modal/overflowDialog";
 import { confirm, error, success } from "@/libs/message";
 import WizardSteps from "@/components/modal/WizardSteps";
 import InputTags from "@/components/form/InputTags";
-import LineLabelValue from "../form/LineLabelValue";
+import LineLabelValue from "@/components/form/LineLabelValue";
 import Http from "@/libs/http";
 
-export default function CreateForm() {
+interface IProps {
+    onCreated?: () => void;
+}
+
+export default function CreateForm(props: IProps) {
     const [isLoading, setIsLoading] = useState(false);
     const [dialogVisible, setDialogVisible] = useState(false);
 
@@ -63,6 +67,7 @@ export default function CreateForm() {
                 setDialogVisible(false);
                 setForm(initialFormValue)
                 success(data.message);
+                props.onCreated && props.onCreated();
             }
             setIsLoading(false);
         });

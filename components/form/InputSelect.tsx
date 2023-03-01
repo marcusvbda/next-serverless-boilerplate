@@ -9,12 +9,13 @@ interface IProps {
     maxlength?: number;
     children?: any;
     options: { value: string | number, label: string }[];
+    mb?: string;
 }
 
 export default function InputSelect(props: IProps) {
 
     return (
-        <InputSection>
+        <InputSection mbSection={props.mb || '17px'} mbInput={props.mb || '10px'}>
             {props.label && <label>{props.label}</label>}
             <select
                 value={props.value ?? ""}

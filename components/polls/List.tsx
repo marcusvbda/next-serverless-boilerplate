@@ -1,30 +1,72 @@
 import { Col, Row } from "@/styles/flex";
 import { Button, Card, ShowOnlySmall } from "@/styles/global";
 import InputSelect from "@/components/form/InputSelect";
-import InputText from "../form/InputText";
-import { color } from "@/styles/variables";
+import InputText from "@/components/form/InputText";
 import ListItem from "./ListItem";
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import Http from "@/libs/http";
+import Paginator from "@/components/form/Paginator";
 
-export default function List() {
+interface IProps {
+    listRef: any;
+}
+
+export default function List(props: IProps) {
+    const [isLoading, setIsLoading] = useState(true);
+    const [page, setPage] = useState(1);
+    const [perPage, setPerPage] = useState(5);
+    const [intervalId, setIntervalId] = useState<any>();
+    const [list, setList] = useState<any>([]);
     const [search, setSearch] = useState('');
     const [status, setStatus] = useState('ALL');
-    const [orderBy, setOrderBy] = useState('MR');
+    const [orderBy, setOrderBy] = useState('desc');
+    const [lastPage, setLastPage] = useState(0);
+    const [isFirstLoad, setIsFirstLoad] = useState(true);
 
-    const NoRecordsFound = () => {
+
+    const NoRecordsFound = (props: any) => {
         return (
             <Row alignX={'center'} alignY={'center'} padding={'80px 0'}>
-                <span>No records found ...</span>
+                <span>{props.isLoading ? 'Loading ...' : 'No records found ...'}</span>
             </Row>
         )
     }
 
-    const listExample: any[] = [
-        // { title: 'lorem ipsum', description: 'lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum', status: 'DO', qtyVotes: 1235 },
-        // { title: 'lorem ipsum', description: 'lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum', status: 'IP', qtyVotes: 4455 },
-        // { title: 'lorem ipsum', description: 'lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum', status: 'WA', qtyVotes: 1 },
-    ]
+    const refreshList = () => {
+        setIsLoading(true);
+        setPage(1);
+        setList([]);
+        Http("get", "/api/poll/get", { page, per_page: perPage, orderBy, status, search }).then((resp: any) => {
+            setList(resp.data);
+            setLastPage(resp.lastPage);
+            setIsLoading(false);
+        });
+    }
+
+    useEffect(() => {
+        if (isFirstLoad) return setIsFirstLoad(false);
+
+        clearTimeout(intervalId)
+
+        const newInterval = setTimeout(() => {
+            refreshList()
+        }, 800)
+
+        setIntervalId(newInterval)
+
+        return () => clearTimeout(intervalId);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [search]);
+
+    useEffect(() => {
+        refreshList();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [page, perPage, orderBy, status]);
+
+    useEffect(() => {
+        props.listRef && (props.listRef.current = { refresh: refreshList });
+    });
 
     return (
         <>
@@ -43,8 +85,8 @@ export default function List() {
                             value={orderBy}
                             onChange={(e: any) => setOrderBy(e.target.value)}
                             options={[
-                                { value: 'MR', label: 'Most recent' },
-                                { value: 'O', label: 'Older' },
+                                { value: 'desc', label: 'Most recent' },
+                                { value: 'asc', label: 'Oldest first' },
                             ]}
                         />
                     </Col>
@@ -65,14 +107,35 @@ export default function List() {
                         <InputText
                             label={'Title or description'}
                             placeholder={'Search ...'}
-                            value={''}
+                            value={search}
                             onChange={(e: any) => setSearch(e.target.value)}
                         />
                     </Col>
                 </Row>
-                {!listExample.length ? <NoRecordsFound /> : listExample.map((item, index) => (
-                    <ListItem key={index} {...item} />
+                {!list.length || isLoading ? <NoRecordsFound isLoading={isLoading} /> : list.map((item: any) => (
+                    <ListItem key={item._id} {...item} />
                 ))}
+                {(list.length > 1 && lastPage > 1) && (
+                    <Row mt={50} style={{ alignItems: "flex-end" }}>
+                        <Col size={3} sizeSm={12}>
+                            <InputSelect
+                                label={'Items Per Page'}
+                                value={String(perPage)}
+                                onChange={(e: any) => setPerPage(e.target.value)}
+                                mb="0"
+                                options={[
+                                    { value: "5", label: '5 Polls' },
+                                    { value: "20", label: '20 Polls' },
+                                    { value: "50", label: '50 Polls' },
+                                    { value: "100", label: '100 Polls' },
+                                ]}
+                            />
+                        </Col>
+                        <Col size={9} sizeSm={12}>
+                            <Paginator currentPage={page} lastPage={lastPage} onChangePage={setPage} />
+                        </Col>
+                    </Row>
+                )}
             </Card>
         </>
     )

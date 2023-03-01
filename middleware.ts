@@ -20,6 +20,9 @@ const protectedRoutes: protectedRoutesInterface = {
     "/admin/*": [
         authMiddleware
     ],
+    "/api/poll/*": [
+        authMiddleware
+    ],
 }
 
 const makePossibleRouteIndex = (pathName: string) => {

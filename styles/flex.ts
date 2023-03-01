@@ -40,11 +40,13 @@ interface ICol {
    direction?: string;
    paddingSm?: number;
    smOrder?: number;
+   display?: string;
 }
 
 export const Col = styled.div<ICol>`
    width: ${props => 100 * props.size / 12}%;
    padding-top: ${props => props.paddingTop ?? 0}px;
+   display: ${props => props.display ?? 'block'};
    padding-left : 10px;
    padding-right : 10px;
    display: flex;
