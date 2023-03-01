@@ -8,6 +8,8 @@ import OverflowDialog from "@/components/modal/overflowDialog";
 import { confirm, error, success } from "@/libs/message";
 import WizardSteps from "@/components/modal/WizardSteps";
 import InputTags from "@/components/form/InputTags";
+import LineLabelValue from "../form/LineLabelValue";
+import Http from "@/libs/http";
 
 export default function CreateForm() {
     const [isLoading, setIsLoading] = useState(false);
@@ -54,12 +56,16 @@ export default function CreateForm() {
     const onSubmitStore = (evt: any) => {
         evt.preventDefault();
         setIsLoading(true);
-        setTimeout(() => {
+        Http("post", "/api/poll/store", form).then((data: any) => {
+            if (!data.success && data.error) {
+                error(data.error);
+            } else if (data.success && data.message) {
+                setDialogVisible(false);
+                setForm(initialFormValue)
+                success(data.message);
+            }
             setIsLoading(false);
-            setDialogVisible(false);
-            setForm(initialFormValue)
-            success("Poll created successfully!");
-        }, 2000);
+        });
     }
 
     const CreateFormStep0 = () => (
@@ -120,7 +126,7 @@ export default function CreateForm() {
                     />
                 </Col>
             </Row>
-            <Row style={{ marginTop: 15 }}>
+            <Row mt={15}>
                 <Col size={12}>
                     <LoadingButton
                         marginBottom={20}
@@ -152,7 +158,7 @@ export default function CreateForm() {
                     />
                 </Col>
             </Row>
-            <Row style={{ marginTop: 15 }}>
+            <Row mt={15}>
                 <Col size={12}>
                     <LoadingButton
                         marginBottom={20}
@@ -174,10 +180,10 @@ export default function CreateForm() {
             <Row marginY={15}>
                 <Col size={12}>
                     <h4>Review the informations before finish</h4>
-                    {form.title && <p><b style={{ marginRight: 5 }}>Title :</b> {form.title}</p>}
-                    {form.description && <p><b style={{ marginRight: 5 }}>Description :</b> {form.description}</p>}
-                    {form.options && <p><b style={{ marginRight: 5 }}>Options :</b> {form.options.length} option{form.options.length > 1 ? 's' : ''}</p>}
-                    {form.voters && <p><b style={{ marginRight: 5 }}>Voter :</b> {form.voters.length} guest voter{form.voters.length > 1 ? 's' : ''}</p>}
+                    <LineLabelValue label="Title" value={form.title} />
+                    {form.description && <LineLabelValue label="Description" value={form.description} />}
+                    <LineLabelValue label="Options" value={`${form.options.length} option${form.options.length > 1 ? 's' : ''}`} />
+                    <LineLabelValue label="Voter" value={`${form.voters.length} option${form.voters.length > 1 ? 's' : ''}`} />
                 </Col>
             </Row>
             <Row style={{ marginTop: 15 }}>

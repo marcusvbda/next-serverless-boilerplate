@@ -7,6 +7,7 @@ export interface middlewareResponseInterface {
     redirect?: string,
     message?: string,
     statusCode?: number,
+    user?: any
 }
 
 interface protectedRoutesInterface {

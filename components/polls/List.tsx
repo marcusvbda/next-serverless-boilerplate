@@ -21,9 +21,9 @@ export default function List() {
     }
 
     const listExample: any[] = [
-        { title: 'lorem ipsum', description: 'lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum', status: 'DO', qtyVotes: 1235 },
-        { title: 'lorem ipsum', description: 'lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum', status: 'IP', qtyVotes: 4455 },
-        { title: 'lorem ipsum', description: 'lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum', status: 'WA', qtyVotes: 1 },
+        // { title: 'lorem ipsum', description: 'lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum', status: 'DO', qtyVotes: 1235 },
+        // { title: 'lorem ipsum', description: 'lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum', status: 'IP', qtyVotes: 4455 },
+        // { title: 'lorem ipsum', description: 'lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum', status: 'WA', qtyVotes: 1 },
     ]
 
     return (

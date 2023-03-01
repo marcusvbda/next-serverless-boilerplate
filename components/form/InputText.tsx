@@ -16,13 +16,14 @@ interface IProps {
   mbInput?: string;
   onBlur?: any;
   onKeyDown?: any;
+  block?: boolean;
 }
 
 export default function InputText(props: IProps) {
   const type = props.type ?? "text";
 
   return (
-    <InputSection type={type} width={props.width ?? '100%'} mbSection={props.mbSection}>
+    <InputSection block={props.block || false} type={type} width={props.width ?? '100%'} mbSection={props.mbSection}>
       {props.label && <label>{props.label}</label>}
       <input
         type={type}

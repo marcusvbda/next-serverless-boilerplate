@@ -121,6 +121,7 @@ interface IInputSection {
   width?: string;
   mbSection?: string;
   mbInput?: string;
+  block?: boolean;
 }
 
 export const InputSection = styled.section<IInputSection>`
@@ -135,8 +136,11 @@ export const InputSection = styled.section<IInputSection>`
     font-size: 0.9em;
     cursor: ${props => props.cursor ?? 'default'};
   }
-  
 
+  @media ${size.small} {
+    width: 100%!important;
+  }
+  
   ${props => ['password', 'text', 'email'].includes(props?.type ?? 'text') && css<IInputSection>`
     input[type=text],input[type=password],input[type=email],select{
       background-color:transparent;

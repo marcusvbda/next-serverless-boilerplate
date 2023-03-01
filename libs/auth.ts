@@ -18,6 +18,8 @@ const login = (token: string, user: any, config: IConfig = {}): void => {
 
 const user = (): any => JSON.parse(check() ? getCookie("user") as any : "{}");
 
-const auth = { check, user, logout, login };
+const getToken = (): string => check() ? getCookie("jwtToken") as any : "";
+
+const auth = { getToken, check, user, logout, login };
 
 export default auth;

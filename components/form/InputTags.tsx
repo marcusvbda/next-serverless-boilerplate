@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import InputText from "./InputText";
 import { error } from "@/libs/message";
 import { color } from "@/styles/variables";
+import { size } from "@/styles/variables";
 
 interface IProps {
   label?: string;
@@ -40,6 +41,12 @@ const CloseButton = styled.button`
   transition: opacity 0.2s ease-in-out;
   &:hover {
     opacity: 1;
+  }
+`;
+
+const ButtonResponsive = styled(Button)`
+  @media ${size.small} {
+    width: 100%!important;
   }
 `;
 
@@ -89,11 +96,12 @@ export default function InputTags(props: IProps) {
             <CloseButton type="button" onClick={() => setValues(values.filter((_, i) => i !== index))}>X</CloseButton>
           </Tag>
         ))}
-        {!adding && <Button autoFocus={true} type="button" width={props.width || '30%'} height={'40px'} onClick={() => setAdding(true)}>
+        {!adding && <ButtonResponsive autoFocus={true} type="button" width={props.width || '30%'} height={'40px'} onClick={() => setAdding(true)}>
           + {props.newBtnText}
-        </Button>}
+        </ButtonResponsive>}
         {adding &&
           <InputText
+            block={true}
             placeholder={'Type a short title'}
             value={addingValue}
             required={true}
