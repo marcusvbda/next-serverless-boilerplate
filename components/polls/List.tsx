@@ -12,6 +12,18 @@ interface IProps {
     listRef: any;
 }
 
+const getParameterByName = (name: string) => {
+    if (typeof window !== 'undefined') {
+        const url = window.location.href;
+        name = name.replace(/[\[\]]/g, '\\$&');
+        var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
+            results = regex.exec(url);
+        if (!results) return null;
+        if (!results[2]) return '';
+        return decodeURIComponent(results[2].replace(/\+/g, ' '));
+    }
+}
+
 export default function List(props: IProps) {
     const [isLoading, setIsLoading] = useState(true);
     const [page, setPage] = useState(1);
@@ -23,7 +35,6 @@ export default function List(props: IProps) {
     const [orderBy, setOrderBy] = useState('desc');
     const [lastPage, setLastPage] = useState(0);
     const [isFirstLoad, setIsFirstLoad] = useState(true);
-
 
     const NoRecordsFound = (props: any) => {
         return (
@@ -60,6 +71,7 @@ export default function List(props: IProps) {
     }, [search]);
 
     useEffect(() => {
+        if (isFirstLoad) return setIsFirstLoad(false);
         refreshList(page);
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [page]);
