@@ -24,12 +24,15 @@ const createEmail = (): any => {
 }
 
 const send = (template: string, message: any, locals: any = {}): any => {
-    const templateDir = resolve(process.cwd(), "emails") + `/${template}`;
-    const email = createEmail();
-    return email.send({
-        template: templateDir,
-        message,
-        locals
+    return new Promise((resolvePromise) => {
+        const templateDir = resolve(process.cwd(), "emails") + `/${template}`;
+        const email = createEmail();
+        const result = email.send({
+            template: templateDir,
+            message,
+            locals
+        });
+        resolvePromise(result);
     });
 }
 

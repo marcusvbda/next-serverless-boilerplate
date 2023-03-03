@@ -12,18 +12,6 @@ interface IProps {
     listRef: any;
 }
 
-const getParameterByName = (name: string) => {
-    if (typeof window !== 'undefined') {
-        const url = window.location.href;
-        name = name.replace(/[\[\]]/g, '\\$&');
-        var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
-            results = regex.exec(url);
-        if (!results) return null;
-        if (!results[2]) return '';
-        return decodeURIComponent(results[2].replace(/\+/g, ' '));
-    }
-}
-
 export default function List(props: IProps) {
     const [isLoading, setIsLoading] = useState(true);
     const [page, setPage] = useState(1);
@@ -48,7 +36,7 @@ export default function List(props: IProps) {
         setIsLoading(true);
         setPage(pageNumber);
         setList([]);
-        Http("get", "/api/poll/get", { page, per_page: perPage, orderBy, status, search }).then((resp: any) => {
+        Http("get", "/api/poll/authenticated/get", { page, per_page: perPage, orderBy, status, search }).then((resp: any) => {
             setList(resp.data);
             setLastPage(resp.lastPage);
             setIsLoading(false);

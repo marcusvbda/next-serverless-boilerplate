@@ -72,7 +72,6 @@ export default function Page(cx: any) {
                 <Col size={12}>
                   <InputText
                     label={"Email Address"}
-                    placeholder={"Enter your email address"}
                     value={form.email}
                     required={true}
                     type={"email"}
@@ -87,7 +86,6 @@ export default function Page(cx: any) {
                   <InputText
                     required={true}
                     minLength={6}
-                    placeholder={"Enter your password"}
                     type={"password"}
                     label={"Password"}
                     value={form.password}

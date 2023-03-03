@@ -20,7 +20,7 @@ const protectedRoutes: protectedRoutesInterface = {
     "/admin/*": [
         authMiddleware
     ],
-    "/api/poll/*": [
+    "/api/poll/authenticated/*": [
         authMiddleware
     ],
 }

@@ -8,9 +8,12 @@ interface IProps {
   title: string;
   children: any;
   rightComponent?: any;
+  showTopbar?: boolean;
 }
 
 export default function Template(props: IProps) {
+  const showTopbar = props.showTopbar === undefined ? true : props.showTopbar;
+
   return (
     <>
       <Head>
@@ -18,17 +21,19 @@ export default function Template(props: IProps) {
       </Head>
       <main>
         <Container paddingX={'1.5rem'} paddingY={'1.5rem'}>
-          <TopBar >
-            <Link href='/'>
-              <Image
-                src="/logo-light.svg"
-                alt="Picture of the author"
-                width={48}
-                height={48}
-              />
-            </Link>
-            {props.rightComponent && <TopRight width={'150px'}>{props.rightComponent}</TopRight>}
-          </TopBar>
+          {showTopbar &&
+            <TopBar >
+              <Link href='/'>
+                <Image
+                  src="/logo-light.svg"
+                  alt="Picture of the author"
+                  width={48}
+                  height={48}
+                />
+              </Link>
+              {props.rightComponent && <TopRight width={'150px'}>{props.rightComponent}</TopRight>}
+            </TopBar>
+          }
           {props.children}
         </Container>
       </main>

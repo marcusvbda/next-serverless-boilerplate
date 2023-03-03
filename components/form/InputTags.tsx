@@ -20,18 +20,19 @@ interface IProps {
 }
 
 const Tag = styled.div`
-  border: 1px solid ${({ theme }) => color.dark.borderColor}};
+  border: 1px solid ${color.dark.borderColor};
   border-radius: 10px;
   padding: 3px 8px 3px 20px;
   display: flex;
   align-items: center;
+  font-size: 12px;
 `;
 
 const CloseButton = styled.button`
   width: 12px;
   height: 12px;
   border: unset;
-  color: ${({ theme }) => color.dark.backgroundDarkest}};
+  color: ${color.dark.backgroundDarkest};
   background-color: white;
   border-radius: 100%;
   margin-left: 8px;

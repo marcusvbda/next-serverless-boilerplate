@@ -60,7 +60,7 @@ export default function CreateForm(props: IProps) {
     const onSubmitStore = (evt: any) => {
         evt.preventDefault();
         setIsLoading(true);
-        Http("post", "/api/poll/store", form).then((data: any) => {
+        Http("post", "/api/poll/authenticated/store", form).then((data: any) => {
             if (!data.success && data.error) {
                 error(data.error);
             } else if (data.success && data.message) {
@@ -247,9 +247,9 @@ export default function CreateForm(props: IProps) {
                 <Row>
                     <Col size={12}>
                         <h4>Fill the form bellow to create a new poll</h4>
-                        <span>
+                        <small>
                             First thing first, you need to tell us what is the title and the description of your poll and then you will be able to add questions to it.
-                        </span>
+                        </small>
                     </Col>
                 </Row>
                 <Form onSubmit={onSubmit} blocked={isLoading} marginY={'50px'}>
@@ -285,7 +285,6 @@ export default function CreateForm(props: IProps) {
                                 marginBottom={20}
                                 type="submit"
                                 disabled={isLoading}
-                                isLoading={isLoading}
                                 theme={"primary"}
                             >
                                 ADD POLL

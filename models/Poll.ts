@@ -10,7 +10,10 @@ const pollSchema = new Schema({
         type: String,
     },
     options: [String],
-    voters: [String],
+    voters: {
+        type: Object,
+        required: true
+    },
     createdAt: {
         type: Date,
         default: null

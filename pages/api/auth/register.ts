@@ -29,7 +29,7 @@ const handler = async (req: any, res: NextApiResponse<any>) => {
     Email.send("auth/confirm-register", { to: savedUser.email }, {
       name: savedUser.firstname,
       link
-    })
+    });
 
     res.status(200).json({ success: true, message: "User created succesfully, check your email inbox to activate it" } as any);
   });

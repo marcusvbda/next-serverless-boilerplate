@@ -1,6 +1,5 @@
 import type { NextApiResponse } from 'next'
 import { Route } from "@/pages/api/default-route";
-const jwt = require('jsonwebtoken');
 import Mongo from "@/libs/mongodb";
 import UserModel from "@/models/User";
 

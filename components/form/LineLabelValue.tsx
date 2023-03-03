@@ -11,7 +11,11 @@ export default function LineLabelValue(props: IProps) {
     margin-right: 5px;
   `;
 
+  const P = styled.p`
+    font-size: 13px;
+  `;
+
   return (
-    <p><Bold>{props.label} :</Bold> {props.value}</p>
+    <P><Bold>{props.label} :</Bold> {props.value}</P>
   );
 }

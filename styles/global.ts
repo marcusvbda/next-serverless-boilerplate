@@ -23,7 +23,6 @@ export default createGlobalStyle`
   }
 
   body, input, button {
-    font-size : 0.875rem;
     font-family : system-ui,sans-serif;
     background-color : ${color.dark.background};
     overflow-x: hidden;
@@ -133,7 +132,7 @@ export const InputSection = styled.section<IInputSection>`
   label {
     font-weight: 600;
     margin-bottom:7px;
-    font-size: 0.9em;
+    font-size: 0.85em;
     cursor: ${props => props.cursor ?? 'default'};
   }
 
