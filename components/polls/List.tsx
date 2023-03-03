@@ -33,9 +33,9 @@ export default function List(props: IProps) {
         )
     }
 
-    const refreshList = () => {
+    const refreshList = (pageNumber: number = 1) => {
         setIsLoading(true);
-        setPage(1);
+        setPage(pageNumber);
         setList([]);
         Http("get", "/api/poll/get", { page, per_page: perPage, orderBy, status, search }).then((resp: any) => {
             setList(resp.data);
@@ -60,9 +60,14 @@ export default function List(props: IProps) {
     }, [search]);
 
     useEffect(() => {
+        refreshList(page);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [page]);
+
+    useEffect(() => {
         refreshList();
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [page, perPage, orderBy, status]);
+    }, [perPage, orderBy, status]);
 
     useEffect(() => {
         props.listRef && (props.listRef.current = { refresh: refreshList });
@@ -115,7 +120,7 @@ export default function List(props: IProps) {
                 {!list.length || isLoading ? <NoRecordsFound isLoading={isLoading} /> : list.map((item: any) => (
                     <ListItem key={item._id} {...item} />
                 ))}
-                {(list.length > 1 && lastPage > 1) && (
+                {(list.length > 1) && (
                     <Row mt={50} style={{ alignItems: "flex-end" }}>
                         <Col size={3} sizeSm={12}>
                             <InputSelect
@@ -131,9 +136,11 @@ export default function List(props: IProps) {
                                 ]}
                             />
                         </Col>
-                        <Col size={9} sizeSm={12}>
-                            <Paginator currentPage={page} lastPage={lastPage} onChangePage={setPage} />
-                        </Col>
+                        {lastPage > 1 && (
+                            <Col size={9} sizeSm={12}>
+                                <Paginator currentPage={page} lastPage={lastPage} onChangePage={setPage} />
+                            </Col>
+                        )}
                     </Row>
                 )}
             </Card>
