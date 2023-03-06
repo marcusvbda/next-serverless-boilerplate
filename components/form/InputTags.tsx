@@ -38,10 +38,9 @@ const CloseButton = styled.button`
   margin-left: 8px;
   font-size: 8px;
   cursor: pointer;
-  opacity: 0.5;
   transition: opacity 0.2s ease-in-out;
   &:hover {
-    opacity: 1;
+    filter: brightness(150%);
   }
 `;
 
@@ -69,14 +68,18 @@ export default function InputTags(props: IProps) {
 
     const validator = props.inputValidator ?? (() => true);
 
-    if (!validator(addingValue)) return;
-
-    if (props.unique && values.includes(addingValue)) {
-      return error('This value already exists');
-    }
-
     setAdding(false);
-    setValues([...values, addingValue]);
+
+    const isMultiple = addingValue.includes(';');
+    const addingValues = [...values, ...((isMultiple ? addingValue.split(';') : [addingValue]))];
+
+    const newValues = values;
+    addingValues.forEach(value => {
+      if (props.unique && newValues.includes(value)) return false;
+      if (!validator(value)) return;
+      newValues.push(value);
+    })
+    setValues(newValues);
     props.onChange && props.onChange(values);
     setAddingValue("");
   }

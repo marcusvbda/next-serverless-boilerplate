@@ -1,16 +1,117 @@
 import { Col, Row } from "@/styles/flex";
-import { Arrow, B, ItemList } from "@/styles/global";
+import { Arrow, B, Card, CloseButton, ItemList } from "@/styles/global";
 import { color } from "@/styles/variables";
+import { useState } from "react";
 import styled from "styled-components";
+import OverflowDialog from "@/components/modal/overflowDialog";
+import { FaPause, FaPlay, FaStop, FaPencilAlt, FaTimes } from "react-icons/fa";
+import LineLabelValue from "../form/LineLabelValue";
+
+const makeInviteRoute = (pollId: string, voterId: string) => {
+    const host = window.location.origin;
+    return `${host}/poll/${pollId}/vote/${voterId}`;
+}
 
 interface IProps {
+    _id: string;
     title: string;
     description?: string;
     status: string;
     qtyVotes: number;
+    voters?: { [key: string]: string };
+    onClickClose?: () => void;
 }
 
-export default function ListItem(props: IProps) {
+const EditDialogContent = (props: IProps) => {
+    const [action, setAction] = useState('stop');
+
+    interface IGroupedButton {
+        theme: String;
+    }
+
+    const GroupedButton = styled.button<IGroupedButton>`
+        background-color: ${(props: IGroupedButton) => color.dark[props.theme as any]};
+        flex: 1;
+        padding: 10px;
+        border: unset;
+        
+        &:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        &:hover {
+            filter: brightness(150%);
+            transition: 0.2s ease-in-out;
+        }
+    `;
+
+    const GroupButton = styled(Col)`
+        justify-content: center;
+        flex-direction: row;
+        margin: 10px 0;
+    `
+
+    return (
+        <Col size={8} sizeSm={12}>
+            <Card>
+                <CloseButton onClick={props.onClickClose}>X</CloseButton>
+                <Row alignX="center" alignY="center" mt={30} mb={30}>
+                    <Col size={10} sizeSm={12}>
+                        <ListItemContent {...props} />
+                    </Col>
+                    <GroupButton size={2} sizeSm={12}>
+                        <GroupedButton theme="primary" disabled={action !== 'stop'}>
+                            <FaPencilAlt size={15} />
+                        </GroupedButton>
+                        <GroupedButton theme="error" disabled={action !== 'stop'}>
+                            <FaTimes size={15} />
+                        </GroupedButton>
+                    </GroupButton>
+                </Row>
+                <Row mb={50}>
+                    <Col size={12}>
+                        <B mb={10}>Guest voters</B>
+                        {props.voters && (Object.keys(props.voters)).map((key) => (
+                            <LineLabelValue key={key} label={key} value={makeInviteRoute(props._id, props.voters && props.voters[key as any] || '')} />
+                        ))}
+                    </Col>
+                </Row>
+                <Row alignX="center" marginY={50}>
+                    <GroupButton size={9}>
+                        <GroupedButton theme={action === 'play' ? 'primary' : 'backgroundDarkest'}
+                            onClick={() => setAction("play")}
+                        >
+                            <FaPlay size={30} />
+                        </GroupedButton>
+                        <GroupedButton theme={action === 'pause' ? 'primary' : 'backgroundDarkest'}
+                            onClick={() => setAction("pause")}
+                        >
+                            <FaPause size={30} />
+                        </GroupedButton>
+                        <GroupedButton theme={action === 'stop' ? 'primary' : 'backgroundDarkest'}
+                            onClick={() => setAction("stop")}
+                        >
+                            <FaStop size={30} />
+                        </GroupedButton>
+                    </GroupButton>
+                </Row>
+            </Card>
+        </Col >
+    )
+}
+
+export const ListItemContent = (props: IProps) => {
+    const P = styled.p`
+        font-size: 12px;
+        margin-bottom: 6px!important;
+    `;
+
+    const H4 = styled.h4`
+        font-size: 18px;
+        margin-bottom: 6px!important;
+    `;
+
     const cutedDescription = () => {
         const limiter = 200;
         if ((props.description ?? '').length > limiter) {
@@ -34,26 +135,32 @@ export default function ListItem(props: IProps) {
         return options[props.status] ?? <B color={color.dark.error}>Unknown</B>;
     }
 
-    const P = styled.p`
-        font-size: 12px;
-        margin-bottom: 6px!important;
-    `;
+    return (
+        <>
+            <H4>{props.title}</H4>
+            {props.description && <P>{cutedDescription()}</P>}
+            <P>{status()}</P>
+            <small>{qtyVotes()}</small>
+        </>
+    )
+}
 
-    const H4 = styled.h4`
-        font-size: 18px;
-        margin-bottom: 6px!important;
-    `;
+export default function ListItem(props: IProps) {
+    const [showingDialog, setShowingDialog] = useState(false);
+
+
+    const toggleDialogVisibility = () => setShowingDialog(!showingDialog)
 
     return (
         <Row>
             <Col size={12}>
-                <ItemList direction={'row'} wrap={'inherit'} alignY={'center'}>
+                {showingDialog && <OverflowDialog>
+                    <EditDialogContent onClickClose={toggleDialogVisibility} {...props} />
+                </OverflowDialog>}
+                <ItemList direction={'row'} wrap={'inherit'} alignY={'center'} onClick={toggleDialogVisibility}>
                     <Arrow direction={'right'} />
                     <Row direction={'column'} marginX={15}>
-                        <H4>{props.title}</H4>
-                        {props.description && <P>{cutedDescription()}</P>}
-                        <P>{status()}</P>
-                        <small>{qtyVotes()}</small>
+                        <ListItemContent {...props} />
                     </Row>
                 </ItemList>
             </Col >

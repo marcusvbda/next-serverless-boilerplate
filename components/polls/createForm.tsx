@@ -52,7 +52,7 @@ export default function CreateForm(props: IProps) {
         const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
         const result = re.test(String(email).toLowerCase());
         if (!result) {
-            error("Invalid email address!");
+            error(`${email} is not a valid email address!`);
         }
         return result;
     }

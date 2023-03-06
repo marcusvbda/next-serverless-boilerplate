@@ -12,6 +12,7 @@ export default function LineLabelValue(props: IProps) {
   `;
 
   const P = styled.p`
+    word-wrap: break-word;
     font-size: 13px;
   `;
 

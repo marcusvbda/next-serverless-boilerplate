@@ -120,29 +120,27 @@ export default function List(props: IProps) {
                 {!list.length || isLoading ? <NoRecordsFound isLoading={isLoading} /> : list.map((item: any) => (
                     <ListItem key={item._id} {...item} />
                 ))}
-                {(list.length > 1) && (
-                    <Row mt={50} style={{ alignItems: "flex-end" }}>
-                        <Col size={3} sizeSm={12}>
-                            <InputSelect
-                                label={'Items Per Page'}
-                                value={String(perPage)}
-                                onChange={(e: any) => setPerPage(e.target.value)}
-                                mb="0"
-                                options={[
-                                    { value: "5", label: '5 Polls' },
-                                    { value: "20", label: '20 Polls' },
-                                    { value: "50", label: '50 Polls' },
-                                    { value: "100", label: '100 Polls' },
-                                ]}
-                            />
+                <Row mt={50} style={{ alignItems: "flex-end" }}>
+                    <Col size={3} sizeSm={12}>
+                        <InputSelect
+                            label={'Items Per Page'}
+                            value={String(perPage)}
+                            onChange={(e: any) => setPerPage(e.target.value)}
+                            mb="0"
+                            options={[
+                                { value: "5", label: '5 Polls' },
+                                { value: "20", label: '20 Polls' },
+                                { value: "50", label: '50 Polls' },
+                                { value: "100", label: '100 Polls' },
+                            ]}
+                        />
+                    </Col>
+                    {lastPage > 1 && (
+                        <Col size={9} sizeSm={12}>
+                            <Paginator currentPage={page} lastPage={lastPage} onChangePage={setPage} />
                         </Col>
-                        {lastPage > 1 && (
-                            <Col size={9} sizeSm={12}>
-                                <Paginator currentPage={page} lastPage={lastPage} onChangePage={setPage} />
-                            </Col>
-                        )}
-                    </Row>
-                )}
+                    )}
+                </Row>
             </Card>
         </>
     )

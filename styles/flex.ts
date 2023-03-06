@@ -7,6 +7,7 @@ interface IRow {
    direction?: string;
    marginX?: number;
    mt?: number;
+   mb?: number;
    marginY?: number;
    borderBottom?: string;
    wrap?: string;
@@ -24,7 +25,7 @@ export const Row = styled.section<IRow>`
    margin-left: ${props => props.marginX ? (props.marginX + 'px') : '0'};
    margin-right: ${props => props.marginX ? (props.marginX + 'px') : '0px'};
    margin-top: ${props => (props.marginY || props.mt) ?? 0}px;
-   margin-bottom: ${props => props.marginY ?? 0}px;
+   margin-bottom: ${props => (props.marginY || props.mb) ?? 0}px;
    border-bottom: ${props => props.borderBottom ?? 'none'};
    padding: ${props => props.padding ?? '0px'};
    gap: ${props => props.gap ?? '0px'};

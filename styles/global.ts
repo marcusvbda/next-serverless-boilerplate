@@ -245,7 +245,7 @@ export const Button = styled.button<IButton>`
   ${props => props.theme == "primary" && css`
     background-color: ${color.dark.primary};
     &:hover:enabled {
-      background-color: ${color.dark.primaryHover};
+      filter: brightness(150%);
     }
   `}
 `
@@ -437,10 +437,12 @@ export const Arrow = styled.div<IArrow>`
 
 interface IB {
   color?: string;
+  mb?: number;
 }
 
 export const B = styled.b<IB>`
   color: ${props => props.color ?? color.dark.primary};
+  margin-bottom: ${props => props.mb ?? '0'}px;
 `
 
 export const ShowOnlySmall = styled.div`
