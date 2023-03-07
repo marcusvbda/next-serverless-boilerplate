@@ -16,6 +16,18 @@ const handler = async (req: any, res: NextApiResponse<any>) => {
 
     await Mongo.connect();
     const filter: any = { userId: user._id };
+    let messages = [];
+
+    const { action } = json;
+
+    if (!["undefined", null, undefined].includes(action)) {
+      const actionData = action.split(",");
+      if (actionData[0] === "delete") {
+        await PollModel.deleteOne({ _id: actionData[1] });
+        messages.push({ type: "success", content: "Poll deleted successfully" });
+      }
+    }
+
 
     if (status && status !== "ALL") {
       filter.status = status;
@@ -32,7 +44,7 @@ const handler = async (req: any, res: NextApiResponse<any>) => {
     const foundPolls = await query.skip((page - 1) * perPage).limit(perPage).exec();
     const lastPage = Math.ceil(total / perPage);
 
-    res.status(200).json({ total, page, perPage, lastPage, data: foundPolls } as any);
+    res.status(200).json({ total, page, perPage, lastPage, data: foundPolls, messages } as any);
   });
 }
 

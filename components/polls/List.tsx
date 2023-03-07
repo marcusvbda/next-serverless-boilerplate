@@ -7,6 +7,7 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import Http from "@/libs/http";
 import Paginator from "@/components/form/Paginator";
+import { showMessage } from "@/libs/message";
 
 interface IProps {
     listRef: any;
@@ -32,14 +33,17 @@ export default function List(props: IProps) {
         )
     }
 
-    const refreshList = (pageNumber: number = 1) => {
+    const refreshList = (pageNumber: number = 1, action: any) => {
         setIsLoading(true);
         setPage(pageNumber);
         setList([]);
-        Http("get", "/api/poll/authenticated/get", { page, per_page: perPage, orderBy, status, search }).then((resp: any) => {
+        Http("get", "/api/poll/authenticated/get", { page, per_page: perPage, orderBy, status, search, action }).then((resp: any) => {
             setList(resp.data);
             setLastPage(resp.lastPage);
             setIsLoading(false);
+            (resp.messages || []).forEach((message: any) => {
+                showMessage(message.type, message.content);
+            });
         });
     }
 
@@ -118,7 +122,7 @@ export default function List(props: IProps) {
                     </Col>
                 </Row>
                 {!list.length || isLoading ? <NoRecordsFound isLoading={isLoading} /> : list.map((item: any) => (
-                    <ListItem key={item._id} {...item} />
+                    <ListItem key={item._id} {...item} refreshList={refreshList} />
                 ))}
                 <Row mt={50} style={{ alignItems: "flex-end" }}>
                     <Col size={3} sizeSm={12}>

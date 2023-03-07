@@ -6,6 +6,7 @@ import styled from "styled-components";
 import OverflowDialog from "@/components/modal/overflowDialog";
 import { FaPause, FaPlay, FaStop, FaPencilAlt, FaTimes } from "react-icons/fa";
 import LineLabelValue from "../form/LineLabelValue";
+import { confirm } from "@/libs/message";
 
 const makeInviteRoute = (pollId: string, voterId: string) => {
     const host = window.location.origin;
@@ -20,6 +21,8 @@ interface IProps {
     qtyVotes: number;
     voters?: { [key: string]: string };
     onClickClose?: () => void;
+    onDeleted?: () => void;
+    refreshList?: (pageNumber: number, action: any) => void;
 }
 
 const EditDialogContent = (props: IProps) => {
@@ -52,6 +55,14 @@ const EditDialogContent = (props: IProps) => {
         margin: 10px 0;
     `
 
+    const handleDelete = () => {
+        confirm("Confirmation", "Do you want to delete this survey ?", (clicked: boolean) => {
+            if (clicked) {
+                props.onDeleted && props.onDeleted();
+            }
+        })
+    }
+
     return (
         <Col size={8} sizeSm={12}>
             <Card>
@@ -64,7 +75,7 @@ const EditDialogContent = (props: IProps) => {
                         <GroupedButton theme="primary" disabled={action !== 'stop'}>
                             <FaPencilAlt size={15} />
                         </GroupedButton>
-                        <GroupedButton theme="error" disabled={action !== 'stop'}>
+                        <GroupedButton theme="error" disabled={action !== 'stop'} onClick={handleDelete}>
                             <FaTimes size={15} />
                         </GroupedButton>
                     </GroupButton>
@@ -151,11 +162,16 @@ export default function ListItem(props: IProps) {
 
     const toggleDialogVisibility = () => setShowingDialog(!showingDialog)
 
+    const onDeleteditem = () => {
+        toggleDialogVisibility();
+        props.refreshList && props.refreshList(1, 'delete,' + props._id);
+    }
+
     return (
         <Row>
             <Col size={12}>
                 {showingDialog && <OverflowDialog>
-                    <EditDialogContent onClickClose={toggleDialogVisibility} {...props} />
+                    <EditDialogContent onClickClose={toggleDialogVisibility} {...props} onDeleted={onDeleteditem} />
                 </OverflowDialog>}
                 <ItemList direction={'row'} wrap={'inherit'} alignY={'center'} onClick={toggleDialogVisibility}>
                     <Arrow direction={'right'} />
