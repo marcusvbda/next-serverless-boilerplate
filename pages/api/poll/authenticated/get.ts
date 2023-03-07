@@ -28,7 +28,6 @@ const handler = async (req: any, res: NextApiResponse<any>) => {
       }
     }
 
-
     if (status && status !== "ALL") {
       filter.status = status;
     }

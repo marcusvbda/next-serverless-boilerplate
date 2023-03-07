@@ -33,7 +33,7 @@ export default function List(props: IProps) {
         )
     }
 
-    const refreshList = (pageNumber: number = 1, action: any) => {
+    const refreshList = (pageNumber: number = 1, action: string) => {
         setIsLoading(true);
         setPage(pageNumber);
         setList([]);
@@ -53,7 +53,7 @@ export default function List(props: IProps) {
         clearTimeout(intervalId)
 
         const newInterval = setTimeout(() => {
-            refreshList()
+            refreshList(1, "")
         }, 800)
 
         setIntervalId(newInterval)
@@ -64,12 +64,12 @@ export default function List(props: IProps) {
 
     useEffect(() => {
         if (isFirstLoad) return setIsFirstLoad(false);
-        refreshList(page);
+        refreshList(page, "");
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [page]);
 
     useEffect(() => {
-        refreshList();
+        refreshList(1, "");
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [perPage, orderBy, status]);
 
