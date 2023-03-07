@@ -73,6 +73,8 @@ export const Card = styled.section<ICard>`
   background-color: ${color.dark.secondary};
   position: relative;
   width: 100%;
+  max-height: 500px;
+  overflow-y: auto;
   border-radius:8px;
 
   h4 {
@@ -369,8 +371,8 @@ export const CloseButton = styled.button`
   justify-content: center;
   cursor: pointer;
   position: absolute;
-  top: -5px;
-  right: -5px;
+  top: 10px;
+  right: 15px;
   transition: .4s;
   &:hover {
     background-color: ${color.dark.primaryHover};

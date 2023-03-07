@@ -33,7 +33,7 @@ export default function List(props: IProps) {
         )
     }
 
-    const refreshList = (pageNumber: number = 1, action: string) => {
+    const refreshList = (pageNumber: number = 1, action: string = "") => {
         setIsLoading(true);
         setPage(pageNumber);
         setList([]);
@@ -82,7 +82,7 @@ export default function List(props: IProps) {
             <ShowOnlySmall>
                 <Link href="#create-form">
                     <Button theme={'primary'}>
-                        New survey
+                        New poll
                     </Button>
                 </Link>
             </ShowOnlySmall>

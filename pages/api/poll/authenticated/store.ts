@@ -16,7 +16,6 @@ const handler = async (req: any, res: NextApiResponse<any>) => {
       const email = json.voters[i];
       voters[email] = md5(email);
     }
-    console.log(voters)
     json.voters = voters;
 
     await Mongo.connect();

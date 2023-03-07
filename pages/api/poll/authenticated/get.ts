@@ -23,7 +23,7 @@ const handler = async (req: any, res: NextApiResponse<any>) => {
     if (!["undefined", null, undefined].includes(action)) {
       const actionData = action.split(",");
       if (actionData[0] === "delete") {
-        await PollModel.deleteOne({ _id: actionData[1] });
+        await PollModel.find(filter).deleteOne({ _id: actionData[1] });
         messages.push({ type: "success", content: "Poll deleted successfully" });
       }
     }

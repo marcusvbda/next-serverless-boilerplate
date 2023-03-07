@@ -12,10 +12,19 @@ import LineLabelValue from "@/components/form/LineLabelValue";
 import Http from "@/libs/http";
 
 interface IProps {
-    onCreated?: () => void;
+    onSaved?: () => void;
 }
 
-export default function CreateForm(props: IProps) {
+export const isEmail = (email: string): boolean => {
+    const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    const result = re.test(String(email).toLowerCase());
+    if (!result) {
+        error(`${email} is not a valid email address!`);
+    }
+    return result;
+}
+
+export default function CrudForm(props: IProps) {
     const [isLoading, setIsLoading] = useState(false);
     const [dialogVisible, setDialogVisible] = useState(false);
 
@@ -40,21 +49,12 @@ export default function CreateForm(props: IProps) {
     }
 
     const dialogConfirmClose = () => {
-        confirm("Confirmation", "Do you want to close the survey creating form ?", (clicked: boolean) => {
+        confirm("Confirmation", "Do you want to close the poll creating form ?", (clicked: boolean) => {
             if (clicked) {
                 setDialogVisible(false);
                 setForm(initialFormValue)
             }
         })
-    }
-
-    const isEmail = (email: string): boolean => {
-        const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-        const result = re.test(String(email).toLowerCase());
-        if (!result) {
-            error(`${email} is not a valid email address!`);
-        }
-        return result;
     }
 
     const onSubmitStore = (evt: any) => {
@@ -67,7 +67,7 @@ export default function CreateForm(props: IProps) {
                 setDialogVisible(false);
                 setForm(initialFormValue)
                 success(data.message);
-                props.onCreated && props.onCreated();
+                props.onSaved && props.onSaved();
             }
             setIsLoading(false);
         });
@@ -78,7 +78,7 @@ export default function CreateForm(props: IProps) {
             <Row>
                 <Col size={12}>
                     <InputText
-                        label={"Title"}
+                        label={"Title *"}
                         placeholder={'Type a short title'}
                         value={form.title}
                         required={true}
@@ -93,7 +93,7 @@ export default function CreateForm(props: IProps) {
                 <Col size={12}>
                     <InputTextarea
                         label={"Description"}
-                        placeholder={'Describe your survey'}
+                        placeholder={'Describe your poll'}
                         value={form.description}
                         onChange={(evt: any) =>
                             setForm({ ...form, description: evt.target.value })
@@ -106,8 +106,9 @@ export default function CreateForm(props: IProps) {
                     <LoadingButton
                         marginBottom={20}
                         type="submit"
-                        disabled={isLoading}
                         isLoading={isLoading}
+                        opacity={form.title.length > 0 ? 1 : 0.2}
+                        disabled={isLoading || form.title.length <= 0}
                         theme={"primary"}
                     >
                         Next step
@@ -123,7 +124,7 @@ export default function CreateForm(props: IProps) {
                 <Col size={12}>
                     <InputTags
                         newBtnText={"Add option"}
-                        label={"Options"}
+                        label={"Options *"}
                         description={"Type the options and press enter to add"}
                         value={form.options}
                         unique={true}
@@ -154,7 +155,7 @@ export default function CreateForm(props: IProps) {
                 <Col size={12}>
                     <InputTags
                         newBtnText={"Add guest voter"}
-                        label={"Guest voters"}
+                        label={"Guest voters *"}
                         description={"Type the emails and press enter to add"}
                         value={form.voters}
                         inputValidator={(val: string) => isEmail(val)}
@@ -211,7 +212,7 @@ export default function CreateForm(props: IProps) {
             <>
                 {dialogVisible &&
                     <OverflowDialog overflowClick={() => dialogConfirmClose()}>
-                        <Col size={6} sizeSm={12}>
+                        <Col size={8} sizeSm={12}>
                             <Card>
                                 <CloseButton onClick={() => dialogConfirmClose()}>X</CloseButton>
                                 <Row>
@@ -256,7 +257,7 @@ export default function CreateForm(props: IProps) {
                     <Row>
                         <Col size={12}>
                             <InputText
-                                label={"Title"}
+                                label={"Title *"}
                                 placeholder={'Type a short title'}
                                 value={form.title}
                                 required={true}
