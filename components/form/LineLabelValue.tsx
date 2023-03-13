@@ -2,7 +2,8 @@ import styled from "styled-components";
 
 interface IProps {
   label: string;
-  value: string;
+  value?: string;
+  children?: any;
 }
 
 export default function LineLabelValue(props: IProps) {
@@ -17,6 +18,6 @@ export default function LineLabelValue(props: IProps) {
   `;
 
   return (
-    <P><Bold>{props.label} :</Bold> {props.value}</P>
+    <P><Bold>{props.label} :</Bold> {props.children ? props.children : props.value}</P>
   );
 }

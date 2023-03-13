@@ -62,6 +62,7 @@ export const Container = styled.section<IContainer>`
 interface ICard {
   top?: number;
   bottom?: number;
+  overflow?: boolean;
 }
 
 export const Card = styled.section<ICard>`
@@ -73,8 +74,10 @@ export const Card = styled.section<ICard>`
   background-color: ${color.dark.secondary};
   position: relative;
   width: 100%;
-  max-height: 500px;
-  overflow-y: auto;
+  ${props => props.overflow && css`
+    max-height: 80vh;
+    overflow-y: auto; 
+  `}
   border-radius:8px;
 
   h4 {

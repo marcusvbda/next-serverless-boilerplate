@@ -11,7 +11,7 @@ import EditForm from "./EditForm";
 
 const makeInviteRoute = (pollId: string, voterId: string) => {
     const host = window.location.origin;
-    return `${host}/poll/${pollId}/vote/${voterId}`;
+    return `${host}/poll/${pollId}/voting?token=${voterId}`;
 }
 
 interface IProps {
@@ -78,7 +78,7 @@ const EditDialogContent = (props: IProps) => {
 
     return (
         <Col size={8} sizeSm={12}>
-            <Card>
+            <Card overflow={true}>
                 <CloseButton onClick={props.onClickClose}>X</CloseButton>
                 {isEditing ? <EditForm poll={editingPoll} onSaved={closeAndRefresh} /> : <>
                     <Row alignX="center" alignY="center" mt={30} mb={30}>
@@ -98,7 +98,11 @@ const EditDialogContent = (props: IProps) => {
                         <Col size={12}>
                             <B mb={10}>Guest voters</B>
                             {props.voters && (Object.keys(props.voters)).map((key) => (
-                                <LineLabelValue key={key} label={key} value={makeInviteRoute(props._id, props.voters && props.voters[key as any] || '')} />
+                                <LineLabelValue key={key} label={key}>
+                                    <a target="_blank" href={makeInviteRoute(props._id, props.voters && props.voters[key as any] || '')} rel="noreferrer">
+                                        {makeInviteRoute(props._id, props.voters && props.voters[key as any] || '')}
+                                    </a>
+                                </LineLabelValue>
                             ))}
                         </Col>
                     </Row>
