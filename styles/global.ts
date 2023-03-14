@@ -345,6 +345,7 @@ export const Form = styled.form<IForm>`
 
 interface ITopBar {
   marginBottom?: string;
+  justifyContent?: string;
 }
 
 export const TopBar = styled.section<ITopBar>`
@@ -352,6 +353,9 @@ export const TopBar = styled.section<ITopBar>`
   display:flex;
   align-items: center;
   margin-bottom: ${props => props.marginBottom ?? '0px'};
+  ${props => props.justifyContent && css`
+    justify-content: ${props.justifyContent};
+  `}
 `;
 
 interface ITopRight {

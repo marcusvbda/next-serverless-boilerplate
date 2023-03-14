@@ -9,20 +9,22 @@ interface IProps {
   children: any;
   rightComponent?: any;
   showTopbar?: boolean;
+  padding?: string;
 }
 
 export default function Template(props: IProps) {
   const showTopbar = props.showTopbar === undefined ? true : props.showTopbar;
 
+  const padding = props.padding ? props.padding : '1.5rem';
   return (
     <>
       <Head>
         <title>{makeTitle(props.title)}</title>
       </Head>
       <main>
-        <Container paddingX={'1.5rem'} paddingY={'1.5rem'}>
+        <Container paddingX={padding} paddingY={padding}>
           {showTopbar &&
-            <TopBar >
+            <TopBar>
               <Link href='/'>
                 <Image
                   src="/logo-light.svg"
