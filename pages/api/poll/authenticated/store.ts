@@ -19,7 +19,7 @@ const handler = async (req: any, res: NextApiResponse<any>) => {
     json.voters = voters;
 
     await Mongo.connect();
-    const poll = new PollModel({ ...json, userId: user._id, status: "WA", createdAt: new Date() });
+    const poll = new PollModel({ ...json, userId: user._id, status: "ST", createdAt: new Date() });
     const createdPoll = await poll.save();
 
     const host = process.env.HOST;

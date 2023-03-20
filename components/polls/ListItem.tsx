@@ -1,13 +1,15 @@
 import { Col, Row } from "@/styles/flex";
-import { Arrow, B, Card, CloseButton, Form, ItemList } from "@/styles/global";
+import { Arrow, B, Card, CloseButton, ItemList } from "@/styles/global";
 import { color } from "@/styles/variables";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import styled from "styled-components";
 import OverflowDialog from "@/components/modal/overflowDialog";
 import { FaPause, FaPlay, FaStop, FaPencilAlt, FaTimes } from "react-icons/fa";
 import LineLabelValue from "@/components/form/LineLabelValue";
-import { confirm } from "@/libs/message";
+import { confirm, error, success } from "@/libs/message";
 import EditForm from "./EditForm";
+import PollStatus from "./PollStatus";
+import Http from "@/libs/http";
 
 const makeInviteRoute = (pollId: string, voterId: string) => {
     const host = window.location.origin;
@@ -24,12 +26,34 @@ interface IProps {
     onClickClose?: () => void;
     onDeleted?: () => void;
     refreshList?: (pageNumber?: number, action?: any) => void;
+    changeStatus?: (status: string) => void;
 }
 
 const EditDialogContent = (props: IProps) => {
-    const [action, setAction] = useState('stop');
+    const [statusValue, setStatusValue] = useState(props.status);
+    const [firstInit, setFirstInit] = useState(true);
+    const [action, setAction] = useState(props.status ?? "WA");
     const [isEditing, setIdEditing] = useState(false);
     const [editingPoll, setEditingPoll] = useState<any>(null);
+
+    useEffect(() => {
+        if (firstInit) {
+            setFirstInit(false);
+            return;
+        }
+        setStatusValue(action);
+        Http("put", `/api/poll/authenticated/${props._id}/edit`, { action: "update-status", status: action }).then((data: any) => {
+            if (!data.success && data.error) {
+                // error(data.error);
+            } else if (data.success && data.message) {
+                // success(data.message);
+            }
+        });
+        props.changeStatus && props.changeStatus(action);
+
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [action]);
+
 
     interface IGroupedButton {
         theme: String;
@@ -83,13 +107,13 @@ const EditDialogContent = (props: IProps) => {
                 {isEditing ? <EditForm poll={editingPoll} onSaved={closeAndRefresh} /> : <>
                     <Row alignX="center" alignY="center" mt={30} mb={30}>
                         <Col size={10} sizeSm={12}>
-                            <ListItemContent {...props} />
+                            <ListItemContent {...props} status={statusValue} />
                         </Col>
                         <GroupButton size={2} sizeSm={12}>
-                            <GroupedButton theme="primary" disabled={action !== 'stop'} onClick={handleEdit}>
+                            <GroupedButton theme="primary" disabled={action !== 'ST'} onClick={handleEdit}>
                                 <FaPencilAlt size={15} />
                             </GroupedButton>
-                            <GroupedButton theme="error" disabled={action !== 'stop'} onClick={handleDelete}>
+                            <GroupedButton theme="error" disabled={action !== 'ST'} onClick={handleDelete}>
                                 <FaTimes size={15} />
                             </GroupedButton>
                         </GroupButton>
@@ -108,18 +132,18 @@ const EditDialogContent = (props: IProps) => {
                     </Row>
                     <Row alignX="center" marginY={50}>
                         <GroupButton size={9}>
-                            <GroupedButton theme={action === 'play' ? 'primary' : 'backgroundDarkest'}
-                                onClick={() => setAction("play")}
+                            <GroupedButton theme={action === 'IP' ? 'primary' : 'backgroundDarkest'}
+                                onClick={() => setAction("IP")}
                             >
                                 <FaPlay size={30} />
                             </GroupedButton>
-                            <GroupedButton theme={action === 'pause' ? 'primary' : 'backgroundDarkest'}
-                                onClick={() => setAction("pause")}
+                            <GroupedButton theme={action === 'WA' ? 'primary' : 'backgroundDarkest'}
+                                onClick={() => setAction("WA")}
                             >
                                 <FaPause size={30} />
                             </GroupedButton>
-                            <GroupedButton theme={action === 'stop' ? 'primary' : 'backgroundDarkest'}
-                                onClick={() => setAction("stop")}
+                            <GroupedButton theme={action === 'ST' ? 'primary' : 'backgroundDarkest'}
+                                onClick={() => setAction("ST")}
                             >
                                 <FaStop size={30} />
                             </GroupedButton>
@@ -156,20 +180,11 @@ export const ListItemContent = (props: IProps) => {
         return `${qty} vote${qty > 1 ? 's' : ''}`;
     }
 
-    const status = () => {
-        const options: any = {
-            DO: <B color={color.dark.done}>Done</B>,
-            IP: <B color={color.dark.inProgress}>In progress</B>,
-            WA: <B color={color.dark.waiting}>Waiting</B>,
-        }
-        return options[props.status] ?? <B color={color.dark.error}>Unknown</B>;
-    }
-
     return (
         <>
             <H4>{props.title}</H4>
             {props.description && <P>{cutedDescription()}</P>}
-            <P>{status()}</P>
+            <P><PollStatus status={props.status} /></P>
             <small>{qtyVotes()}</small>
         </>
     )

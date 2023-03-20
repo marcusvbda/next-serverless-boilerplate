@@ -144,6 +144,12 @@ export const InputSection = styled.section<IInputSection>`
   @media ${size.small} {
     width: 100%!important;
   }
+
+  ${props => ['rate'].includes(props?.type ?? 'text') && css<IInputSection>`
+    b {
+      margin-right: 3px;
+    }
+  `}
   
   ${props => ['password', 'text', 'email'].includes(props?.type ?? 'text') && css<IInputSection>`
     input[type=text],input[type=password],input[type=email],select{

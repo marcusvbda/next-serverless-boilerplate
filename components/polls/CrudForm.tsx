@@ -189,7 +189,7 @@ export default function CrudForm(props: IProps) {
                     <LineLabelValue label="Title" value={form.title} />
                     {form.description && <LineLabelValue label="Description" value={form.description} />}
                     <LineLabelValue label="Options" value={`${form.options.length} option${form.options.length > 1 ? 's' : ''}`} />
-                    <LineLabelValue label="Voter" value={`${form.voters.length} option${form.voters.length > 1 ? 's' : ''}`} />
+                    <LineLabelValue label="Voter" value={`${form.voters.length} voter${form.voters.length > 1 ? 's' : ''}`} />
                 </Col>
             </Row>
             <Row style={{ marginTop: 15 }}>

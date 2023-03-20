@@ -12,6 +12,14 @@ const handler = async (req: any, res: NextApiResponse<any>) => {
     await Mongo.connect();
     const poll = await PollModel.findById(id).exec();
 
+    const successResponse = () => res.status(200).json({ success: true, message: "Poll updated successfully!", poll } as any);
+
+    if (json?.action == "update-status") {
+      poll.status = json.status;
+      await poll.save();
+      return successResponse();
+    }
+
     let voters: any = {};
     for (let i = 0; i < json.voters.length; i++) {
       const email = json.voters[i];
@@ -37,7 +45,7 @@ const handler = async (req: any, res: NextApiResponse<any>) => {
       });
     });
 
-    res.status(200).json({ success: true, message: "Poll updated successfully!", poll } as any);
+    return successResponse();
   });
 }
 

@@ -36,7 +36,6 @@ export default function EditForm(props: IEditForm) {
       if (!data.success && data.error) {
         error(data.error);
       } else if (data.success && data.message) {
-        setIsLoading(false);
         success(data.message);
         props.onSaved && props.onSaved();
       }

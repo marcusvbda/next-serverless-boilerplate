@@ -38,7 +38,7 @@ export const color: IColor = {
         overflow: "#0000009c",
         borderColor: "rgba(255,255,255,0.1)",
         hoverBorderColor: "rgba(255,255,255,0.3)",
-        done: "#3aa59b",
+        stopped: "#3aa59b",
         waiting: "#a9a92a",
         inProgress: "#934ba1",
         error: "#a5315b"

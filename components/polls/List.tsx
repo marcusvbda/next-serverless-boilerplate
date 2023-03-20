@@ -77,6 +77,12 @@ export default function List(props: IProps) {
         props.listRef && (props.listRef.current = { refresh: refreshList });
     });
 
+    const changeItemStatus = (index: number, status: string) => {
+        const newList = [...list];
+        newList[index].status = status;
+        setList(newList);
+    }
+
     return (
         <>
             <ShowOnlySmall>
@@ -106,7 +112,7 @@ export default function List(props: IProps) {
                             onChange={(e: any) => setStatus(e.target.value)}
                             options={[
                                 { value: 'ALL', label: 'All statuses' },
-                                { value: 'DO', label: 'Done' },
+                                { value: 'ST', label: 'Stopped' },
                                 { value: 'IP', label: 'In progress' },
                                 { value: 'WA', label: 'waiting' },
                             ]}
@@ -121,8 +127,8 @@ export default function List(props: IProps) {
                         />
                     </Col>
                 </Row>
-                {!list.length || isLoading ? <NoRecordsFound isLoading={isLoading} /> : list.map((item: any) => (
-                    <ListItem key={item._id} {...item} refreshList={refreshList} />
+                {!list.length || isLoading ? <NoRecordsFound isLoading={isLoading} /> : list.map((item: any, index: number) => (
+                    <ListItem key={item._id} {...item} refreshList={refreshList} changeStatus={val => changeItemStatus(index, val)} />
                 ))}
                 <Row mt={50} style={{ alignItems: "flex-end" }}>
                     <Col size={3} sizeSm={12}>
