@@ -1,16 +1,15 @@
-import { middlewareResponseInterface } from "@/middleware";
 import type { NextRequest } from 'next/server'
-import Http from "@/libs/http";
+const redirectTo = "/auth/sign-in";
 
-const handler = async (request: NextRequest): Promise<middlewareResponseInterface> => {
-    const failed = () => ({ success: false, redirect: "/auth/sign-in", message: "Unauthorized !!", statusCode: 403 });
+const failed = () => ({ success: false, redirectTo, message: "Unauthorized !!", statusCode: 403 });
+
+const handler = async (request: NextRequest): Promise<any> => {
     try {
-        const token = request.cookies.get("jwtToken")?.value ?? "";
-        const response = await Http("POST", `/api/auth/check-token`, { token });
+        // validation logic
+        const success = false;
 
-        if (response.success) {
+        if (success) {
             return { success: true };
-
         }
         return failed();
     } catch (error) {

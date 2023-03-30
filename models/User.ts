@@ -1,38 +1,22 @@
-import mongoose from 'mongoose';
-const { Schema } = mongoose;
+import uuid from 'uuid';
+import dynamoose from './DefaultModel';
 
-const userSchema = new Schema({
+const userSchema = new dynamoose.Schema({
+    id: {
+        type: String,
+        hashKey: true,
+        default: uuid.v1(),
+    },
     firstname: {
         type: String,
         required: true,
     },
     lastname: {
         type: String,
-        required: true,
-    },
-    email: {
-        type: String,
-        required: true,
-    },
-    password: {
-        type: String,
-        required: true,
-    },
-    activatedAt: {
-        type: Date,
-        default: null
-    },
-    recovery: {
-        token: {
-            type: String,
-            default: null,
-        },
-        expires: {
-            type: Date,
-            default: null,
-        },
     }
+}, {
+    timestamps: true,
 });
 
-const userModel = mongoose.models.users || mongoose.model('users', userSchema);
+const userModel = dynamoose.model('users', userSchema);
 export default userModel;

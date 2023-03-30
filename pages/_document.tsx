@@ -1,7 +1,5 @@
 import { Html, Head, Main, NextScript } from "next/document";
 
-export const makeTitle = (subtitle: string) => `${subtitle} - SaaS Boilerplate`;
-
 export default function Document() {
   return (
     <Html lang="en">
