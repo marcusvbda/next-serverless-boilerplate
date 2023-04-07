@@ -1,33 +1,31 @@
-import { TopContent, BodyContent } from "@/fragments/example";
-import Http from "@/libs/http";
-import { useEffect } from "react";
+import { ListView } from "@/packages/lazarus";
+import styled from "styled-components";
+import { resource } from "@/packages/lazarus";
 
-export async function getServerSideProps(cx: any) {
-  const data = await Http("get", `/api/example`)
 
-  if (data.success) {
-    const content = data.content;
-    console.log(content)
-
-    return {
-      props: { content }
-    }
-  }
-  return { notFound: true };
+export const getServerSideProps = async (context: any) => {
+  // console.log(context.req.headers['x-user-info']);
+  const Posts = await resource.require("Posts")
+  const props = Posts.listViewProps()
+  return { props }
 }
 
-export default function Page(props: any) {
-
-  useEffect(() => {
-    Http("get", `/api/example2`).then(resp => {
-      console.log(resp)
-    })
-  }, []);
-
+function Page(props: any) {
+  const Container = styled.section`
+     display: flex;
+     align-items: center;
+     justify-content: center;
+     padding: 30px 100px;
+     @media(max-width: 900px) {
+        padding: 30px 20px;
+      }
+  `;
   return (
-    <>
-      <TopContent />
-      <BodyContent content={props.content} />
-    </>
+    <Container>
+      <ListView payload={props} />
+    </Container>
   );
 }
+
+
+export default Page;

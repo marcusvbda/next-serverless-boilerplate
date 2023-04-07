@@ -27,7 +27,7 @@ interface IColor {
 export const color: IColor = {
     dark: {
         light: "rgb(232 232 232 / 80%)",
-        background: "#171923",
+        background: "#f9f9f9",
         primary: "#3aa59b",
         primaryHover: "#4cc6bb"
     }

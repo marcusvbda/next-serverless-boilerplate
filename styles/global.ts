@@ -5,6 +5,7 @@ export default createGlobalStyle`
   html {
     scroll-behavior: smooth;
     overflow-x: hidden;
+    background : ${color.dark.background};
   }
   
   @keyframes fade {
@@ -17,24 +18,23 @@ export default createGlobalStyle`
     padding: 0;
     outline: 0;
     box-sizing: border-box;
-    color : ${color.dark.light}
+    // color : ${color.dark.light}  
   }
 
   body, input, button {
     font-family : system-ui,sans-serif;
-    background-color : ${color.dark.background};
     overflow-x: hidden;
   }
 
   h1 {
     font-size : 2.3rem;
-    color : ${color.dark.primaryHover};
+    // color : ${color.dark.primaryHover};
     margin-bottom: 10px;
   }
 
   a {
     font-size : .7rem;
-    color : ${color.dark.primaryHover}
+    // color : ${color.dark.primaryHover}
   }
 
   button {

@@ -1,6 +1,11 @@
 import type { NextRequest } from 'next/server'
-import { DefaultMiddleware } from '@/core/auth';
-import publicRoutes from "@/config/public_routes";
+import { keycloakMiddleware } from './middlewares/keycloakMiddleware';
 
-const middleware = async (request: NextRequest) => DefaultMiddleware(request, publicRoutes);
+const publicRoutes = [
+  "/",
+  "/api/auth/keycloak-callback",
+]
+
+
+const middleware = async (req: NextRequest) => await keycloakMiddleware(req, publicRoutes)
 export default middleware;
