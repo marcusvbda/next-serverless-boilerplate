@@ -1,6 +1,7 @@
 import type { NextRequest } from 'next/server'
-import { keycloakMiddleware } from './middlewares/keycloakMiddleware';
+import { keycloakMiddleware } from './middlewares/KeycloakMiddleware/index';
 
+//all rules must start with a slash
 const publicRoutes = [
   "/",
   "/api/auth/keycloak-callback",
